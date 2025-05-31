@@ -3,7 +3,7 @@
 
 /* Variables de couleur inspirées de la page VPN */
 :root {
-    --vpn-primary-purple: #7C3AED; /* Violet principal (approximatif) */
+    --vpn-primary-purple: #7c3aed; /* Violet principal (approximatif) */
     --vpn-primary-purple-dark: #6D28D9;
     --vpn-light-purple-bg: #EDE9FE; /* Fond violet très clair */
     --vpn-dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
@@ -219,6 +219,16 @@ main {
     font-size: 0.8em;
 }
 
+.platformicon {
+    width: 20px !important;
+    height: 20px !important;
+    margin-left: 10px;
+    margin-top: 15px; /* Pour un meilleur alignement vertical */
+    vertical-align: middle; /* Pour aligner l'icône avec le texte */
+    gap: 5px; /* Espace entre les icônes */
+   
+}
+
 .item-bottom {
     display: flex;
     justify-content: space-between;
@@ -227,7 +237,7 @@ main {
 }
 
 .item-bottom .stars {
-    font-size: 1em; /* Placeholder, vous pourriez utiliser des icônes */
+    font-size: 1.3em; /* Placeholder, vous pourriez utiliser des icônes */
     color: #FACC15; /* Jaune pour les étoiles */
 }
 .item-bottom .stars::before {
@@ -263,6 +273,7 @@ nav ul li a:visited .visted {
     transform: translateY(-1px);
 }
 
+
 /* Aside (Filtres) */
 aside {
     flex: 1;
@@ -282,6 +293,7 @@ aside h3 { /* Titre "filters" */
     padding-bottom: 10px;
     border-bottom: 2px solid var(--vpn-light-purple-bg);
 }
+
 
 .filter input[type="text"] {
     width: 100%; /* Prend toute la largeur disponible */
