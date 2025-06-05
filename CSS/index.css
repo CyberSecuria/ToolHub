@@ -49,6 +49,7 @@ nav {
 .logo {
     display: flex;
     align-items: center;
+    cursor: pointer; /* Pour indiquer que le logo est cliquable */
 }
 
 .logo img {
@@ -161,6 +162,7 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
+    min-height: 400px;
 }
 
 .item {
@@ -234,14 +236,6 @@ main {
     justify-content: space-between;
     align-items: center;
     margin-top: auto;
-}
-
-.item-bottom .stars {
-    font-size: 1.3em; /* Placeholder, vous pourriez utiliser des icônes */
-    color: #FACC15; /* Jaune pour les étoiles */
-}
-.item-bottom .stars::before {
-    content: "★★★★☆"; /* Exemple d'étoiles, à remplacer par de vraies icônes ou un système dynamique */
 }
 
 
@@ -387,6 +381,24 @@ aside h3 { /* Titre "filters" */
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 }
+.stars, .stars span, .stars .half-star {
+  color: #FACC15 !important;
+   font-size: 1.3em;
+}
+.half-star {
+  display: inline-block;
+  position: relative;
+  color: #FACC15 !important;
+}
+.half-star::after {
+  content: '★';
+  color: #e5e7eb;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 50%;
+  overflow: hidden;
+}
 
 @media (max-width: 768px) {
     nav {
@@ -419,3 +431,4 @@ aside h3 { /* Titre "filters" */
     .hero::before { font-size: 2em; }
     .hero::after { font-size: 1em; }
 }
+
