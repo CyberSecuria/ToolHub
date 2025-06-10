@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Outils - ToolHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="icon" type="image/png" href="Assets/logo ToolHub.png">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Assets/logo ToolHub.png" alt="ToolHub Logo" style="height:40px;">
+            </a>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="tools.html" class="active">Outils</a></li>
+                <li><a href="login.html">Connexion</a></li>
+                <li><a href="signup.html">Créer un compte</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="content">
+        <aside class="filter">
+            <!-- Ici tu peux inclure tes filtres (recherche, catégories, plateformes, OS, etc.) -->
+            <input type="text" placeholder="Rechercher un outil..." />
+            <!-- Exemples de sections de filtres -->
+            <div>
+                <h2>Category</h2>
+                <ul>
+                    <li><label><input type="checkbox"> Design</label></li>
+                    <li><label><input type="checkbox"> Developement</label></li>
+                    <li><label><input type="checkbox"> Communication</label></li>
+                    <li><label><input type="checkbox"> Data Analysis</label></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Platform</h2>
+                <ul>
+                    <li><label><input type="checkbox"> Web</label></li>
+                    <li><label><input type="checkbox"> Desktop</label></li>
+                    <li><label><input type="checkbox"> Mobile</label></li>
+                </ul>
+            </div>
+            <div>
+                <h2>OS</h2>
+                <ul>
+                    <li><label><input type="checkbox"> Windows</label></li>
+                    <li><label><input type="checkbox"> MacOS</label></li>
+                    <li><label><input type="checkbox"> Linux</label></li>
+                    <li><label><input type="checkbox"> Android</label></li>
+                    <li><label><input type="checkbox"> iOS</label></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Stars</h2>
+                <ul>
+                    <li><label><input type="checkbox"><span class="stars" data-stars="5">★★★★★</span></label></li>
+                    <li><label><input type="checkbox"><span class="stars" data-stars="4">★★★★☆</span></label></li>
+                    <li><label><input type="checkbox"><span class="stars" data-stars="3">★★★☆☆</span></label></li>
+                </ul>
+            </div>
+        </aside>
+        <section class="items">
+            <!-- Les cards outils seront injectées ici par JS -->
+        </section>
+    </main>
+    <script type="module" src="Scripts/homepage.js"></script>
+</body>
+</html>

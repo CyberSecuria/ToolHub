@@ -180,6 +180,10 @@ main {
    -webkit-backdrop-filter: blur(50px);
    border: 1px solid rgba(255, 255, 255, 0.3);
     color: #ffffff;
+    max-width: 340px;
+    min-width: 280px;
+    min-height: 380px;
+    max-height: 480px;
 }
 .item:hover {
     transform: translateY(-5px);
@@ -236,6 +240,10 @@ main {
     justify-content: space-between;
     align-items: center;
     margin-top: auto;
+      margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 
