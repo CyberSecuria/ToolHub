@@ -410,33 +410,115 @@ aside h3 { /* Titre "filters" */
 
 @media (max-width: 768px) {
     nav {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
+        justify-content: space-between;
     }
     nav .logo {
-        margin-bottom: 15px;
+        margin-bottom: 0;
+        margin-right: 15px;
     }
     nav ul {
-        margin-top: 10px;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        width: 100%;
+        width: auto;
+        margin-top: 0;
+        gap: 10px;
     }
     nav ul li {
         margin-left: 0;
-        margin-bottom: 8px;
+        margin-bottom: 0;
+        margin-right: 10px;
     }
     .login {
-        margin-top: 15px;
-        width: auto; /* Ajuster pour que les boutons ne prennent pas toute la largeur */
+        margin-top: 0;
+        width: auto;
     }
-    .content {
+    .hero {
+        text-align: center;
+        display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .items {
+        justify-content: center;
     }
     aside {
-        margin-top: 30px;
+        display: none !important;
     }
-    .hero::before { font-size: 2em; }
-    .hero::after { font-size: 1em; }
+}
+
+/* Menu burger styles */
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 2001;
+}
+.burger span {
+    display: block;
+    width: 28px;
+    height: 4px;
+    margin: 4px 0;
+    background: var(--vpn-primary-purple);
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .burger {
+        display: flex;
+        position: absolute;
+        right: 30px;
+        top: 22px;
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100vw;
+        background: #fff;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        z-index: 2000;
+        display: none;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        padding: 20px 0 10px 0;
+        margin: 0;
+    }
+    nav ul.active {
+        display: flex;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 0 0 100vmax rgba(0,0,0,0.18);
+        /* Ajoute un overlay sombre sur tout l'écran */
+    }
+    /* Overlay pour l'effet modal du menu burger */
+    body.menu-open::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(31,38,135,0.18);
+        z-index: 1999;
+        pointer-events: auto;
+    }
+    nav ul li {
+        margin: 10px 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .login {
+        margin-top: 0;
+        width: auto;
+    }
 }
 

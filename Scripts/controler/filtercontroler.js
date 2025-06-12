@@ -101,4 +101,53 @@ function filterAndRender() {
   }).join("");
   document.querySelector(".items").innerHTML = itemsHTML;
   renderStars();
+  updateStarCounts(filtered);
+}
+
+// Met à jour le nombre de cards pour chaque filtre étoiles
+function updateStarCounts(filteredCards = cardsData) {
+  document.querySelectorAll('.filter h2, .filter h2.text-sm').forEach(h2 => {
+    if (h2.textContent.trim().toLowerCase() === "stars") {
+      const checkboxes = h2.nextElementSibling?.querySelectorAll('input[type="checkbox"]') || [];
+      checkboxes.forEach(cb => {
+        const starsElem = cb.parentElement.querySelector('.stars');
+        if (starsElem) {
+          const starValue = parseInt(starsElem.getAttribute('data-stars'));
+          const count = filteredCards.filter(card => Math.round(card.rating) === starValue).length;
+          let countSpan = cb.parentElement.querySelector('.star-count');
+          if (!countSpan) {
+            countSpan = document.createElement('span');
+            countSpan.className = 'star-count';
+            countSpan.style.marginLeft = '6px';
+            cb.parentElement.appendChild(countSpan);
+          }
+          countSpan.textContent = `(${count})`;
+        }
+      });
+    }
+  });
+}
+
+// Ajoute le menu burger dynamiquement et la logique d'ouverture/fermeture
+export function setupBurgerMenu() {
+  // Crée le bouton burger si absent
+  if (!document.querySelector('.burger')) {
+    const burger = document.createElement('div');
+    burger.className = 'burger';
+    burger.innerHTML = '<span></span><span></span><span></span>';
+    document.querySelector('nav').appendChild(burger);
+  }
+  const burger = document.querySelector('.burger');
+  const navUl = document.querySelector('nav ul');
+  burger.addEventListener('click', () => {
+    navUl.classList.toggle('active');
+    burger.classList.toggle('open');
+  });
+  // Ferme le menu si on clique sur un lien
+  navUl.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navUl.classList.remove('active');
+      burger.classList.remove('open');
+    });
+  });
 }

@@ -8,19 +8,19 @@ export function homepageInner(card) {
         </div>
         <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="#">Tools</a></li>
-            <li><a href="#">Resources</a></li>
+            <li><a href="tools.html">Tools</a></li>
+            <li><a href="ressource.html">Resources</a></li>
         </ul>
         <div class="login">
-            <button>Login</button>
+            <button href="login.html">Login</button>
             <button>Signup</button>
         </div>
     </nav>
     </header>
     <main>
         <div class="hero">
-            <h2 class="titlehero">Découvrez ToolHub - Vos Outils Centralisés</h2>
-            <p class="texthero">Trouvez, organisez et utilisez les meilleurs outils pour booster votre productivité.</p>
+            <h2 class="titlehero">Discover ToolHub - Your Centralized Tools</h2>
+            <p class="texthero">Find, organize, and use the best tools to boost your productivity.</p>
         </div>
         <div class="content">
             <div class="items">
@@ -50,11 +50,11 @@ export function homepageInner(card) {
                         <div>
                           <h2 class="text-sm font-semibold mb-2">Stars</h2>
                           <ul class="space-y-1 text-sm">
-                            <li><label><input type="checkbox"> <span class="stars" data-stars="5"></span> (15)</label></li>
-                            <li><label><input type="checkbox"> <span class="stars" data-stars="4"></span> (10)</label></li>
-                            <li><label><input type="checkbox"> <span class="stars" data-stars="3"></span> (22)</label></li>
-                            <li><label><input type="checkbox"> <span class="stars" data-stars="2"></span> (8)</label></li>
-                            <li><label><input type="checkbox"> <span class="stars" data-stars="1"></span> (8)</label></li>
+                            <li><label><input type="checkbox"> <span class="stars" data-stars="5"></span> </label></li>
+                            <li><label><input type="checkbox"> <span class="stars" data-stars="4"></span> </label></li>
+                            <li><label><input type="checkbox"> <span class="stars" data-stars="3"></span> </label></li>
+                            <li><label><input type="checkbox"> <span class="stars" data-stars="2"></span> </label></li>
+                            <li><label><input type="checkbox"> <span class="stars" data-stars="1"></span> </label></li>
                           </ul>
                         </div>
                          <div>
@@ -90,7 +90,7 @@ export function homepageInner(card) {
     </main>
     <footer class="site-footer">
         <div class="footer-content" style="text-align:center; padding: 24px 0; background: #ede9fe; color: #334155; font-size: 1em;">
-            <p>&copy; 2025 ToolHub. Tous droits réservés.</p>
+            <p>&copy; 2025 ToolHub. All rights reserved.</p>
         </div>
     </footer>`;
   template = template

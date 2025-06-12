@@ -4,7 +4,7 @@ export const cardsData = [
     image: "./Assets/Card Product Icons/figma icon.png",
     alt: "Figma Icon",
     name: "Figma",
-    description:" Outil de design collaboratif pour la création de maquettes et de prototypes.",
+    description:"Collaborative design tool for creating mockups and prototypes.",
     category:"Design",
     platform: [
       { name: "Windows", icon: "Assets/Platform Icon/icons8-windows-os.svg" },
@@ -19,7 +19,7 @@ export const cardsData = [
     id: 2,
     image: "./Assets/Card Product Icons/vs code icon.png",
     name: "Visual Studio Code",
-    description:"Éditeur de code source développé par Microsoft, léger mais puissant, avec une multitude d'extensions pour personnaliser l'expérience de développement.",
+    description:"Code editor, lightweight yet powerful, with many extensions.",
     category:"Developement",
     platform: [
       { name: "Windows", icon: "Assets/Platform Icon/icons8-windows-os.svg" },
@@ -35,7 +35,7 @@ export const cardsData = [
     id: 3,
     image: "./Assets/Card Product Icons/slack icon.png",
     name: "Slack",
-    description:" Plateforme de communication et de collaboration en équipe, permettant des échanges en temps réel, des partages de fichiers et des intégrations avec d'autres outils.",
+    description:"Team platform for real-time chats, file sharing, and integrations.",
     category:"Communication",
     platform: [
       { name: "Windows", icon: "Assets/Platform Icon/icons8-windows-os.svg" },
@@ -53,7 +53,7 @@ export const cardsData = [
     id: 4,
     image: "./Assets/Card Product Icons/photoshop icon.png",
     name: "Adobe Photoshop",
-    description:" Logiciel de retouche d'images et de création graphique professionnel, largement utilisé pour la manipulation et l'édition de photos.",
+    description:"Professional image editing and graphic design software.",
     category:"Design",
     platform: [
       { name: "Windows", icon: "Assets/Platform Icon/icons8-windows-os.svg" },
@@ -70,8 +70,8 @@ export const cardsData = [
     id: 5,
     image: "./Assets/Card Product Icons/google Analytics icon.png",
     name: "Google Analytics",
-    description:" Outil d'analyse de trafic web développé par Google, permettant de suivre et d'analyser les performances d'un site web ou d'une application.",
-    category:"Data Analysis",
+    description:"Web traffic analysis tool for tracking and analyzing website.",
+    category: "Data Analysis", 
     platform: [
       { name: "Windows", icon: "Assets/Platform Icon/icons8-windows-os.svg" },
       { name: "MacOS", icon: "Assets/Platform Icon/icons8-mac-os.svg" },
@@ -88,7 +88,7 @@ export const cardsData = [
     id: 6,
     image: "./Assets/Card Product Icons/google meet icon.png",
     name: "Google Meet",
-    description:" Service de visioconférence développé par Google, intégré à la suite Google Workspace, permettant des réunions en ligne sécurisées et de haute qualité.",
+    description:"Google's video conferencing service for secure, high-quality meetings.",
     category:"Communication",
     platform: [
       { name: "Windows", icon: "Assets/Platform Icon/icons8-windows-os.svg" },

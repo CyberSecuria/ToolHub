@@ -1,5 +1,5 @@
 import { cardsData } from "../Data/carditem.js";
-import { setupFilterSearch } from "./controler/filtercontroler.js";
+import { setupFilterSearch, setupBurgerMenu } from "./controler/filtercontroler.js";
 import { addHeaderEventListeners } from "./controler/homepagecontroler.js";
 import { renderStars } from "./Tools/stars.js";
 import { homepageInner } from "./view/homepageinner.js";
@@ -23,8 +23,6 @@ const itemsHTML = cardsData
 document.querySelector(".items").innerHTML = itemsHTML;
 
 addHeaderEventListeners();
-// Si tu veux les étoiles dynamiques, ajoute :
-// import { renderStars } from "./Tools/stars.js";
-// renderStars();
 renderStars();
 setupFilterSearch();
+setupBurgerMenu();

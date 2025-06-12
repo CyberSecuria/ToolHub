@@ -16,23 +16,16 @@ export function addHeaderEventListeners() {
 
   if (loginBtn) {
     loginBtn.addEventListener('click', function() {
-      alert('Login cliqué !');
+      window.location.href = 'login.html'
       // Ici, tu peux ouvrir un modal ou rediriger
     });
   }
   if (signupBtn) {
     signupBtn.addEventListener('click', function() {
-      alert('Signup cliqué !');
+      window.location.href = 'signup.html'
       // Ici, tu peux ouvrir un modal ou rediriger
     });
   }
 
-  // Liens de navigation
-  document.querySelectorAll('nav ul li a').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      alert('Navigation vers ' + link.textContent);
-      // Ici, tu peux gérer la navigation SPA ou autre
-    });
-  });
+ 
 }
