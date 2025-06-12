@@ -3,24 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="stylesheet" href="CSS/login.css">
     <link rel="icon" type="image/png" href="Assets/logo ToolHub.png">
-    <title>ToolHub</title>
+    <title>Login - ToolHub</title>
 </head>
-<body>          
+<body>
+    <header>
+    <nav>
+            <div class="logo">
+                <img src="Assets/logo ToolHub.png" alt="logo">
+                <h1>ToolHub</h1>
+        </div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="tools.html">Tools</a></li>
+            <li><a href="ressource.html">Resources</a></li>
+        </ul>
+        <div class="login">
+            <button href="login.html">Login</button>
+            <button>Signup</button>
+        </div>
+    </nav> 
+</header>
+    <main> 
+    <section>        
  <form class="login-container">
         <h2>Connexion</h2>
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="username" placeholder="Votre nom d'utilisateur" required>
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
-        <button type="submit">Se connecter</button>
+        <label for="username"><span>Username:</span></label>
+        <input type="text" id="username" name="username" placeholder="your username" required>
+        <label for="password"><span>Password:</span></label>
+        <input type="password" id="password" name="password" placeholder="your password" required>
+        <button type="submit">Login</button>
         <div class="register-link">
-            Pas de compte ? <a href="register.html">Créer un compte</a>
+            No account? <a href="signup.html">Create an account</a>
         </div>
         
     </form>
-    <style>
+</section>
+    <footer class="site-footer">
+        <div class="footer-content" style="text-align:center; padding: 24px 0; background: #ede9fe; color: #334155; font-size: 1em;">
+            <p>&copy; 2025 ToolHub. All rights reserved.</p>
+        </div>
+    </main>
+    </footer>
+   <!--  <style>
         body {
             background: linear-gradient(135deg, #7b2ff2 0%, #f357a8 100%);
             min-height: 100vh;
@@ -86,7 +112,7 @@
             color: #fff;
             text-decoration: underline;
         }
-    </style>
+    </style> -->
 
 </body>
 </html>

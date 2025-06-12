@@ -1,0 +1,301 @@
+/* Importation de la police Inter comme alternative web à Segoe UI */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Variables de couleur inspirées de la page VPN */
+:root {
+    --vpn-primary-purple: #7c3aed; /* Violet principal (approximatif) */
+    --vpn-primary-purple-dark: #6D28D9;
+    --vpn-light-purple-bg: #EDE9FE; /* Fond violet très clair */
+    --vpn-dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
+    --vpn-text-light: #F8FAFC;
+    --vpn-text-dark: #334155;
+    --vpn-text-on-purple-bg: #ffffff;
+    --vpn-border-color: #D1D5DB;
+    --vpn-card-bg: #ffffff;
+    --vpn-button-radius: 25px;
+    --vpn-card-radius: 10px;
+}
+
+/* Réinitialisation de base et polices */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police sans-serif moderne */
+    background-color: var(--vpn-light-purple-bg); /* Fond général de la page */
+    color: var(--vpn-text-dark);
+    line-height: 1.6;
+}
+
+/* Header et Navigation */
+header {
+    background-color: #ffffff; /* Ou var(--vpn-light-purple-bg) si on veut le même fond que le body */
+    padding: 15px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Pour indiquer que le logo est cliquable */
+}
+
+.logo img {
+    height: 45px;
+    margin-right: 12px;
+}
+
+.logo h1 {
+    font-size: 1.9em;
+    margin: 0;
+    color: var(--vpn-primary-purple); /* Titre du logo en violet */
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--vpn-text-dark);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--vpn-primary-purple);
+}
+
+.login button {
+    margin-left: 12px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: var(--vpn-button-radius); /* Boutons arrondis */
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    font-size: 0.9em;
+}
+
+.login button:first-child { /* Bouton Login (style principal) */
+    background-color: var(--vpn-primary-purple);
+    color: var(--vpn-text-on-purple-bg);
+}
+
+.login button:first-child:hover {
+    background-color: var(--vpn-primary-purple-dark);
+    transform: translateY(-2px);
+}
+
+.login button:last-child { /* Bouton Signup (style secondaire/outline) */
+    background-color: transparent;
+    color: var(--vpn-primary-purple);
+    border: 2px solid var(--vpn-primary-purple);
+}
+
+.login button:last-child:hover {
+    background-color: var(--vpn-light-purple-bg); /* Léger fond au survol */
+    transform: translateY(-2px);
+}
+
+/* Main Content Area */
+main {
+    max-width: 1200px;
+    margin: 30px auto; /* Espace au-dessus et centrage */
+    padding: 0 20px;
+}
+
+a  {
+    text-decoration: none; /* Enlève le soulignement du lien */
+    color: var(--vpn-text-on-purple-bg); /* Couleur du texte du lien */
+    
+}
+
+nav ul li a:visited .visted {
+  color: var(--vpn-text-on-purple-bg);
+  text-decoration: none;
+}
+
+.item-bottom button:hover {
+    background-color: var(--vpn-primary-purple-dark);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+    nav .logo {
+        margin-bottom: 0;
+        margin-right: 15px;
+    }
+    nav ul {
+        flex-direction: row;
+        align-items: center;
+        width: auto;
+        margin-top: 0;
+        gap: 10px;
+    }
+    nav ul li {
+        margin-left: 0;
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+    .login {
+        margin-top: 0;
+        width: auto;
+    }
+    .hero {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .items {
+        justify-content: center;
+    }
+    aside {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .burger {
+        display: flex;
+        position: absolute;
+        right: 30px;
+        top: 22px;
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100vw;
+        background: #fff;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        z-index: 2000;
+        display: none;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        padding: 20px 0 10px 0;
+        margin: 0;
+    }
+    nav ul.active {
+        display: flex;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 0 0 100vmax rgba(0,0,0,0.18);
+        /* Ajoute un overlay sombre sur tout l'écran */
+    }
+    /* Overlay pour l'effet modal du menu burger */
+    body.menu-open::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(31,38,135,0.18);
+        z-index: 1999;
+        pointer-events: auto;
+    }
+    nav ul li {
+        margin: 10px 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .login {
+        margin-top: 0;
+        width: auto;
+    }
+}
+
+.login-container {
+            background: rgba(255,255,255,0.12);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 40px 32px;
+            max-width: 350px;
+            width: 100%;
+            color: #2a2a2c;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: static;
+        transform: none;
+        margin: 32px auto;
+        align-items: center;
+        }
+        .login-container h2 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 2em;
+        }
+        .login-container label {
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: none;
+            margin-bottom: 12px;
+            font-size: 1em;
+        }
+        .login-container span {
+           font-weight: bold;
+           margin-left: -11em;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 12px 0;
+            background: var(--vpn-primary-purple, #7b2ff2);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-container button:hover {
+            background: var(--vpn-primary-purple-dark, #5f1bbf);
+        }
+        .login-container .register-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        .login-container .register-link a {
+            color: var(--vpn-primary-purple);
+            text-decoration: underline;
+        }
