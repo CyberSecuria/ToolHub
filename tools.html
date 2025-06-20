@@ -2,70 +2,196 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Outils - ToolHub</title>
+    <title>Ma Toolbox - ToolHub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/index.css">
     <link rel="icon" type="image/png" href="Assets/logo ToolHub.png">
+    <link rel="stylesheet" href="CSS/tools.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="logo">
-                <img src="Assets/logo ToolHub.png" alt="ToolHub Logo" style="height:40px;">
-            </a>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="tools.html" class="active">Outils</a></li>
-                <li><a href="login.html">Connexion</a></li>
-                <li><a href="signup.html">Créer un compte</a></li>
+   <header>
+    <nav>
+            <div class="logo">
+                <img src="Assets/logo ToolHub.png" alt="logo">
+                <h1>ToolHub</h1>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tools.html">Tools</a></li>
+            <li><a href="ressource.html">Resources</a></li>
+        </ul>
+        <div class="login">
+            <button href="login.html">Login</button>
+            <button href="signup.html">Signup</button>
+        </div>
+    </nav> 
+</header>
+    <main class="toolbox-main">
+        <div class="toolbox-left">
+            <div class="toolbox-container">
+                <h1>Crée ta Toolbox personnalisée</h1>
+                <p>Sélectionne les outils que tu utilises ou découvres, et construis ta propre boîte à outils !</p>
+                <h2 style="margin-top:40px; color:var(--vpn-primary-purple);">Ma sélection</h2>
+                <ul class="toolbox-list" id="my-toolbox-list"></ul>
+                <div class="toolbox-empty" id="toolbox-empty-msg">Aucun outil sélectionné pour l’instant.</div>
+            </div>
+            <section class="items toolbox-cards">
+              <div class="item">
+                <img src="./Assets/Card Product Icons/figma icon.png" alt="Figma Icon">
+                <h3>Figma</h3>
+                <p><strong>Description :</strong> Collaborative design tool for creating mockups and prototypes.</p>
+                <p class="category">Design</p>
+                <p><strong>Plateformes :</strong> 
+                  <img src="Assets/Platform Icon/icons8-windows-os.svg" alt="Windows" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-mac-os.svg" alt="MacOS" class="platformicon">
+                </p>
+                <p><strong>Device :</strong> Web, Desktop, Mobile</p>
+                <div class="item-bottom">
+                  <span class="stars" data-stars="4"></span>
+                  <a class="visited" href="https://www.figma.com" target="_blank" rel="noopener noreferrer">
+                    <button>Découvrir</button>
+                  </a>
+                </div>
+              </div>
+              <div class="item">
+                <img src="./Assets/Card Product Icons/vs code icon.png" alt="VS Code Icon">
+                <h3>Visual Studio Code</h3>
+                <p><strong>Description :</strong> Code editor, lightweight yet powerful, with many extensions.</p>
+                <p class="category">Developement</p>
+                <p><strong>Plateformes :</strong> 
+                  <img src="Assets/Platform Icon/icons8-windows-os.svg" alt="Windows" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-mac-os.svg" alt="MacOS" class="platformicon">
+                  <img src="Assets/Platform Icon/linux-svgrepo-com.svg" alt="Linux" class="platformicon">
+                </p>
+                <p><strong>Device :</strong> Desktop</p>
+                <div class="item-bottom">
+                  <span class="stars" data-stars="5"></span>
+                  <a class="visited" href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">
+                    <button>Découvrir</button>
+                  </a>
+                </div>
+              </div>
+              <div class="item">
+                <img src="./Assets/Card Product Icons/slack icon.png" alt="Slack Icon">
+                <h3>Slack</h3>
+                <p><strong>Description :</strong> Team platform for real-time chats, file sharing, and integrations.</p>
+                <p class="category">Communication</p>
+                <p><strong>Plateformes :</strong> 
+                  <img src="Assets/Platform Icon/icons8-windows-os.svg" alt="Windows" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-mac-os.svg" alt="MacOS" class="platformicon">
+                  <img src="Assets/Platform Icon/linux-svgrepo-com.svg" alt="Linux" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-android.svg" alt="Android" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-ios.svg" alt="iOS" class="platformicon">
+                </p>
+                <p><strong>Device :</strong> Web, Desktop, Mobile</p>
+                <div class="item-bottom">
+                  <span class="stars" data-stars="3"></span>
+                  <a class="visited" href="https://slack.com/intl/fr-ch/" target="_blank" rel="noopener noreferrer">
+                    <button>Découvrir</button>
+                  </a>
+                </div>
+              </div>
+              <div class="item">
+                <img src="./Assets/Card Product Icons/photoshop icon.png" alt="Adobe Photoshop Icon">
+                <h3>Adobe Photoshop</h3>
+                <p><strong>Description :</strong> Professional image editing and graphic design software.</p>
+                <p class="category">Design</p>
+                <p><strong>Plateformes :</strong> 
+                  <img src="Assets/Platform Icon/icons8-windows-os.svg" alt="Windows" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-mac-os.svg" alt="MacOS" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-android.svg" alt="Android" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-ios.svg" alt="iOS" class="platformicon">
+                </p>
+                <p><strong>Device :</strong> Desktop, Mobile</p>
+                <div class="item-bottom">
+                  <span class="stars" data-stars="4"></span>
+                  <a class="visited" href="https://www.adobe.com/ch_fr/products/photoshop.html" target="_blank" rel="noopener noreferrer">
+                    <button>Découvrir</button>
+                  </a>
+                </div>
+              </div>
+              <div class="item">
+                <img src="./Assets/Card Product Icons/google Analytics icon.png" alt="Google Analytics Icon">
+                <h3>Google Analytics</h3>
+                <p><strong>Description :</strong> Web traffic analysis tool for tracking and analyzing website.</p>
+                <p class="category">Data Analysis</p>
+                <p><strong>Plateformes :</strong> 
+                  <img src="Assets/Platform Icon/icons8-windows-os.svg" alt="Windows" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-mac-os.svg" alt="MacOS" class="platformicon">
+                  <img src="Assets/Platform Icon/linux-svgrepo-com.svg" alt="Linux" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-android.svg" alt="Android" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-ios.svg" alt="iOS" class="platformicon">
+                </p>
+                <p><strong>Device :</strong> Web, Desktop, Mobile</p>
+                <div class="item-bottom">
+                  <span class="stars" data-stars="5"></span>
+                  <a class="visited" href="https://business.google.com/us/google-analytics" target="_blank" rel="noopener noreferrer">
+                    <button>Découvrir</button>
+                  </a>
+                </div>
+              </div>
+              <div class="item">
+                <img src="./Assets/Card Product Icons/google meet icon.png" alt="Google Meet Icon">
+                <h3>Google Meet</h3>
+                <p><strong>Description :</strong> Google's video conferencing service for secure, high-quality meetings.</p>
+                <p class="category">Communication</p>
+                <p><strong>Plateformes :</strong> 
+                  <img src="Assets/Platform Icon/icons8-windows-os.svg" alt="Windows" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-mac-os.svg" alt="MacOS" class="platformicon">
+                  <img src="Assets/Platform Icon/linux-svgrepo-com.svg" alt="Linux" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-android.svg" alt="Android" class="platformicon">
+                  <img src="Assets/Platform Icon/icons8-ios.svg" alt="iOS" class="platformicon">
+                </p>
+                <p><strong>Device :</strong> Web, Desktop, Mobile</p>
+                <div class="item-bottom">
+                  <span class="stars" data-stars="3"></span>
+                  <a class="visited" href="https://workspace.google.com/products/meet/" target="_blank" rel="noopener noreferrer">
+                    <button>Découvrir</button>
+                  </a>
+                </div>
+              </div>
+            </section>
+        </div>
+        <aside class="community-toolboxes">
+            <h2 style="color:var(--vpn-primary-purple); text-align:center; font-size:1.2em;">Toolbox de la communauté</h2>
+            <ul style="list-style:none; padding:0; margin:0;">
+                <li style="margin-bottom:18px;">
+                    <strong>Développeur Front</strong>
+                    <ul style="margin:8px 0 0 0; padding-left:18px; font-size:0.98em; color:#444;">
+                        <li>Visual Studio Code</li>
+                        <li>Figma</li>
+                        <li>Slack</li>
+                        <li>Photoshop</li>
+                    </ul>
+                </li>
+                <li style="margin-bottom:18px;">
+                    <strong>Data Analyst</strong>
+                    <ul style="margin:8px 0 0 0; padding-left:18px; font-size:0.98em; color:#444;">
+                        <li>Google Analytics</li>
+                        <li>Excel</li>
+                        <li>Slack</li>
+                    </ul>
+                </li>
+                <li style="margin-bottom:18px;">
+                    <strong>Product Designer</strong>
+                    <ul style="margin:8px 0 0 0; padding-left:18px; font-size:0.98em; color:#444;">
+                        <li>Figma</li>
+                        <li>Photoshop</li>
+                        <li>Slack</li>
+                    </ul>
+                </li>
+                <li style="margin-bottom:18px;">
+                    <strong>Remote Team</strong>
+                    <ul style="margin:8px 0 0 0; padding-left:18px; font-size:0.98em; color:#444;">
+                        <li>Slack</li>
+                        <li>Google Meet</li>
+                        <li>VS Code</li>
+                    </ul>
+                </li>
             </ul>
-        </nav>
-    </header>
-    <main class="content">
-        <aside class="filter">
-            <!-- Ici tu peux inclure tes filtres (recherche, catégories, plateformes, OS, etc.) -->
-            <input type="text" placeholder="Rechercher un outil..." />
-            <!-- Exemples de sections de filtres -->
-            <div>
-                <h2>Category</h2>
-                <ul>
-                    <li><label><input type="checkbox"> Design</label></li>
-                    <li><label><input type="checkbox"> Developement</label></li>
-                    <li><label><input type="checkbox"> Communication</label></li>
-                    <li><label><input type="checkbox"> Data Analysis</label></li>
-                </ul>
-            </div>
-            <div>
-                <h2>Platform</h2>
-                <ul>
-                    <li><label><input type="checkbox"> Web</label></li>
-                    <li><label><input type="checkbox"> Desktop</label></li>
-                    <li><label><input type="checkbox"> Mobile</label></li>
-                </ul>
-            </div>
-            <div>
-                <h2>OS</h2>
-                <ul>
-                    <li><label><input type="checkbox"> Windows</label></li>
-                    <li><label><input type="checkbox"> MacOS</label></li>
-                    <li><label><input type="checkbox"> Linux</label></li>
-                    <li><label><input type="checkbox"> Android</label></li>
-                    <li><label><input type="checkbox"> iOS</label></li>
-                </ul>
-            </div>
-            <div>
-                <h2>Stars</h2>
-                <ul>
-                    <li><label><input type="checkbox"><span class="stars" data-stars="5">★★★★★</span></label></li>
-                    <li><label><input type="checkbox"><span class="stars" data-stars="4">★★★★☆</span></label></li>
-                    <li><label><input type="checkbox"><span class="stars" data-stars="3">★★★☆☆</span></label></li>
-                </ul>
-            </div>
         </aside>
-        <section class="items">
-            <!-- Les cards outils seront injectées ici par JS -->
-        </section>
     </main>
-    <script type="module" src="Scripts/homepage.js"></script>
+  
+    
 </body>
 </html>
