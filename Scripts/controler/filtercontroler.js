@@ -151,3 +151,42 @@ export function setupBurgerMenu() {
     });
   });
 }
+
+// Barre de recherche simple pour toolsinner.js
+export function setupToolboxSearch() {
+  const searchInput = document.querySelector('.toolbox-search input[type="text"]');
+  if (!searchInput) return;
+  searchInput.addEventListener('input', filterAndRenderTools);
+}
+
+export function filterAndRenderTools() {
+  const searchValue = document.querySelector('.toolbox-search input[type="text"]')?.value.trim().toLowerCase() || "";
+  const filtered = cardsData.filter(card =>
+    card.name.toLowerCase().includes(searchValue) ||
+    card.description.toLowerCase().includes(searchValue) ||
+    card.category.toLowerCase().includes(searchValue)
+  );
+  const itemsHTML = filtered.map(card => {
+    return `
+      <div class="item">
+        <img src="${card.image}" alt="${card.alt || card.name}">
+        <h3>${card.name}</h3>
+        <p><strong>Description :</strong> ${card.description}</p>
+        <p><strong>Catégorie :</strong> ${card.category}</p>
+        <p><strong>OS :</strong><span class="platformicon">
+          ${card.platform.map(p => `<img src="${p.icon}" alt="${p.name}" class="platformicon">`).join(' ')}
+        </span></p>
+        <div class="item-bottom">
+          <span class="stars" data-stars="${card.rating}"></span>
+          <button>Add to toolbox</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+  // Correction : vérifier l'existence du conteneur avant d'injecter
+  const itemsContainer = document.querySelector(".items.toolbox-cards") || document.querySelector(".toolbox-cards-list") || document.querySelector(".items");
+  if (itemsContainer) {
+    itemsContainer.innerHTML = itemsHTML;
+    renderStars();
+  }
+}

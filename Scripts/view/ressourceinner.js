@@ -7,7 +7,7 @@ export function ressourceInner() {
         </div>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="tools.html">Tools</a></li>
+            <li><a href="tools.html">Toolbox</a></li>
             <li><a href="ressource.html">Ressources</a></li>
         </ul>
         <div class="login">
@@ -56,7 +56,6 @@ export function ressourceInner() {
         <div class="footer-content">
             <p>&copy; 2025 ToolHub. All rights reserved.</p>
         </div>
-    </main>
     </footer>`;
   document.body.innerHTML = templateressource;
 }

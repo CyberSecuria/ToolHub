@@ -8,7 +8,7 @@ export function homepageInner(card) {
         </div>
         <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="tools.html">Tools</a></li>
+            <li><a href="tools.html">Toolbox</a></li>
             <li><a href="ressource.html">Ressources</a></li>
         </ul>
         <div class="login">
@@ -29,7 +29,7 @@ export function homepageInner(card) {
                     <h3>{{cardname}}</h3>
                     <p><strong>Description :</strong> {{carddescription}}</p>
                     <p><strong>Catégorie :</strong> {{cardcategory}}</p>
-                    <p><strong>Platforms :</strong> {{cardplatform}} <span class="platformicon"></span></p>
+                    <p><strong>OS :</strong> {{cardplatform}} <span class="platformicon"></span></p>
                     <div class="item-bottom">
                         <span class="stars" data-stars="{{cardrating}}"></span>
                         <a class="visited" href="{{cardlink}}" target="_blank" rel="noopener noreferrer">

@@ -7,7 +7,7 @@ export function loginInner() {
         </div>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="tools.html">Tools</a></li>
+            <li><a href="tools.html">Toolbox</a></li>
             <li><a href="ressource.html">Ressources</a></li>
         </ul>
         <div class="login">
@@ -21,7 +21,7 @@ export function loginInner() {
  <form class="login-container">
         <h2>Connexion</h2>
         <label for="username"><span>Username:</span></label>
-        <input type="text" id="username" name="username" placeholder="your username" required>
+        <input type="text" id="username" name="username" placeholder="your username" required autocomplete="username">
         <label for="password"><span>Password:</span></label>
         <input type="password" id="password" name="password" placeholder="your password" required autocomplete="current-password">
         <button type="submit">Login</button>
@@ -31,11 +31,12 @@ export function loginInner() {
         
     </form>
 </section>
+</main>
     <footer class="site-footer">
         <div class="footer-content">
             <p>&copy; 2025 ToolHub. All rights reserved.</p>
         </div>
-    </main>
+    
     </footer>`;
   document.body.innerHTML = templatelogin;
 }
