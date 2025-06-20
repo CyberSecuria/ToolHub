@@ -8,11 +8,11 @@ export function signupInner() {
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="tools.html">Tools</a></li>
-            <li><a href="ressource.html">Resources</a></li>
+            <li><a href="ressource.html">Ressources</a></li>
         </ul>
         <div class="login">
             <button href="login.html">Login</button>
-            <button href="signup.html">Signup</button>
+            <button href="signup.html">Sign Up</button>
         </div>
     </nav> 
 </header>
