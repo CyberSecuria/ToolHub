@@ -3,6 +3,7 @@ import { setupFilterSearch, setupBurgerMenu } from "./controler/filtercontroler.
 import { addHeaderEventListeners } from "./controler/homepagecontroler.js";
 import { renderStars } from "./Tools/stars.js";
 import { homepageInner } from "./view/homepageinner.js";
+import { setupBookmarkPopup } from "./controler/bookmark-controler.js";
 
 // Injecte le squelette principal avec la première card (pour la structure)
 document.querySelector("body").innerHTML = homepageInner(cardsData[0]);
@@ -26,3 +27,4 @@ addHeaderEventListeners();
 renderStars();
 setupFilterSearch();
 setupBurgerMenu();
+setupBookmarkPopup() 
