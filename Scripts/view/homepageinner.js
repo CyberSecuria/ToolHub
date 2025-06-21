@@ -25,6 +25,7 @@ export function homepageInner(card) {
         <div class="content">
             <div class="items">
                 <div class="item">
+                    <img src="Assets/bookmark icons/bookmark-empty.svg" class="bookmark-icon" title="Bookmark" alt="Bookmark">
                     <img src="{{cardimage}}" alt="card">
                     <h3>{{cardname}}</h3>
                     <p><strong>Description :</strong> {{carddescription}}</p>
@@ -89,7 +90,7 @@ export function homepageInner(card) {
         </div>
     </main>
     <footer class="site-footer">
-        <div class="footer-content" style="text-align:center; padding: 24px 0; background: #ede9fe; color: #334155; font-size: 1em;">
+        <div class="footer-content">
             <p>&copy; 2025 ToolHub. All rights reserved.</p>
         </div>
     </footer>`;
