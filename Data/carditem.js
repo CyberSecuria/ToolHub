@@ -88,7 +88,7 @@ export const cardsData = [
     id: 6,
     image: "./Assets/Card Product Icons/google meet icon.png",
     name: "Google Meet",
-    description:"Google's video conferencing service for secure, high-quality meetings.",
+    description:"Google video conferencing service for secure, high-quality meetings.",
     category:"Communication",
     platform: [
       { name: "Windows", icon: "Assets/Platform Icon/icons8-windows-os.svg" },
