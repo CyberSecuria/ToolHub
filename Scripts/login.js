@@ -1,4 +1,4 @@
-import { addHeaderEventListeners } from "./controler/homepagecontroler.js";
+import { addHeaderEventListeners } from "./controler/headercontroler.js";
 import { loginInner } from "./view/logininner.js";
 
 loginInner();

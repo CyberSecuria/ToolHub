@@ -1,5 +1,5 @@
 import { cardsData } from "../../Data/carditem.js";
-import { homepageInner } from "../view/homepageinner.js";
+import { homepageInner } from "../view/indexinner.js";
 import { renderStars } from "../Tools/stars.js";
 
 // Fonction principale pour activer tous les filtres

@@ -1,8 +1,8 @@
 import { cardsData } from "../Data/carditem.js";
 import { setupFilterSearch, setupBurgerMenu } from "./controler/filtercontroler.js";
-import { addHeaderEventListeners } from "./controler/homepagecontroler.js";
+import { addHeaderEventListeners } from "./controler/headercontroler.js";
 import { renderStars } from "./Tools/stars.js";
-import { homepageInner } from "./view/homepageinner.js";
+import { homepageInner } from "./view/indexinner.js";
 import { setupBookmarkPopup } from "./controler/bookmark-controler.js";
 
 // Injecte le squelette principal avec la première card (pour la structure)
