@@ -14,6 +14,8 @@
     --card-bg: #ffffff;
     --button-radius: 25px;
     --card-radius: 10px;
+    --footer-bg: #ede9fe;
+    --footer-text: #334155;
 }
 
 /* Réinitialisation de base et polices */
@@ -140,11 +142,85 @@ nav ul li a:visited .visted {
     transform: translateY(-1px);
 }
 
+.signup-container{
+            background: rgba(255,255,255,0.12);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 40px 32px;
+            max-width: 350px;
+            width: 100%;
+            color: #2a2a2c;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: static;
+        transform: none;
+        margin: 32px auto;
+        align-items: center;
+        }
+        .signup-container h2 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 2em;
+        }
+        .signup-container label {
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .signup-container input[type="text"],
+        .signup-container input[type="password"],
+        .signup-container input[type="email"] {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: none;
+            margin-bottom: 12px;
+            font-size: 1em;
+        }
+
+        .signup-container span {
+           font-weight: bold;
+           margin-left: -11em;
+        }
+        .signup-container button {
+            width: 100%;
+            padding: 12px 0;
+            background: var(--primary-purple, #7b2ff2);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .signup-container button:hover {
+            background: var(--primary-purple-dark, #5f1bbf);
+        }
+        .signup-container .register-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        .signup-container  a {
+            color: var(--primary-purple);
+            text-decoration: underline;
+        }
+
+         .signup-container span {
+           font-weight: bold;
+           margin-left: -11em;
+         }
+
 .footer-content {
     text-align: center;
     padding: 24px 0;
-    background: #ede9fe;
-    color: #334155;
+    background: var(--footer-bg);
+    color: var(--footer-text);
     font-size: 1em;
 }
 
@@ -240,77 +316,3 @@ nav ul li a:visited .visted {
         width: auto;
     }
 }
-
-.signup-container{
-            background: rgba(255,255,255,0.12);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.18);
-            padding: 40px 32px;
-            max-width: 350px;
-            width: 100%;
-            color: #2a2a2c;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            position: static;
-        transform: none;
-        margin: 32px auto;
-        align-items: center;
-        }
-        .signup-container h2 {
-            margin-bottom: 10px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 2em;
-        }
-        .signup-container label {
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-        .signup-container input[type="text"],
-        .signup-container input[type="password"],
-        .signup-container input[type="email"] {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: none;
-            margin-bottom: 12px;
-            font-size: 1em;
-        }
-
-        .signup-container span {
-           font-weight: bold;
-           margin-left: -11em;
-        }
-        .signup-container button {
-            width: 100%;
-            padding: 12px 0;
-            background: var(--primary-purple, #7b2ff2);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .signup-container button:hover {
-            background: var(--primary-purple-dark, #5f1bbf);
-        }
-        .signup-container .register-link {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.95em;
-        }
-        .signup-container  a {
-            color: var(--primary-purple);
-            text-decoration: underline;
-        }
-
-         .signup-container span {
-           font-weight: bold;
-           margin-left: -11em;
-         }

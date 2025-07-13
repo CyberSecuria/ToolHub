@@ -14,6 +14,8 @@
     --card-bg: #ffffff;
     --button-radius: 25px;
     --card-radius: 10px;
+    --footer-bg: #ede9fe;
+    --footer-text: #334155;
 }
 
 /* Réinitialisation de base et polices */
@@ -195,8 +197,8 @@ nav ul li a:visited .visted {
 .footer-content {
     text-align: center;
     padding: 24px 0;
-    background: #ede9fe;
-    color: #334155;
+    background: var(--footer-bg);
+    color: var(--footer-text);
     font-size: 1em;
 }
 

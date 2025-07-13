@@ -14,6 +14,8 @@
     --card-bg: #ffffff;
     --button-radius: 25px;
     --card-radius: 10px;
+    --footer-bg: #ede9fe;
+    --footer-text: #334155;
 }
 
 /* Réinitialisation de base et polices */
@@ -30,35 +32,77 @@ body {
 .toolbox-container {
     max-width: 800px;
     margin: 40px auto;
+    margin-bottom: 32px;
     background: rgba(255,255,255,0.7);
-    border-radius: 18px;
-    box-shadow: 0 8px 32px 0 rgba(124,58,237,0.10);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
     padding: 32px 24px 24px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.24);
+    box-sizing: border-box;
 }
-.toolbox-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    justify-content: center;
-    margin: 32px 0 0 0;
-    padding: 0;
-    list-style: none;
+
+.toolbox-search {
+  display: flex;
+  gap: 12px;
+  margin: 18px auto 24px auto;
+  width: 100%;
+  max-width: 420px;
+  align-items: center;
+  justify-content: center;
 }
+.toolbox-search input[type="text"] {
+  flex: 1 1 0;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--button-radius);
+  font-size: 0.95em;
+  box-sizing: border-box;
+}
+.toolbox-search input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+.toolbox-search button {
+  padding: 12px 18px;
+  background-color: var(--primary-purple);
+  color: var(--text-on-purple-bg);
+  border: none;
+  border-radius: var(--button-radius);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+.toolbox-search button:hover {
+  background-color: var(--primary-purple-dark);
+}
+
 .tool-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(124,58,237,0.07);
-    padding: 18px 22px;
     min-width: 220px;
-    max-width: 260px;
+    max-width: 520px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+    display: flex;
+    gap: 24px;
+    background: rgba(255,255,255,0.22);
+    border-radius: 18px;
+    box-shadow: 0 4px 16px 0 rgba(31,38,135,0.10);
+    padding: 20px 28px;
+    width: 100%;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1px solid rgba(255,255,255,0.18);
 }
+
 .tool-card img {
     width: 48px;
     height: 48px;
@@ -94,35 +138,6 @@ body {
     font-size: 1.1em;
     margin-top: 32px;
 }
-.community-toolboxes {
-    min-width: 270px;
-    max-width: 320px;
-    background: rgba(255,255,255,0.8);
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(124,58,237,0.08);
-    padding: 24px 18px;
-    align-self: flex-start;
-    margin-left: auto;
-}
-.community-title {
-    color: var(--primary-purple);
-    text-align: center;
-    font-size: 1.2em;
-}
-.community-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.community-item {
-    margin-bottom: 18px;
-}
-.community-sublist {
-    margin: 8px 0 0 0;
-    padding-left: 18px;
-    font-size: 0.98em;
-    color: #444;
-}
 
 .toolbox-main {
   display: flex;
@@ -140,38 +155,6 @@ body {
 /* Place l'aside à gauche */
 .toolbox-main {
   flex-direction: row;
-}
-
-.community-toolboxes {
-  flex: 0 0 320px;
-  background: rgba(255,255,255,0.18);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.22);
-  padding: 32px 24px 24px 24px;
-  margin-left: 0;
-  margin-right: 32px;
-  min-width: 260px;
-  max-width: 340px;
-  box-sizing: border-box;
-}
-
-/* Responsive: aside repasse en haut */
-@media (max-width: 1100px) {
-  .toolbox-main {
-    flex-direction: column;
-    gap: 32px;
-    align-items: stretch;
-  }
-  .community-toolboxes {
-    max-width: 100%;
-    min-width: 0;
-    margin: 0 auto;
-    margin-top: 24px;
-    margin-right: 0;
-  }
 }
 
 .toolbox-left {
@@ -198,18 +181,6 @@ body {
   justify-items: center;
 }
 
-.toolbox-container {
-  width: 100%;
-  background: rgba(255,255,255,0.18);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.24);
-  padding: 32px 32px 24px 32px;
-  margin-bottom: 32px;
-  box-sizing: border-box;
-}
 
 .toolbox-cards {
   display: flex;
@@ -219,19 +190,6 @@ body {
   align-items: flex-start;
 }
 
-.tool-card {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: rgba(255,255,255,0.22);
-  border-radius: 18px;
-  box-shadow: 0 4px 16px 0 rgba(31,38,135,0.10);
-  padding: 20px 28px;
-  width: 100%;
-  max-width: 520px;
-  transition: box-shadow 0.2s, transform 0.2s;
-  border: 1px solid rgba(255,255,255,0.18);
-}
 .tool-card:hover {
   box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
   transform: translateY(-2px) scale(1.02);
@@ -267,22 +225,6 @@ body {
   background: #4b2fd6;
 }
 
-.community-toolboxes {
-  flex: 0 0 320px;
-  background: rgba(255,255,255,0.18);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.22);
-  padding: 32px 24px 24px 24px;
-  margin-left: 0;
-  margin-right: 32px;
-  min-width: 260px;
-  max-width: 340px;
-  box-sizing: border-box;
-}
-
 .toolbox-cards.items {
   display: grid;
   grid-template-columns: repeat(2, minmax(260px, 1fr));
@@ -293,20 +235,12 @@ body {
   justify-items: center;
 }
 
-@media (max-width: 900px) {
-  .toolbox-cards.items {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* Pour que les .item héritent bien du style général des cards d'accueil */
 .item {
   position: relative;
-  background-color: var(--vpn-card-bg);
-  border: 1px solid var(--vpn-border-color);
-  border-radius: var(--vpn-card-radius);
+  background-color: var(--card-bg);
+  border-radius: var(--card-radius);
   padding: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.07);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -378,42 +312,6 @@ body {
   transform: translateY(-1px);
 }
 
-
-@media (max-width: 1100px) {
-  .toolbox-main {
-    flex-direction: column;
-    gap: 32px;
-    align-items: stretch;
-  }
-  .community-toolboxes {
-    max-width: 100%;
-    min-width: 0;
-    margin: 0 auto;
-    margin-top: 24px;
-  }
-}
-
-@media (max-width: 700px) {
-  .toolbox-main {
-    padding: 18px 0 32px 0;
-  }
-  .toolbox-container, .community-toolboxes {
-    padding: 18px 8px 16px 8px;
-    border-radius: 14px;
-  }
-  .tool-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px 10px;
-    max-width: 100%;
-  }
-  .tool-card img {
-    width: 40px !important;
-    height: 40px !important;
-  }
-}
-
 .toolbox-container h1 {
   display: flex;
   align-items: center;
@@ -443,51 +341,6 @@ button {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.toolbox-search {
-  display: flex;
-  gap: 12px;
-  margin: 18px auto 24px auto;
-  width: 100%;
-  max-width: 420px;
-  align-items: center;
-  justify-content: center;
-}
-.toolbox-search input[type="text"] {
-  flex: 1 1 0;
-  padding: 12px 15px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--button-radius);
-  font-size: 0.95em;
-  box-sizing: border-box;
-}
-.toolbox-search input[type="text"]:focus {
-  outline: none;
-  border-color: var(--primary-purple);
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
-}
-.toolbox-search button {
-  padding: 12px 18px;
-  background-color: var(--primary-purple);
-  color: var(--text-on-purple-bg);
-  border: none;
-  border-radius: var(--button-radius);
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1em;
-  transition: background-color 0.3s;
-}
-.toolbox-search button:hover {
-  background-color: var(--primary-purple-dark);
-}
-
-.footer-content {
-    text-align: center;
-    padding: 24px 0;
-    background: #ede9fe;
-    color: #334155;
-    font-size: 1em;
-}
-
 .toolbox-selection-title button {
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
@@ -497,4 +350,93 @@ button {
   background: var(--primary-purple-dark, #4b2fd6);
   color: #fff;
   box-shadow: 0 6px 18px rgba(124,58,237,0.18);
+}
+.community-toolboxes {
+    min-width: 200px;
+    max-width: 340px;
+    border-radius: 24px;
+    align-self: flex-start;
+    flex: 0 0 320px;
+    padding: 32px 24px 24px 24px;
+    box-sizing: border-box;
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.22);
+    margin-left: 0;
+    margin-right: 32px;
+}
+
+.community-title {
+    color: var(--primary-purple);
+    text-align: center;
+    font-size: 1.2em;
+}
+.community-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.community-item {
+    margin-bottom: 18px;
+}
+.community-sublist {
+    margin: 8px 0 0 0;
+    padding-left: 18px;
+    font-size: 0.98em;
+    color: #444;
+}
+
+.footer-content {
+    text-align: center;
+    padding: 24px 0;
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    font-size: 1em;
+}
+
+
+
+/* Responsive: aside repasse en haut */
+@media (max-width: 1100px) {
+  .toolbox-main {
+    flex-direction: column;
+    gap: 32px;
+    align-items: stretch;
+  }
+  .community-toolboxes {
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    margin-top: 24px;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .toolbox-cards.items {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .toolbox-main {
+    padding: 18px 0 32px 0;
+  }
+  .toolbox-container, .community-toolboxes {
+    padding: 18px 8px 16px 8px;
+    border-radius: 14px;
+  }
+  .tool-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 10px;
+    max-width: 100%;
+  }
+  .tool-card img {
+    width: 40px !important;
+    height: 40px !important;
+  }
 }
