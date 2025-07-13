@@ -3,17 +3,17 @@
 
 /* Variables de couleur inspirées de la page VPN */
 :root {
-    --vpn-primary-purple: #7c3aed; /* Violet principal (approximatif) */
-    --vpn-primary-purple-dark: #6D28D9;
-    --vpn-light-purple-bg: #EDE9FE; /* Fond violet très clair */
-    --vpn-dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
-    --vpn-text-light: #F8FAFC;
-    --vpn-text-dark: #334155;
-    --vpn-text-on-purple-bg: #ffffff;
-    --vpn-border-color: #D1D5DB;
-    --vpn-card-bg: #ffffff;
-    --vpn-button-radius: 25px;
-    --vpn-card-radius: 10px;
+    --primary-purple: #7c3aed; /* Violet principal (approximatif) */
+    --primary-purple-dark: #6D28D9;
+    --light-purple-bg: #EDE9FE; /* Fond violet très clair */
+    --dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
+    --text-light: #F8FAFC;
+    --text-dark: #334155;
+    --text-on-purple-bg: #ffffff;
+    --border-color: #D1D5DB;
+    --card-bg: #ffffff;
+    --button-radius: 25px;
+    --card-radius: 10px;
 }
 
 /* Réinitialisation de base et polices */
@@ -21,8 +21,8 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police sans-serif moderne */
-    background-color: var(--vpn-light-purple-bg); /* Fond général de la page */
-    color: var(--vpn-text-dark);
+    background-color: var(--light-purple-bg); /* Fond général de la page */
+    color: var(--text-dark);
     line-height: 1.6;
 
 }
@@ -60,7 +60,7 @@ nav {
 .logo h1 {
     font-size: 1.9em;
     margin: 0;
-    color: var(--vpn-primary-purple); /* Titre du logo en violet */
+    color: var(--primary-purple); /* Titre du logo en violet */
     font-weight: 700;
 }
 
@@ -77,20 +77,20 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--vpn-text-dark);
+    color: var(--text-dark);
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
 }
 
 .login button {
     margin-left: 12px;
     padding: 10px 22px;
     border: none;
-    border-radius: var(--vpn-button-radius); /* Boutons arrondis */
+    border-radius: var(--button-radius); /* Boutons arrondis */
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
@@ -98,30 +98,30 @@ nav ul li a:hover {
 }
 
 .login button:first-child { /* Bouton Login (style principal) */
-    background-color: var(--vpn-primary-purple);
-    color: var(--vpn-text-on-purple-bg);
+    background-color: var(--primary-purple);
+    color: var(--text-on-purple-bg);
 }
 
 .login button:first-child:hover {
-    background-color: var(--vpn-primary-purple-dark);
+    background-color: var(--primary-purple-dark);
     transform: translateY(-2px);
 }
 
 .login button:last-child { /* Bouton Signup (style secondaire/outline) */
     background-color: transparent;
-    color: var(--vpn-primary-purple);
-    border: 2px solid var(--vpn-primary-purple);
+    color: var(--primary-purple);
+    border: 2px solid var(--primary-purple);
 }
 
 .login button:last-child:hover {
-    background-color: var(--vpn-light-purple-bg); /* Léger fond au survol */
+    background-color: var(--light-purple-bg); /* Léger fond au survol */
     transform: translateY(-2px);
 }
 
 /* Section Hero (espace réservé) */
 .hero {
-    background: linear-gradient(135deg, var(--vpn-primary-purple) 0%, var(--vpn-primary-purple-dark) 100%);
-    color: var(--vpn-text-on-purple-bg);
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-purple-dark) 100%);
+    color: var(--text-on-purple-bg);
     text-align: center;
     padding: 80px 20px;
     min-height: 200px;
@@ -167,9 +167,9 @@ main {
 
 .item {
     position: relative;
-    background-color: var(--vpn-card-bg);
-    border: 1px solid var(--vpn-border-color);
-    border-radius: var(--vpn-card-radius);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.07); /* Ombre douce comme sur les cartes VPN */
     display: flex;
@@ -204,13 +204,13 @@ main {
     font-size: 1.5em;
     margin-top: 0;
     margin-bottom: 10px;
-    color: var(--vpn-primary-purple); /* Titre de la carte en violet */
+    color: var(--primary-purple); /* Titre de la carte en violet */
 }
 
 .item p {
     font-size: 0.95em;
     margin-bottom: 10px;
-    color: var(--vpn-text-dark);
+    color: var(--text-dark);
     flex-grow: 1;
 }
 
@@ -219,7 +219,7 @@ main {
     font-weight: 500;
     color: #2a2a2c; /* Gris un peu plus soutenu pour la catégorie */
     margin-bottom: 15px;
-    background-color: var(--vpn-light-purple-bg);
+    background-color: var(--light-purple-bg);
     padding: 3px 0px;
     border-radius: 15px;
     display: inline-block; /* Pour que le fond ne prenne pas toute la largeur */
@@ -249,11 +249,11 @@ main {
 
 
 .item-bottom button {
-    background-color: var(--vpn-primary-purple);
-    color: var(--vpn-text-on-purple-bg);
+    background-color: var(--primary-purple);
+    color: var(--text-on-purple-bg);
     padding: 10px 20px;
     border: none;
-    border-radius: var(--vpn-button-radius);
+    border-radius: var(--button-radius);
     cursor: pointer;
     font-weight: 600;
     font-size: 0.9em;
@@ -262,17 +262,17 @@ main {
 
 a  {
     text-decoration: none; /* Enlève le soulignement du lien */
-    color: var(--vpn-text-on-purple-bg); /* Couleur du texte du lien */
+    color: var(--text-on-purple-bg); /* Couleur du texte du lien */
     
 }
 
 nav ul li a:visited .visted {
-  color: var(--vpn-text-on-purple-bg);
+  color: var(--text-on-purple-bg);
   text-decoration: none;
 }
 
 .item-bottom button:hover {
-    background-color: var(--vpn-primary-purple-dark);
+    background-color: var(--primary-purple-dark);
     transform: translateY(-1px);
 }
 
@@ -280,10 +280,10 @@ nav ul li a:visited .visted {
 /* Aside (Filtres) */
 aside {
     flex: 1;
-    background-color: var(--vpn-card-bg); /* Même fond que les cartes */
+    background-color: var(--card-bg); /* Même fond que les cartes */
     padding: 25px;
-    border: 1px solid var(--vpn-border-color);
-    border-radius: var(--vpn-card-radius);
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
     box-shadow: 0 5px 15px rgba(0,0,0,0.07);
     height: fit-content;
 }
@@ -292,24 +292,24 @@ aside h3 { /* Titre "filters" */
     font-size: 1.6em;
     margin-top: 0;
     margin-bottom: 20px;
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
     padding-bottom: 10px;
-    border-bottom: 2px solid var(--vpn-light-purple-bg);
+    border-bottom: 2px solid var(--light-purple-bg);
 }
 
 
 .filter input[type="text"] {
     width: 100%; /* Prend toute la largeur disponible */
     padding: 12px 15px;
-    border: 1px solid var(--vpn-border-color);
-    border-radius: var(--vpn-button-radius); /* Input arrondi */
+    border: 1px solid var(--border-color);
+    border-radius: var(--button-radius); /* Input arrondi */
     margin-bottom: 10px; /* Espace avant le bouton si sur ligne différente */
     box-sizing: border-box;
     font-size: 0.95em;
 }
 .filter input[type="text"]:focus {
     outline: none;
-    border-color: var(--vpn-primary-purple);
+    border-color: var(--primary-purple);
     box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
 }
 
@@ -317,10 +317,10 @@ aside h3 { /* Titre "filters" */
 .filter button { /* Bouton Search à côté du champ de recherche */
     width: 100%; /* Prend toute la largeur */
     padding: 12px 15px;
-    background-color: var(--vpn-primary-purple);
-    color: var(--vpn-text-on-purple-bg);
+    background-color: var(--primary-purple);
+    color: var(--text-on-purple-bg);
     border: none;
-    border-radius: var(--vpn-button-radius);
+    border-radius: var(--button-radius);
     cursor: pointer;
     font-weight: 600;
     font-size: 1em;
@@ -329,7 +329,7 @@ aside h3 { /* Titre "filters" */
 }
 
 .filter button:hover {
-    background-color: var(--vpn-primary-purple-dark);
+    background-color: var(--primary-purple-dark);
 }
 
 /* Style pour les sections de filtres (Stars, Category, etc.) */
@@ -340,11 +340,11 @@ aside h3 { /* Titre "filters" */
 .filter h2 { /* Titres de section de filtre (Stars, Category) */
     font-size: 1.1em;
     font-weight: 600;
-    color: var(--vpn-text-dark);
+    color: var(--text-dark);
     margin-top: 25px; /* Espace au-dessus de chaque titre de filtre */
     margin-bottom: 12px;
     padding-bottom: 5px;
-    border-bottom: 1px solid var(--vpn-light-purple-bg);
+    border-bottom: 1px solid var(--light-purple-bg);
 }
 .filter h2:first-of-type { /* Pas de marge en haut pour le premier h2 après le champ recherche */
     margin-top: 10px;
@@ -362,18 +362,18 @@ aside h3 { /* Titre "filters" */
 
 .filter ul li label {
     font-size: 0.9em;
-    color: var(--vpn-text-dark);
+    color: var(--text-dark);
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 .filter ul li label:hover input[type="checkbox"] + span { /* Style au survol */
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
 }
 
 .filter ul li input[type="checkbox"] {
     margin-right: 10px;
-    accent-color: var(--vpn-primary-purple); /* Couleur de la coche */
+    accent-color: var(--primary-purple); /* Couleur de la coche */
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -467,7 +467,7 @@ aside h3 { /* Titre "filters" */
     width: 28px;
     height: 4px;
     margin: 4px 0;
-    background: var(--vpn-primary-purple);
+    background: var(--primary-purple);
     border-radius: 2px;
     transition: 0.3s;
 }
@@ -578,7 +578,7 @@ aside h3 { /* Titre "filters" */
 #reviews-modal h2 {
   margin-top: 0;
   margin-bottom: 1.2em;
-  color: var(--vpn-primary-purple);
+  color: var(--primary-purple);
   font-size: 2em;
   font-weight: 700;
 }

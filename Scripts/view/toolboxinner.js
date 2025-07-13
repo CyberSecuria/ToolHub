@@ -9,7 +9,7 @@ export function toolsInner() {
         </div>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="tools.html">Toolbox</a></li>
+            <li><a href="toolbox.html">Toolbox</a></li>
             <li><a href="ressource.html">Ressources</a></li>
         </ul>
         <div class="login">

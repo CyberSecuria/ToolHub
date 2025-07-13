@@ -1,3 +1,31 @@
+/* Importation de la police Inter comme alternative web à Segoe UI */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Variables de couleur inspirées de la page VPN */
+:root {
+    --primary-purple: #7c3aed; /* Violet principal (approximatif) */
+    --primary-purple-dark: #6D28D9;
+    --light-purple-bg: #EDE9FE; /* Fond violet très clair */
+    --dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
+    --text-light: #F8FAFC;
+    --text-dark: #334155;
+    --text-on-purple-bg: #ffffff;
+    --border-color: #D1D5DB;
+    --card-bg: #ffffff;
+    --button-radius: 25px;
+    --card-radius: 10px;
+}
+
+/* Réinitialisation de base et polices */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police sans-serif moderne */
+    background-color: var(--light-purple-bg); /* Fond général de la page */
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
 /* Styles spécifiques à la page Toolbox (tools.html) */
 .toolbox-container {
     max-width: 800px;
@@ -39,7 +67,7 @@
 .tool-card h3 {
     margin: 0 0 8px 0;
     font-size: 1.15em;
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
 }
 .tool-card p {
     font-size: 0.98em;
@@ -48,7 +76,7 @@
     text-align: center;
 }
 .tool-card button {
-    background: var(--vpn-primary-purple);
+    background: var(--primary-purple);
     color: #fff;
     border: none;
     border-radius: 20px;
@@ -77,7 +105,7 @@
     margin-left: auto;
 }
 .community-title {
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
     text-align: center;
     font-size: 1.2em;
 }
@@ -216,7 +244,7 @@
 .tool-card h3 {
   margin: 0 0 4px 0;
   font-size: 1.18em;
-  color: var(--vpn-primary-purple, #6c47ff);
+  color: var(--primary-purple, #6c47ff);
 }
 .tool-card p {
   margin: 0 0 0 0;
@@ -226,7 +254,7 @@
 }
 .tool-link {
   margin-left: auto;
-  background: var(--vpn-primary-purple, #6c47ff);
+  background: var(--primary-purple, #6c47ff);
   color: #fff;
   border-radius: 8px;
   padding: 8px 18px;
@@ -309,12 +337,12 @@
   font-size: 1.5em;
   margin-top: 0;
   margin-bottom: 10px;
-  color: var(--vpn-primary-purple);
+  color: var(--primary-purple);
 }
 .item p {
   font-size: 0.95em;
   margin-bottom: 10px;
-  color: var(--vpn-text-dark);
+  color: var(--text-dark);
   flex-grow: 1;
 }
 .item p.category {
@@ -322,7 +350,7 @@
   font-weight: 500;
   color: #2a2a2c;
   margin-bottom: 15px;
-  background-color: var(--vpn-light-purple-bg);
+  background-color: var(--light-purple-bg);
   padding: 3px 0px;
   border-radius: 15px;
   display: inline-block;
@@ -335,18 +363,18 @@
   margin-top: auto;
 }
 .item-bottom button {
-  background-color: var(--vpn-primary-purple);
-  color: var(--vpn-text-on-purple-bg);
+  background-color: var(--primary-purple);
+  color: var(--text-on-purple-bg);
   padding: 10px 20px;
   border: none;
-  border-radius: var(--vpn-button-radius);
+  border-radius: var(--button-radius);
   cursor: pointer;
   font-weight: 600;
   font-size: 0.9em;
   transition: background-color 0.3s, transform 0.2s;
 }
 .item-bottom button:hover {
-  background-color: var(--vpn-primary-purple-dark);
+  background-color: var(--primary-purple-dark);
   transform: translateY(-1px);
 }
 
@@ -404,11 +432,11 @@
   margin-right: 0;
 }
 button {
-    background-color: var(--vpn-primary-purple);
-    color: var(--vpn-text-on-purple-bg);
+    background-color: var(--primary-purple);
+    color: var(--text-on-purple-bg);
     padding: 10px 20px;
     border: none;
-    border-radius: var(--vpn-button-radius);
+    border-radius: var(--button-radius);
     cursor: pointer;
     font-weight: 600;
     font-size: 0.9em;
@@ -427,29 +455,29 @@ button {
 .toolbox-search input[type="text"] {
   flex: 1 1 0;
   padding: 12px 15px;
-  border: 1px solid var(--vpn-border-color);
-  border-radius: var(--vpn-button-radius);
+  border: 1px solid var(--border-color);
+  border-radius: var(--button-radius);
   font-size: 0.95em;
   box-sizing: border-box;
 }
 .toolbox-search input[type="text"]:focus {
   outline: none;
-  border-color: var(--vpn-primary-purple);
+  border-color: var(--primary-purple);
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
 }
 .toolbox-search button {
   padding: 12px 18px;
-  background-color: var(--vpn-primary-purple);
-  color: var(--vpn-text-on-purple-bg);
+  background-color: var(--primary-purple);
+  color: var(--text-on-purple-bg);
   border: none;
-  border-radius: var(--vpn-button-radius);
+  border-radius: var(--button-radius);
   cursor: pointer;
   font-weight: 600;
   font-size: 1em;
   transition: background-color 0.3s;
 }
 .toolbox-search button:hover {
-  background-color: var(--vpn-primary-purple-dark);
+  background-color: var(--primary-purple-dark);
 }
 
 .footer-content {
@@ -466,7 +494,7 @@ button {
   box-shadow: 0 2px 8px rgba(124,58,237,0.08);
 }
 .toolbox-selection-title button:hover {
-  background: var(--vpn-primary-purple-dark, #4b2fd6);
+  background: var(--primary-purple-dark, #4b2fd6);
   color: #fff;
   box-shadow: 0 6px 18px rgba(124,58,237,0.18);
 }

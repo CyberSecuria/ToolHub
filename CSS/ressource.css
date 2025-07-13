@@ -3,17 +3,17 @@
 
 /* Variables de couleur inspirées de la page VPN */
 :root {
-    --vpn-primary-purple: #7c3aed; /* Violet principal (approximatif) */
-    --vpn-primary-purple-dark: #6D28D9;
-    --vpn-light-purple-bg: #EDE9FE; /* Fond violet très clair */
-    --vpn-dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
-    --vpn-text-light: #F8FAFC;
-    --vpn-text-dark: #334155;
-    --vpn-text-on-purple-bg: #ffffff;
-    --vpn-border-color: #D1D5DB;
-    --vpn-card-bg: #ffffff;
-    --vpn-button-radius: 25px;
-    --vpn-card-radius: 10px;
+    --primary-purple: #7c3aed; /* Violet principal (approximatif) */
+    --primary-purple-dark: #6D28D9;
+    --light-purple-bg: #EDE9FE; /* Fond violet très clair */
+    --dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
+    --text-light: #F8FAFC;
+    --text-dark: #334155;
+    --text-on-purple-bg: #ffffff;
+    --border-color: #D1D5DB;
+    --card-bg: #ffffff;
+    --button-radius: 25px;
+    --card-radius: 10px;
 }
 
 /* Réinitialisation de base et polices */
@@ -21,8 +21,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police sans-serif moderne */
-    background-color: var(--vpn-light-purple-bg); /* Fond général de la page */
-    color: var(--vpn-text-dark);
+    background-color: var(--light-purple-bg); /* Fond général de la page */
+    color: var(--text-dark);
     line-height: 1.6;
 }
 
@@ -59,7 +59,7 @@ nav {
 .logo h1 {
     font-size: 1.9em;
     margin: 0;
-    color: var(--vpn-primary-purple); /* Titre du logo en violet */
+    color: var(--primary-purple); /* Titre du logo en violet */
     font-weight: 700;
 }
 
@@ -76,20 +76,20 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--vpn-text-dark);
+    color: var(--text-dark);
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
 }
 
 .login button {
     margin-left: 12px;
     padding: 10px 22px;
     border: none;
-    border-radius: var(--vpn-button-radius); /* Boutons arrondis */
+    border-radius: var(--button-radius); /* Boutons arrondis */
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
@@ -97,23 +97,23 @@ nav ul li a:hover {
 }
 
 .login button:first-child { /* Bouton Login (style principal) */
-    background-color: var(--vpn-primary-purple);
-    color: var(--vpn-text-on-purple-bg);
+    background-color: var(--primary-purple);
+    color: var(--text-on-purple-bg);
 }
 
 .login button:first-child:hover {
-    background-color: var(--vpn-primary-purple-dark);
+    background-color: var(--primary-purple-dark);
     transform: translateY(-2px);
 }
 
 .login button:last-child { /* Bouton Signup (style secondaire/outline) */
     background-color: transparent;
-    color: var(--vpn-primary-purple);
-    border: 2px solid var(--vpn-primary-purple);
+    color: var(--primary-purple);
+    border: 2px solid var(--primary-purple);
 }
 
 .login button:last-child:hover {
-    background-color: var(--vpn-light-purple-bg); /* Léger fond au survol */
+    background-color: var(--light-purple-bg); /* Léger fond au survol */
     transform: translateY(-2px);
 }
 
@@ -127,12 +127,12 @@ main {
 
 a  {
     text-decoration: none; /* Enlève le soulignement du lien */
-    color: var(--vpn-text-on-purple-bg); /* Couleur du texte du lien */
+    color: var(--text-on-purple-bg); /* Couleur du texte du lien */
     
 }
 
 nav ul li a:visited .visted {
-  color: var(--vpn-text-on-purple-bg);
+  color: var(--text-on-purple-bg);
   text-decoration: none;
 }
 
@@ -157,7 +157,7 @@ nav ul li a:visited .visted {
     padding-left: 30px;
     width: 100%;
     font-size: 1.8em;
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
 }
 
 .ressource-list {
@@ -188,7 +188,7 @@ nav ul li a:visited .visted {
 }
 
 .ressource-list li a:hover {
-    color: var(--vpn-primary-purple);
+    color: var(--primary-purple);
     text-decoration: underline;
 }
 
