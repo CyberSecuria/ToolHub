@@ -38,6 +38,30 @@ header {
     z-index: 1000;
 }
 
+/* Burger menu caché par défaut, visible en mobile */
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 3000;
+    background: none;
+    border: none;
+    padding: 0;
+}
+.burger span {
+    display: block;
+    width: 28px;
+    height: 4px;
+    margin: 4px 0;
+    background: var(--primary-purple, #7c3aed);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
 nav {
     max-width: 1200px;
     margin: 0 auto;
@@ -315,4 +339,27 @@ nav ul li a:visited .visted {
         margin-top: 0;
         width: auto;
     }
+
+    /* Centrage du contenu principal après le header/nav */
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80vw;
+        padding: 0 0 50px 0;
+        margin: 0 auto;
+    }
+    .signup-container {
+        align-items: center;
+        margin: 24px auto 0 auto;
+        max-width: 250px;
+        width: 80%;
+    }
+    .signup-container span {
+        font-weight: bold;
+        margin-left: -8em; /* Ajustement pour le centrage */
+    }
 }
+
+

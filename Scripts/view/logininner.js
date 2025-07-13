@@ -6,7 +6,7 @@ export function loginInner() {
                 <h1>ToolHub</h1>
         </div>
         <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Home</a></li>
             <li><a href="toolbox.html">Toolbox</a></li>
             <li><a href="ressource.html">Ressources</a></li>
         </ul>
@@ -14,7 +14,7 @@ export function loginInner() {
             <button href="login.html">Login</button>
             <button href="signup.html">Sign Up</button>
         </div>
-    </nav> 
+    </nav>
 </header>
     <main> 
     <section>        
