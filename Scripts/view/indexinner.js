@@ -1,3 +1,4 @@
+// inner function to generate the homepage with a card object
 export function homepageInner(card) {
   if (!card) throw new Error("Aucun objet card fourni à homepageInner(card)");
   let template = `<header>
@@ -105,6 +106,7 @@ export function homepageInner(card) {
             <p>&copy; 2025 ToolHub. All rights reserved.</p>
         </div>
     </footer>`;
+  // Replacing the placeholders in the template with the card data
   template = template
     .replace(/{{cardimage}}/g, card.image)
     .replace(/{{cardname}}/g, card.name)
@@ -114,9 +116,9 @@ export function homepageInner(card) {
     .replace(/{{cardrating}}/g, card.rating > 0 ? card.rating : 1)
     .replace(/{{cardlink}}/g, card.link);
 
-  // Ajout du JS pour gérer le modal des reviews
+  // Adding the JavaScript to handle the reviews modal
   setTimeout(() => {
-    // Pour toutes les étoiles, on ajoute le hover et le click
+    // For all the stars, we add hover and click
     document.querySelectorAll('.stars').forEach(star => {
       star.setAttribute('title', 'See reviews');
       star.style.cursor = 'pointer';
@@ -125,12 +127,12 @@ export function homepageInner(card) {
         if(modal) modal.style.display = 'flex';
       });
     });
-    // Fermer le modal
+    // close the modal
     const closeBtn = document.querySelector('.close-modal');
     if(closeBtn) closeBtn.onclick = function() {
       document.getElementById('reviews-modal').style.display = 'none';
     };
-    // Fermer en cliquant en dehors du contenu
+    // "Close by clicking outside the content
     const modal = document.getElementById('reviews-modal');
     if(modal) {
       modal.addEventListener('click', function(e) {

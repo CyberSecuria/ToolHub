@@ -1,4 +1,4 @@
-// Ajoute un gestionnaire d'événement sur tous les bookmarks pour afficher un popup
+// Add an event handler to all bookmarks to display a popup
 export function setupBookmarkPopup() {
   document.addEventListener('click', function(e) {
     const target = e.target;
@@ -9,7 +9,7 @@ export function setupBookmarkPopup() {
 }
 
 function showBookmarkPopup(target) {
-  // Crée le popup
+  // Create the popup
   const popup = document.createElement('div');
   popup.textContent = 'Added to your bookmark';
   popup.style.position = 'fixed';

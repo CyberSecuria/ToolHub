@@ -1,5 +1,4 @@
-// Fonction pour afficher dynamiquement les étoiles selon un nombre (1 à 5)
-// Utilise l'attribut data-stars sur chaque .stars
+// Function to dynamically display stars based on a number (1 to 5) 
 export function renderStars() {
   document.querySelectorAll('.stars').forEach(function(starSpan) {
     let stars = parseFloat(starSpan.getAttribute('data-stars'));
@@ -8,12 +7,9 @@ export function renderStars() {
     let half = (stars % 1) >= 0.5 ? 1 : 0;
     let empty = 5 - full - half;
     let html = '★'.repeat(full);
-    if (half) html += '⯨'; // Unicode demi-étoile (ou utilise une image/svg si tu veux mieux)
+    if (half) html += '⯨';
     html += '☆'.repeat(empty);
     starSpan.textContent = html;
   });
 }
-// Pour l'utiliser :
-// import { renderStars } from './stars.js';
-// renderStars();
-// Appelle cette fonction après avoir injecté le HTML des cards !
+

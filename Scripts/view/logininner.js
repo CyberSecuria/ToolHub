@@ -1,3 +1,4 @@
+// inner function to generate the login page
 export function loginInner() {
   const templatelogin = ` <header>
     <nav>

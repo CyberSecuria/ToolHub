@@ -1,12 +1,12 @@
-/* Importation de la police Inter comme alternative web à Segoe UI */
+/* Importing the Inter font as a web alternative to Segoe UI */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-/* Variables de couleur inspirées de la page VPN */
+/* CSS Root Variables */
 :root {
-    --primary-purple: #7c3aed; /* Violet principal (approximatif) */
+    --primary-purple: #7c3aed;
     --primary-purple-dark: #6D28D9;
-    --light-purple-bg: #EDE9FE; /* Fond violet très clair */
-    --dark-section-bg: #1E293B; /* Pour des sections sombres potentielles */
+    --light-purple-bg: #EDE9FE;
+    --dark-section-bg: #1E293B; 
     --text-light: #F8FAFC;
     --text-dark: #334155;
     --text-on-purple-bg: #ffffff;
@@ -18,19 +18,19 @@
     --footer-text: #334155;
 }
 
-/* Réinitialisation de base et polices */
+/* Basic reset and fonts */
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police sans-serif moderne */
-    background-color: var(--light-purple-bg); /* Fond général de la page */
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-purple-bg);
     color: var(--text-dark);
     line-height: 1.6;
 }
 
-/* Header et Navigation */
+/* Header and Navigation */
 header {
-    background-color: #ffffff; /* Ou var(--vpn-light-purple-bg) si on veut le même fond que le body */
+    background-color: #ffffff;
     padding: 15px 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     position: sticky;
@@ -38,7 +38,7 @@ header {
     z-index: 1000;
 }
 
-/* Burger menu caché par défaut, visible en mobile */
+/* Burger menu hidden by default, visible on mobile */
 .burger {
     display: none;
     flex-direction: column;
@@ -74,7 +74,7 @@ nav {
 .logo {
     display: flex;
     align-items: center;
-    cursor: pointer; /* Pour indiquer que le logo est cliquable */
+    cursor: pointer;
 }
 
 .logo img {
@@ -111,18 +111,23 @@ nav ul li a:hover {
     color: var(--primary-purple);
 }
 
+nav ul li a:visited .visted {
+  color: var(--text-on-purple-bg);
+  text-decoration: none;
+}
+
 .login button {
     margin-left: 12px;
     padding: 10px 22px;
     border: none;
-    border-radius: var(--button-radius); /* Boutons arrondis */
+    border-radius: var(--button-radius);
     cursor: pointer;
     font-weight: bold;
     transition: background-color var(--transition-main), color var(--transition-main), transform 0.2s ease;
     font-size: 0.9em;
 }
 
-.login button:first-child { /* Bouton Login (style principal) */
+.login button:first-child { /* Button Login */
     background-color: var(--primary-purple);
     color: var(--text-on-purple-bg);
 }
@@ -132,14 +137,14 @@ nav ul li a:hover {
     transform: translateY(-2px);
 }
 
-.login button:last-child { /* Bouton Signup (style secondaire/outline) */
+.login button:last-child { /* Button Signup */
     background-color: transparent;
     color: var(--primary-purple);
     border: 2px solid var(--primary-purple);
 }
 
 .login button:last-child:hover {
-    background-color: var(--light-purple-bg); /* Léger fond au survol */
+    background-color: var(--light-purple-bg);
     transform: translateY(-2px);
 }
 
@@ -147,13 +152,13 @@ nav ul li a:hover {
 /* Main Content Area */
 main {
     max-width: 1200px;
-    margin: 30px auto; /* Espace au-dessus et centrage */
+    margin: 30px auto; 
     padding: 0 20px;
 }
 
 a  {
-    text-decoration: none; /* Enlève le soulignement du lien */
-    color: var(--text-on-purple-bg); /* Couleur du texte du lien */
+    text-decoration: none;
+    color: var(--text-on-purple-bg); 
     
 }
 
@@ -165,7 +170,7 @@ a  {
 }
 
 
-
+/* login Form Styles*/
 .login-container {
             background: rgba(255,255,255,0.12);
             border-radius: 16px;
@@ -233,6 +238,7 @@ a  {
             text-decoration: underline;
         }
 
+/* Footer part */     
 .footer-content {
     text-align: center;
     padding: 24px 0;
@@ -241,6 +247,7 @@ a  {
     font-size: 1em;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
     nav {
         flex-direction: row;
@@ -312,9 +319,8 @@ a  {
     nav ul.active {
         display: flex;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 0 0 100vmax rgba(0,0,0,0.18);
-        /* Ajoute un overlay sombre sur tout l'écran */
     }
-    /* Overlay pour l'effet modal du menu burger */
+    /* Overlay for the burger menu modal effect */
     body.menu-open::before {
         content: '';
         position: fixed;
@@ -349,6 +355,6 @@ a  {
     }
     .login-container span {
         font-weight: bold;
-        margin-left: -8em; /* Ajustement pour le centrage */
+        margin-left: -8em;
     }
 }

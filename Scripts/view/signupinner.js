@@ -1,3 +1,4 @@
+// inner function to generate the signup page
 export function signupInner() {
   const templatesignup = `<header>
     <nav>

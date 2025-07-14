@@ -1,5 +1,6 @@
 import { cardsData } from "../../Data/carditem.js";
 
+// inner function to generate the toolbox page
 export function toolsInner() {
   let templatetools = `<header>
     <nav>
@@ -85,7 +86,7 @@ export function toolsInner() {
 
   document.body.innerHTML = templatetools;
 
-  // Générer toutes les cards dynamiquement
+  // Generate all the cards dynamically
   const cardsList = document.getElementById("toolbox-cards-list");
   if (cardsList) {
     cardsList.innerHTML = cardsData.map(card => `

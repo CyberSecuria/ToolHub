@@ -1,3 +1,4 @@
+// inner function to generate the resources page
 export function ressourceInner() {
   const templateressource = `<header>
     <nav>

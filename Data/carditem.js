@@ -1,3 +1,4 @@
+// This file contains the data for the toolbox cards, including their images, names, descriptions, categories, platforms, ratings, links, and devices.
 export const cardsData = [
    {
     id: 1,
