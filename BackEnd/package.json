@@ -1,0 +1,15 @@
+{
+  "name": "toolhub-backend",
+  "version": "1.0.0",
+  "description": "Backend API for ToolHub",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": ["toolhub", "api", "backend"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
