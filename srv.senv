@@ -1,0 +1,14 @@
+# Exemple de fichier .env pour ToolHub
+# Copiez ce fichier en .env et adaptez les valeurs selon votre environnement
+
+# Port d'écoute du backend
+PORT=3000
+
+# URL de connexion à la base de données
+DATABASE_URL=mongodb://localhost:27017/toolhub
+
+# Clé secrète pour JWT ou sessions
+JWT_SECRET=change_this_secret
+
+# Autres variables personnalisées
+# API_KEY=your_api_key_here
