@@ -1,5 +1,5 @@
 {
-  "name": "toolHub",
+  "name": "toolhub",
   "version": "1.0.0",
   "description": "Backend API for ToolHub",
   "main": "src/index.js",
