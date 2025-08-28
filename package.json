@@ -2,10 +2,10 @@
   "name": "toolhub",
   "version": "1.0.0",
   "description": "Backend API for ToolHub",
-  "main": "src/index.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "index.js",
     "dev": "nodemon src/index.js"
   },
   "keywords": ["toolhub", "api", "backend"],
