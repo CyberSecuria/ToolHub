@@ -8,17 +8,18 @@
     "start": "index.js",
     "dev": "nodemon src/index.js"
   },
-  "keywords": ["toolhub", "api", "backend"],
+  "keywords": [
+    "toolhub",
+    "api",
+    "backend"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mysql2": "^3.14.3"
-  },
-  "devDependencies": {}
+    "mysql2": "^3.14.3",
+    "nodemon": "^3.1.10"
+  }
 }
-
-
-
