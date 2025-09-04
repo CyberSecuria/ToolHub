@@ -4,6 +4,12 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// API routers
+import toolsRouter from './BackEnd/routes/toolsRoutes.js';
+import usersRouter from './BackEnd/routes/usersRoutes.js';
+import bookmarksRouter from './BackEnd/routes/bookmarksRoutes.js';
+import authRouter from './BackEnd/routes/authRoutes.js';
+
 dotenv.config({ path: './BackEnd/Config/.env' });
 
 const __filename = fileURLToPath(import.meta.url);
@@ -11,6 +17,15 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// parse JSON bodies
+app.use(express.json());
+
+
+app.use('/api/tools', toolsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/bookmarks', bookmarksRouter);
+app.use('/api/auth', authRouter);
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, 'FrontEnd')));
