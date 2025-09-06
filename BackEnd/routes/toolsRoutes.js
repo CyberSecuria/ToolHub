@@ -6,8 +6,9 @@ const router = express.Router();
 router.get('/', getAllTools);
 router.get('/:id', getToolById);
 router.post('/', createTool);
-router.put('/:id', updateTool);
+router.patch('/:id', updateTool);
 router.delete('/:id', deleteTool);
 
 export default router;
 
+/* ac */
