@@ -22,30 +22,7 @@ export async function getToolById(req, res) {
   }
 }
 
-/* export async function createTool(req, res) {
-  const body = req.body || {};
-  const name = body.name ?? body.Name_Tools ?? body.Name ?? body.NameTools;
-  const description = body.description ?? body.Description_Tools ?? body.Description;
-  if (!name) return res.status(400).json({ error: 'name required' });
-  try {
-    const result = await query(
-      'INSERT INTO tools (Name_Tools, Description_Tools) VALUES (?, ?)',
-      [name, description || null]
-    );
-    const insertId = result && result.insertId ? result.insertId : null;
-    if (insertId) {
-      const rows = await query(
-        'SELECT * FROM tools WHERE ID_Tools = ?',
-        [insertId]
-      );
-      return res.status(201).json(rows[0]);
-    }
-    // fallback: return submitted data
-    res.status(201).json({ name, description });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-} */
+
 
 
 export const createTool = async (req, res) => {
@@ -102,28 +79,6 @@ export const createTool = async (req, res) => {
   }
 };
 
-
-/* export async function updateTool(req, res) {
-  const { id } = req.params;
-  const body = req.body || {};
-  const name = body.name ?? body.Name_Tools ?? body.Name ?? body.NameTools;
-  const description = body.description ?? body.Description_Tools ?? body.Description;
-  try {
-    await query('UPDATE tools SET Name_Tools = ?, Description_Tools = ? WHERE ID_Tools = ?', [
-      name,
-      description,
-      id,
-    ]);
-    const rows = await query(
-      'SELECT ID_Tools AS id, Name_Tools AS name, Description_Tools AS description FROM tools WHERE ID_Tools = ?',
-      [id]
-    );
-    if (!rows || rows.length === 0) return res.status(404).json({ error: 'Tool not found' });
-    res.json(rows[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-} */
 
   export const updateTool = async (req, res) => {
   const { id } = req.params;
