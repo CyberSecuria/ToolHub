@@ -68,12 +68,12 @@ function filterAndRender() {
       checkedCategories.includes(card.category.toLowerCase());
 
     // Platform (web, desktop, mobile)
-    const deviceList = typeof card.device === "string"
-      ? card.device.toLowerCase().split(",").map(d => d.trim())
-      : [];
+    const platformName = card.Platform_Name ? card.Platform_Name.toLowerCase().split(',').map(p => p.trim()) : [];
     const matchPlatform =
       checkedPlatforms.length === 0 ||
-      checkedPlatforms.some(platform => deviceList.includes(platform));
+      checkedPlatforms.some(platform => 
+        platformName.some(p => p === platform.toLowerCase())
+      );
 
     // OS (windows, macos, linux, android, ios)
     const osList = Array.isArray(card.platform)

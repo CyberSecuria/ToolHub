@@ -69,6 +69,7 @@ export async function loadCardsData() {
       })(),
       link: card.Link_Tools ?? card.link ?? card.url ?? card.URL ?? '',
       device: card.device ?? card.devices ?? '',
+      Platform_Name: card.Platform_Name ?? ''
     }));
 
     cardsData.splice(0, cardsData.length, ...mapped); // garde la référence
