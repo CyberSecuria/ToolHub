@@ -1,6 +1,20 @@
 // inner function to generate the homepage with a card object
 export function homepageInner(card) {
-  if (!card) throw new Error("Aucun objet card fourni à homepageInner(card)");
+  // If no card is provided, use safe defaults so the UI can render a fallback
+  // instead of throwing an error. This prevents uncaught exceptions when the
+  // data hasn't loaded yet or when an individual card is missing.
+  if (!card) {
+    card = {
+      image: 'Assets/Card Product Icons/figma icon.png',
+      name: 'No tool available',
+      description: 'There is currently no tool data to display.',
+      category: 'Divers',
+      platform: [],
+      rating: 1,
+      link: '#',
+    };
+  }
+  
   let template = `<header>
         <nav>
             <div class="logo">

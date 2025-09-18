@@ -2,8 +2,9 @@ import { query } from '../Config/database.js';
 
 export async function getAllTools(req, res) {
   try {
+    // include category name from category table
     const rows = await query(
-      'SELECT * FROM tools'
+      'SELECT * FROM `v_tools_summary`'
     );
     res.json({ tools: rows });
   } catch (err) {
@@ -14,14 +15,14 @@ export async function getAllTools(req, res) {
 export async function getToolById(req, res) {
   const { id } = req.params;
   try {
-     const rows = await query('SELECT * FROM tools WHERE ID_Tools = ?', [id]);
+    const rows = await query(
+  'SELECT * FROM v_tools_summary WHERE ID_Tools = ?', [id] );
     if (!rows || rows.length === 0) return res.status(404).json({ error: 'Tool not found' });
     res.json(rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 }
-
 
 
 

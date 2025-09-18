@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 // API routers
 import toolsRouter from './BackEnd/routes/toolsRoutes.js';
@@ -20,6 +21,8 @@ const PORT = process.env.PORT || 3000;
 
 // parse JSON bodies
 app.use(express.json());
+
+app.use(cors()); // Enable CORS for all routes
 
 
 app.use('/api/tools', toolsRouter);
