@@ -4,7 +4,7 @@ export async function getAllTools(req, res) {
   try {
     // include category name from category table
     const rows = await query(
-      'SELECT * FROM `v_tools_summary`'
+      'SELECT * FROM `v_tools_summary`',
     );
     res.json({ tools: rows });
   } catch (err) {

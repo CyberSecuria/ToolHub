@@ -33,8 +33,40 @@ export async function loadCardsData() {
       description: card.Description_Tools ?? card.description ?? card.desc ?? '',
       // category can come from the joined Name_Category alias or other variants
       category: card.Name_Category ?? card.name_category ?? card.categorie ?? card.category ?? card.Category ?? 'Divers',
-      platform: card.platform || card.Platform || [],
-      rating: card.rating ?? card.Rating ?? 0,
+      platform: (() => {
+        // Récupérer les OS depuis Name_OS
+        const osString = card.Name_OS || '';
+        // Séparer par virgules et nettoyer
+        return osString.split(',').map(os => {
+          const osName = os.trim().toLowerCase();
+          let icon = '';
+          
+          // Associer chaque OS avec son icône
+          if (osName.includes('windows')) {
+            icon = 'Assets/Platform Icon/icons8-windows-os.svg';
+          } else if (osName.includes('macos')) {
+            icon = 'Assets/Platform Icon/icons8-mac-os.svg';
+          } else if (osName.includes('linux')) {
+            icon = 'Assets/Platform Icon/linux-svgrepo-com.svg';
+          } else if (osName.includes('android')) {
+            icon = 'Assets/Platform Icon/icons8-android.svg';
+          } else if (osName.includes('ios')) {
+            icon = 'Assets/Platform Icon/icons8-ios.svg';
+          }
+
+          return {
+            name: os.trim(),
+            icon: icon
+          };
+        }).filter(os => os.name && os.icon);  // Ne garder que les OS avec des icônes valides
+      })(),
+      rating: (() => {
+        // Récupérer le rating depuis Stars
+        const stars = card.Stars || '0';
+        // Convertir en nombre
+        const num = parseFloat(stars);
+        return !isNaN(num) ? Math.min(Math.max(num, 0), 5) : 0;
+      })(),
       link: card.Link_Tools ?? card.link ?? card.url ?? card.URL ?? '',
       device: card.device ?? card.devices ?? '',
     }));
