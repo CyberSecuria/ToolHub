@@ -27,6 +27,7 @@ export function homepageInner(card) {
             <li><a href="ressource.html">Ressources</a></li>
         </ul>
         <div class="login">
+        
             <button href="login.html">Login</button>
             <button href="signup.html">Sign Up</button>
         </div>
@@ -114,6 +115,11 @@ export function homepageInner(card) {
             </div>
           </div>
         </div>
+      <div class="fab-container">
+        <span class="fab-label">Add a Tool</span>
+      <button class="fab">+</button>
+  </div>
+
     </main>
     <footer class="site-footer">
         <div class="footer-content">
