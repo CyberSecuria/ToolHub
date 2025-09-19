@@ -38,6 +38,11 @@ body, html {
 
 }
 
+/* Disable background scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
 /* Header and Navigation */
 header {
     background-color: #ffffff;
@@ -553,6 +558,75 @@ aside h3 { /* Title 'Filters' */
   animation: breath 2.5s ease-in-out infinite;
 }
 
+/* Modal (Home Add Tool) */
+.th-modal { display: none; }
+.th-modal[aria-hidden="false"] { display: block; }
+.th-modal .th-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
+}
+.th-modal .th-modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85vw;
+  max-width: 380px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 20px 60px rgba(31,38,135,0.22);
+  z-index: 2001;
+}
+.th-modal h3 {
+  margin: 0 0 6px 0;
+  color: var(--primary-purple);
+  font-size: 1.2em;
+}
+.th-modal .th-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  color: #111;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+.th-form-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+.th-form-row label { font-weight: 600; font-size: 0.95em; color: var(--text-dark); }
+.th-form-row input, .th-form-row textarea {
+  padding: 7px 9px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.9em;
+}
+.th-form-row input:focus, .th-form-row textarea:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+.th-form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+.th-btn-secondary { background: #e5e7eb; color: #111; border-radius: var(--button-radius); padding: 8px 12px; border: none; cursor: pointer; }
+.th-btn-primary { background: var(--primary-purple); color: #fff; border-radius: var(--button-radius); padding: 8px 12px; border: none; cursor: pointer; }
+.th-btn-primary:hover { background: var(--primary-purple-dark); }
+
+@media (max-width: 480px) {
+  .th-modal .th-modal-content {
+    max-width: 320px;
+    width: 90vw;
+    padding: 10px;
+    top: 50%;
+    border-radius: 10px;
+  }
+  .th-modal h3 { font-size: 1.1em; }
+  .th-form-row input, .th-form-row textarea { font-size: 0.9em; }
+  .th-btn-secondary, .th-btn-primary { padding: 7px 10px; }
+}
 
 .footer-content {
   text-align: center;

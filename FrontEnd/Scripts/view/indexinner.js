@@ -1,3 +1,6 @@
+import { cardsData } from "../../Data/carditem.js";
+import { renderStars } from "../Tools/stars.js";
+
 // inner function to generate the homepage with a card object
 export function homepageInner(card) {
   // If no card is provided, use safe defaults so the UI can render a fallback
@@ -117,8 +120,47 @@ export function homepageInner(card) {
         </div>
       <div class="fab-container">
         <span class="fab-label">Add a Tool</span>
-      <button class="fab">+</button>
-  </div>
+        <button class="fab" id="btn-add-tool-index" type="button">+</button>
+      </div>
+
+      <!-- Add Tool Modal (Home) -->
+      <div id="add-tool-modal-index" class="th-modal" aria-hidden="true" role="dialog" aria-labelledby="add-tool-title-index">
+        <div class="th-modal-overlay" data-close-modal></div>
+        <div class="th-modal-content" role="document">
+          <button class="th-modal-close" type="button" aria-label="Close" data-close-modal>&times;</button>
+          <h3 id="add-tool-title-index">Add a new tool</h3>
+          <form id="add-tool-form-index">
+            <div class="th-form-row">
+              <label for="tool-name-index">Name</label>
+              <input id="tool-name-index" name="name" type="text" required placeholder="e.g. Notion">
+            </div>
+            <div class="th-form-row">
+              <label for="tool-description-index">Description</label>
+              <textarea id="tool-description-index" name="description" rows="3" required placeholder="Short description"></textarea>
+            </div>
+            <div class="th-form-row">
+              <label for="tool-category-index">Category</label>
+              <input id="tool-category-index" name="category" type="text" required placeholder="e.g. Productivity">
+            </div>
+            <div class="th-form-row">
+              <label for="tool-link-index">Link</label>
+              <input id="tool-link-index" name="link" type="url" placeholder="https://example.com" required>
+            </div>
+            <div class="th-form-row">
+              <label for="tool-image-index">Image URL</label>
+              <input id="tool-image-index" name="image" type="url" placeholder="https://.../logo.png">
+            </div>
+            <div class="th-form-row">
+              <label for="tool-os-index">OS (comma separated)</label>
+              <input id="tool-os-index" name="os" type="text" placeholder="Windows, macOS, Linux, Android, IOS">
+            </div>
+            <div class="th-form-actions">
+              <button type="button" class="th-btn-secondary" data-close-modal>Cancel</button>
+              <button type="submit" class="th-btn-primary">Add tool</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
     </main>
     <footer class="site-footer">
@@ -164,7 +206,95 @@ export function homepageInner(card) {
   return template;
 }
 
+// Setup handlers for the Home Add Tool modal and submission
+export function setupHomeModal() {
+  let escHandler = null;
 
+  function openModal() {
+    const modal = document.getElementById("add-tool-modal-index");
+    if (modal) modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add('modal-open');
+    escHandler = (e) => { if (e.key === 'Escape') closeModal(); };
+    window.addEventListener('keydown', escHandler);
+  }
 
+  function closeModal() {
+    const modal = document.getElementById("add-tool-modal-index");
+    if (modal) modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove('modal-open');
+    if (escHandler) { window.removeEventListener('keydown', escHandler); escHandler = null; }
+  }
 
+  function attach() {
+    const openBtn = document.getElementById("btn-add-tool-index");
+    const modal = document.getElementById("add-tool-modal-index");
+    const form = document.getElementById("add-tool-form-index");
+    if (!openBtn || !modal || !form) return;
 
+    openBtn.addEventListener("click", openModal);
+    modal.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeModal));
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const name = String(formData.get('name') || '').trim();
+      const description = String(formData.get('description') || '').trim();
+      const category = String(formData.get('category') || '').trim();
+      const image = String(formData.get('image') || '').trim();
+      const link = String(formData.get('link') || '').trim();
+      const os = String(formData.get('os') || '').trim();
+
+      if (!name || !description || !category || !link) {
+        alert('Please fill name, description, category and link.');
+        return;
+      }
+
+      const platform = os
+        .split(',')
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean)
+        .map(osName => {
+          let icon = '';
+          if (osName.includes('windows')) icon = 'Assets/Platform Icon/icons8-windows-os.svg';
+          else if (osName.includes('mac')) icon = 'Assets/Platform Icon/icons8-mac-os.svg';
+          else if (osName.includes('linux')) icon = 'Assets/Platform Icon/linux-svgrepo-com.svg';
+          else if (osName.includes('android')) icon = 'Assets/Platform Icon/icons8-android.svg';
+          else if (osName.includes('ios')) icon = 'Assets/Platform Icon/icons8-ios.svg';
+          return icon ? { name: osName, icon } : null;
+        })
+        .filter(Boolean);
+
+      const newCard = {
+        id: `local-${Date.now()}`,
+        image: image || 'Assets/Card Product Icons/figma icon.png',
+        alt: name,
+        name,
+        description,
+        category,
+        platform,
+        rating: 4,
+        link
+      };
+
+      cardsData.unshift(newCard);
+
+      // Re-render home cards
+      const itemsHTML = cardsData
+        .map((card) => {
+          const temp = document.createElement("div");
+          temp.innerHTML = homepageInner(card);
+          const itemDiv = temp.querySelector(".item");
+          return itemDiv ? itemDiv.outerHTML : "";
+        })
+        .join("");
+      const items = document.querySelector(".items");
+      if (items) items.innerHTML = itemsHTML;
+      renderStars();
+      closeModal();
+      form.reset();
+    });
+  }
+
+  // Ensure DOM is ready (template has been injected already in index.js)
+  setTimeout(attach, 0);
+}

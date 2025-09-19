@@ -3,7 +3,7 @@ import { setupFilterSearch } from "./controler/filtercontroler.js";
 import { setupBurgerMenu } from "./Tools/burgerMenu.js";
 import { addHeaderEventListeners } from "./controler/headercontroler.js";
 import { renderStars } from "./Tools/stars.js";
-import { homepageInner } from "./view/indexinner.js";
+import { homepageInner, setupHomeModal } from "./view/indexinner.js";
 import { setupBookmarkPopup } from "./controler/bookmark-controler.js";
 
 // Inject the main template with the first card (for the structure).
@@ -31,3 +31,5 @@ setupFilterSearch();
 setupBurgerMenu();
 
 setupBookmarkPopup() 
+
+setupHomeModal();
