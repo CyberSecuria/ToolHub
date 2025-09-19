@@ -101,7 +101,11 @@ function filterAndRender() {
   }).join("");
   document.querySelector(".items").innerHTML = itemsHTML;
   renderStars();
-  updateStarCounts(filtered);
+
+  // Keep original counts (don't filter by current selection)
+  setTimeout(() => {
+    updateStarCounts(cardsData);
+  }, 10);
 }
 
 // Update the number of cards for each star filter

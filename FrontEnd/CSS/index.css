@@ -38,6 +38,7 @@ body, html {
 
 }
 
+@import url('./scrollbar.css');
 /* Disable background scroll when modal is open */
 body.modal-open {
     overflow: hidden;
