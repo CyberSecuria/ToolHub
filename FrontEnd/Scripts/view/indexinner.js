@@ -234,7 +234,7 @@ export function setupHomeModal() {
     openBtn.addEventListener("click", openModal);
     modal.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeModal));
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
       const name = String(formData.get('name') || '').trim();
@@ -264,37 +264,172 @@ export function setupHomeModal() {
         })
         .filter(Boolean);
 
-      const newCard = {
-        id: `local-${Date.now()}`,
-        image: image || 'Assets/Card Product Icons/figma icon.png',
-        alt: name,
-        name,
-        description,
-        category,
-        platform,
-        rating: 4,
-        link
+      // Adapter les champs au format attendu par le backend (createTool)
+      const payload = {
+        Name_Tools: name,
+        Description_Tools: description,
+        Link_Tools: link,
+        ImageTools: image || 'Assets/Card Product Icons/figma icon.png',
+        Image_Alt: name,
+        ID_Category: 1 // TODO: remplacer par l'ID réel de la catégorie choisie
       };
 
-      cardsData.unshift(newCard);
+      try {
+        // Envoyer les données à la route POST /api/tools (montée dans index.js)
+        // FORCER L'APPEL AU BON SERVEUR BACKEND
+        const apiUrl = `http://localhost:3001/api/tools`;
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
 
-      // Re-render home cards
-      const itemsHTML = cardsData
-        .map((card) => {
-          const temp = document.createElement("div");
-          temp.innerHTML = homepageInner(card);
-          const itemDiv = temp.querySelector(".item");
-          return itemDiv ? itemDiv.outerHTML : "";
-        })
-        .join("");
-      const items = document.querySelector(".items");
-      if (items) items.innerHTML = itemsHTML;
-      renderStars();
-      closeModal();
-      form.reset();
+        if (response.ok) {
+          const result = await response.json();
+          
+          // Message de confirmation dans la page
+          showSuccessMessage(`Tool "${name}" has been successfully added!`);
+          
+          // Ajouter le nouvel outil à la liste locale pour l'affichage immédiat
+          const newCard = {
+            id: result.ID_Tools || result.id || `local-${Date.now()}`,
+            image: payload.ImageTools,
+            alt: name,
+            name,
+            description,
+            category,
+            platform,
+            rating: 4,
+            link
+          };
+
+          cardsData.unshift(newCard);
+
+          // Re-render home cards
+          const itemsHTML = cardsData
+            .map((card) => {
+              const temp = document.createElement("div");
+              temp.innerHTML = homepageInner(card);
+              const itemDiv = temp.querySelector(".item");
+              return itemDiv ? itemDiv.outerHTML : "";
+            })
+            .join("");
+          const items = document.querySelector(".items");
+          if (items) items.innerHTML = itemsHTML;
+          renderStars();
+          closeModal();
+          form.reset();
+        } else {
+          let message = 'Unknown error';
+          try {
+            const maybeJson = await response.json();
+            message = maybeJson.message || JSON.stringify(maybeJson);
+          } catch (_) {
+            try {
+              message = await response.text();
+            } catch (__) {}
+          }
+          showErrorMessage(`Error adding tool (HTTP ${response.status}): ${message}`);
+        }
+      } catch (error) {
+        console.error('Error sending tool data:', error);
+        showErrorMessage(`Network error: Unable to add tool. Please check your connection.`);
+      }
     });
   }
 
   // Ensure DOM is ready (template has been injected already in index.js)
   setTimeout(attach, 0);
+}
+
+// Fonctions pour afficher des messages de notification dans la page
+function showSuccessMessage(message) {
+  showNotification(message, 'success');
+}
+
+function showErrorMessage(message) {
+  showNotification(message, 'error');
+}
+
+function showNotification(message, type) {
+  // Créer l'élément de notification
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <span class="notification-icon">${type === 'success' ? '✅' : '❌'}</span>
+      <span class="notification-message">${message}</span>
+      <button class="notification-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+    </div>
+  `;
+
+  // Ajouter les styles CSS inline pour que ça fonctionne immédiatement
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
+    border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
+    color: ${type === 'success' ? '#155724' : '#721c24'};
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    max-width: 400px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    animation: slideIn 0.3s ease-out;
+  `;
+
+  // Styles pour le contenu
+  const content = notification.querySelector('.notification-content');
+  content.style.cssText = `
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `;
+
+  // Styles pour le bouton de fermeture
+  const closeBtn = notification.querySelector('.notification-close');
+  closeBtn.style.cssText = `
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+    margin-left: auto;
+  `;
+
+  // Ajouter l'animation CSS
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  `;
+  if (!document.querySelector('style[data-notification-styles]')) {
+    style.setAttribute('data-notification-styles', 'true');
+    document.head.appendChild(style);
+  }
+
+  // Ajouter la notification au body
+  document.body.appendChild(notification);
+
+  // Auto-suppression après 5 secondes
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.style.animation = 'slideIn 0.3s ease-out reverse';
+      setTimeout(() => notification.remove(), 300);
+    }
+  }, 5000);
 }
