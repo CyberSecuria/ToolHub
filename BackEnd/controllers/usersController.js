@@ -76,31 +76,59 @@ export async function createUser(req, res) {
 export async function updateUser(req, res) {
   const { id } = req.params;
   const body = req.body || {};
-  let { username, email, password, roleId } = body;
+  let { username, email, password, currentPassword, roleId } = body;
 
   try {
-    // Récupérer l'utilisateur existant
-    const existing = await query('SELECT Name, Email, ID_Role FROM users WHERE ID_User = ?', [id]);
+    // Récupérer l'utilisateur existant avec le mot de passe
+    const existing = await query('SELECT Name, Email, Password, ID_Role FROM users WHERE ID_User = ?', [id]);
     if (!existing?.length) return res.status(404).json({ error: 'User not found' });
 
-    // Si un champ n'est pas fourni ou vide, garder l'existant
-    username = username?.trim() ? username : existing[0].Name;
-    email = email?.trim() ? email : existing[0].Email;
-    roleId = Number.isInteger(roleId) ? roleId : existing[0].ID_Role;
+    const existingUser = existing[0];
 
+    // Si un champ n'est pas fourni ou vide, garder l'existant
+    username = username?.trim() ? username : existingUser.Name;
+    email = email?.trim() ? email : existingUser.Email;
+    roleId = Number.isInteger(roleId) ? roleId : existingUser.ID_Role;
+
+    // Vérifier l'unicité du nom d'utilisateur et email (sauf pour l'utilisateur actuel)
+    if (username !== existingUser.Name || email !== existingUser.Email) {
+      const duplicateCheck = await query(
+        'SELECT ID_User FROM users WHERE (Name = ? OR Email = ?) AND ID_User != ?',
+        [username, email, id]
+      );
+      
+      if (duplicateCheck && duplicateCheck.length > 0) {
+        return res.status(409).json({ error: 'Username or email already exists' });
+      }
+    }
+
+    // Si on veut changer le mot de passe, vérifier le mot de passe actuel
     if (password?.trim()) {
+      if (!currentPassword) {
+        return res.status(400).json({ error: 'Current password is required to change password' });
+      }
+
+      // Vérifier le mot de passe actuel
+      const match = await bcrypt.compare(currentPassword, existingUser.Password);
+      if (!match) {
+        return res.status(401).json({ error: 'Current password is incorrect' });
+      }
+
+      // Hasher le nouveau mot de passe
       const hash = await bcrypt.hash(password, 10);
       await query(
         'UPDATE users SET Name = ?, Email = ?, Password = ?, ID_Role = ? WHERE ID_User = ?',
         [username, email, hash, roleId, id]
       );
     } else {
+      // Mise à jour sans changer le mot de passe
       await query(
         'UPDATE users SET Name = ?, Email = ?, ID_Role = ? WHERE ID_User = ?',
         [username, email, roleId, id]
       );
     }
 
+    // Récupérer les données mises à jour
     const rows = await query(
       'SELECT ID_User AS id, Name AS username, Email AS email, Register_date AS registeredAt, ID_Role AS roleId FROM users WHERE ID_User = ?',
       [id]
@@ -108,6 +136,7 @@ export async function updateUser(req, res) {
 
     res.json(rows[0]);
   } catch (err) {
+    console.error('Update user error:', err);
     res.status(500).json({ error: err.message });
   }
 }

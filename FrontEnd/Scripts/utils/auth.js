@@ -136,7 +136,30 @@ export class AuthManager {
 
   // Show user menu (placeholder for future implementation)
   showUserMenu() {
-    alert(`Logged in as: ${this.user.username}\nEmail: ${this.user.email}\nRole ID: ${this.user.roleId}`);
+    const userMenuOptions = [
+      'View Profile',
+      'Settings', 
+      'Logout'
+    ];
+    
+    const choice = prompt(
+      `Logged in as: ${this.user.username}\nEmail: ${this.user.email}\n\nChoose an option:\n1. View Profile\n2. Settings\n3. Logout\n\nEnter number (1-3):`
+    );
+    
+    switch(choice) {
+      case '1':
+        window.location.href = 'profile.html';
+        break;
+      case '2':
+        window.location.href = 'profile.html';
+        break;
+      case '3':
+        this.handleLogout();
+        break;
+      default:
+        // Do nothing for invalid choice
+        break;
+    }
   }
 }
 
