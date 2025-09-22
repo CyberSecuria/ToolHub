@@ -24,7 +24,6 @@ app.use(express.json());
 
 app.use(cors()); // Enable CORS for all routes
 
-
 app.use('/api/tools', toolsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/bookmarks', bookmarksRouter);

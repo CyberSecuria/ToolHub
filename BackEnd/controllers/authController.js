@@ -16,15 +16,44 @@ function signRefresh(user) {
 }
 
 export async function register(req, res) {
-  const { username, password } = req.body || {};
-  if (!username || !password) return res.status(400).json({ error: 'username and password required' });
+  const { username, email, password, confirmPassword } = req.body || {};
+  if (!username || !email || !password) return res.status(400).json({ error: 'username, email and password required' });
+  
+  if (confirmPassword && password !== confirmPassword) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
+  
   try {
+    // Check if user already exists
+    const existingUser = await query('SELECT ID_User FROM users WHERE Name = ? OR Email = ?', [username, email]);
+    if (existingUser && existingUser.length > 0) {
+      return res.status(409).json({ error: 'Username or email already exists' });
+    }
+    
     const hash = await bcrypt.hash(password, 10);
-    const result = await query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash]);
-    const insertId = result && result.insertId ? result.insertId : null;
-    const user = insertId ? (await query('SELECT id, username FROM users WHERE id = ?', [insertId]))[0] : { username };
-    res.status(201).json(user);
+    const roleId = 1; // Default role
+    const result = await query('INSERT INTO users (Name, Email, Password, Register_date, ID_Role) VALUES (?, ?, ?, NOW(), ?)', [username, email, hash, roleId]);
+    
+    const rows = await query('SELECT ID_User AS id, Name AS username, Email AS email, Register_date AS registeredAt, ID_Role AS roleId FROM users WHERE ID_User = ?', [result.insertId]);
+    const newUser = rows[0];
+    
+    const accessToken = signAccess(newUser);
+    const refreshToken = signRefresh(newUser);
+    
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      accessToken,
+      refreshToken,
+      user: {
+        id: newUser.id,
+        username: newUser.username,
+        email: newUser.email,
+        roleId: newUser.roleId
+      }
+    });
   } catch (err) {
+    console.error('Register error:', err);
     res.status(500).json({ error: err.message });
   }
 }
@@ -33,17 +62,31 @@ export async function login(req, res) {
   const { username, password } = req.body || {};
   if (!username || !password) return res.status(400).json({ error: 'username and password required' });
   try {
-    const rows = await query('SELECT id, username, password FROM users WHERE username = ? LIMIT 1', [username]);
+    // Use your actual database structure
+    const rows = await query('SELECT ID_User AS id, Name AS username, Email AS email, Password AS password, ID_Role AS roleId FROM users WHERE Name = ? OR Email = ? LIMIT 1', [username, username]);
     if (!rows || rows.length === 0) return res.status(401).json({ error: 'invalid credentials' });
     const user = rows[0];
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: 'invalid credentials' });
     const accessToken = signAccess(user);
     const refreshToken = signRefresh(user);
-    // store refresh token (simple storage)
-    await query('INSERT INTO refresh_tokens (user_id, token) VALUES (?, ?)', [user.id, refreshToken]);
-    res.json({ accessToken, refreshToken, user: { id: user.id, username: user.username } });
+    
+    // For now, we'll skip storing refresh tokens in a separate table since it doesn't exist
+    // await query('INSERT INTO refresh_tokens (user_id, token) VALUES (?, ?)', [user.id, refreshToken]);
+    
+    res.json({ 
+      success: true,
+      accessToken, 
+      refreshToken, 
+      user: { 
+        id: user.id, 
+        username: user.username, 
+        email: user.email,
+        roleId: user.roleId 
+      } 
+    });
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ error: err.message });
   }
 }

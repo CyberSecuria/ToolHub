@@ -5,6 +5,7 @@ import { addHeaderEventListeners } from "./controler/headercontroler.js";
 import { renderStars } from "./Tools/stars.js";
 import { homepageInner, setupHomeModal } from "./view/indexinner.js";
 import { setupBookmarkPopup } from "./controler/bookmark-controler.js";
+import { authManager } from "./utils/auth.js";
 
 // Inject the main template with the first card (for the structure).
 document.querySelector("body").innerHTML = homepageInner(cardsData[0]);
@@ -33,3 +34,6 @@ setupBurgerMenu();
 setupBookmarkPopup() 
 
 setupHomeModal();
+
+// Initialize authentication UI
+authManager.updateUI();
