@@ -34,7 +34,9 @@ export const createTool = async (req, res) => {
     ImageTools,
     Image_Alt,
     ID_Statut = 1,   // par défaut Active
-    ID_Category
+    ID_Category,
+    Name_OS,           // Nouveau champ pour les OS
+    Platform_Name      // Nouveau champ pour les plateformes
   } = req.body;
 
   // Validation obligatoire
@@ -54,12 +56,29 @@ export const createTool = async (req, res) => {
       return res.status(400).json({ message: 'Invalid ID_Category' });
     }
 
+    // Préparer les champs et valeurs pour l'insertion
+    let fields = ['Name_Tools', 'Description_Tools', 'Link_Tools', 'ImageTools', 'Image_Alt', 'ID_Statut', 'ID_Category', 'Add_Date'];
+    let placeholders = ['?', '?', '?', '?', '?', '?', '?', 'NOW()'];
+    let values = [Name_Tools, Description_Tools, Link_Tools, ImageTools, Image_Alt, ID_Statut, ID_Category];
+
+    // Ajouter Name_OS si fourni
+    if (Name_OS) {
+      fields.push('Name_OS');
+      placeholders.push('?');
+      values.push(Name_OS);
+    }
+
+    // Ajouter Platform_Name si fourni
+    if (Platform_Name) {
+      fields.push('Platform_Name');
+      placeholders.push('?');
+      values.push(Platform_Name);
+    }
+
     // Insérer le nouvel outil
     const result = await query(
-      `INSERT INTO tools
-       (Name_Tools, Description_Tools, Link_Tools, ImageTools, Image_Alt, ID_Statut, ID_Category, Add_Date)
-       VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
-      [Name_Tools, Description_Tools, Link_Tools, ImageTools, Image_Alt, ID_Statut, ID_Category]
+      `INSERT INTO tools (${fields.join(', ')}) VALUES (${placeholders.join(', ')})`,
+      values
     );
 
     const newTool = {
@@ -70,13 +89,16 @@ export const createTool = async (req, res) => {
       ImageTools,
       Image_Alt,
       ID_Statut,
-      ID_Category
+      ID_Category,
+      Name_OS: Name_OS || null,
+      Platform_Name: Platform_Name || null
     };
 
     res.status(201).json(newTool);
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error creating tool:', error);
+    res.status(500).json({ message: error.message, details: error.toString() });
   }
 };
 

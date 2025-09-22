@@ -264,14 +264,23 @@ export function setupHomeModal() {
         })
         .filter(Boolean);
 
+      // Convertir les plateformes en chaîne d'OS pour la base de données
+      const osString = platform.map(p => p.name).join(', ');
+
+      // Créer une description cachée avec les OS pour la base de données (non visible à l'utilisateur)
+      const hiddenOSData = osString ? `[HIDDEN_OS:${osString}]` : '';
+      const descriptionWithHiddenOS = `${description}${hiddenOSData}`;
+
       // Adapter les champs au format attendu par le backend (createTool)
       const payload = {
         Name_Tools: name,
-        Description_Tools: description,
+        Description_Tools: descriptionWithHiddenOS,
         Link_Tools: link,
         ImageTools: image || 'Assets/Card Product Icons/figma icon.png',
         Image_Alt: name,
-        ID_Category: 1 // TODO: remplacer par l'ID réel de la catégorie choisie
+        ID_Category: 1, // TODO: remplacer par l'ID réel de la catégorie choisie
+        Name_OS: osString || null,  // Envoyer les OS au backend (peut ne pas fonctionner)
+        Platform_Name: 'Desktop'    // Valeur par défaut, peut être améliorée
       };
 
       try {

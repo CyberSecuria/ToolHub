@@ -30,21 +30,50 @@ export async function loadCardsData() {
       })(),
       alt: card.Image_Alt ?? (card.alt || card.altText || ''),
       name: card.Name_Tools ?? card.name ?? card.nom ?? card.titre ?? '',
-      description: card.Description_Tools ?? card.description ?? card.desc ?? '',
+      description: (() => {
+        const rawDesc = card.Description_Tools ?? card.description ?? card.desc ?? '';
+        // Nettoyer la description en supprimant les données cachées d'OS
+        return rawDesc
+          .replace(/\[HIDDEN_OS:[^\]]*\]/g, '') // Supprimer [HIDDEN_OS:...]
+          .replace(/\s*-\s*OS:\s*[^-\n]*$/g, '') // Supprimer aussi l'ancien format "- OS: ..."
+          .trim();
+      })(),
       // category can come from the joined Name_Category alias or other variants
       category: card.Name_Category ?? card.name_category ?? card.categorie ?? card.category ?? card.Category ?? 'Divers',
       platform: (() => {
         // Récupérer les OS depuis Name_OS
         const osString = card.Name_OS || '';
+        
+        // Si pas d'OS dans la base, essayer de récupérer depuis la description
+        let osToProcess = osString;
+        if (!osString && card.Description_Tools) {
+          // Chercher d'abord le nouveau format caché [HIDDEN_OS:...]
+          const hiddenOSMatch = card.Description_Tools.match(/\[HIDDEN_OS:([^\]]+)\]/);
+          if (hiddenOSMatch) {
+            osToProcess = hiddenOSMatch[1].trim();
+          } else if (card.Description_Tools.includes('OS:')) {
+            // Fallback vers l'ancien format "- OS: ..."
+            const osMatch = card.Description_Tools.match(/OS:\s*([^-\n]+)/);
+            if (osMatch) {
+              osToProcess = osMatch[1].trim();
+            }
+          }
+        }
+        
+        // Si toujours pas d'OS, retourner un tableau vide
+        if (!osToProcess) {
+          return [];
+        }
+        
         // Séparer par virgules et nettoyer
-        return osString.split(',').map(os => {
+        return osToProcess.split(',').map(os => {
           const osName = os.trim().toLowerCase();
           let icon = '';
           
           // Associer chaque OS avec son icône
           if (osName.includes('windows')) {
             icon = 'Assets/Platform Icon/icons8-windows-os.svg';
-          } else if (osName.includes('macos')) {
+          } else if (osName.includes('macos') || osName.includes('mac')) {
             icon = 'Assets/Platform Icon/icons8-mac-os.svg';
           } else if (osName.includes('linux')) {
             icon = 'Assets/Platform Icon/linux-svgrepo-com.svg';
