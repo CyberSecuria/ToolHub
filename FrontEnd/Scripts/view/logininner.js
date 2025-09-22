@@ -65,6 +65,8 @@ function setupLoginForm() {
       }
       
       try {
+        console.log('🔐 Attempting login with:', { username, password: '***' });
+        
         const response = await fetch('http://localhost:3001/api/auth/login', {
           method: 'POST',
           headers: {
@@ -73,9 +75,13 @@ function setupLoginForm() {
           body: JSON.stringify({ username, password })
         });
         
+        console.log('📡 Response status:', response.status);
+        console.log('📡 Response headers:', response.headers);
+        
         let data;
         try {
           data = await response.json();
+          console.log('📦 Response data:', data);
         } catch (jsonError) {
           console.error('JSON parsing error:', jsonError);
           showError('Server response error. Please try again.');

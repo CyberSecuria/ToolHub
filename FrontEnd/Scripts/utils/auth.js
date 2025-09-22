@@ -83,17 +83,15 @@ export class AuthManager {
     if (!this.accessToken) return false;
     
     try {
-      const response = await fetch('/api/users/verify', {
-        method: 'POST',
+      const response = await fetch('http://localhost:3001/api/auth/me', {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': this.getAuthHeader()
         }
       });
       
       if (response.ok) {
-        const data = await response.json();
-        return data.valid;
+        return true; // If we get a successful response, token is valid
       }
       return false;
     } catch (error) {

@@ -58,12 +58,12 @@ export function profileInner() {
           <form id="personalInfoForm">
             <div class="form-group">
               <label for="username">Username</label>
-              <input type="text" id="username" name="username" value="${user.username}" required>
+              <input type="text" id="username" name="username" value="${user.username}" autocomplete="username" required>
             </div>
             
             <div class="form-group">
               <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" value="${user.email}" required>
+              <input type="email" id="email" name="email" value="${user.email}" autocomplete="email" required>
             </div>
             
             <div class="btn-group">
@@ -81,17 +81,17 @@ export function profileInner() {
           <form id="passwordForm">
             <div class="form-group">
               <label for="currentPassword">Current Password</label>
-              <input type="password" id="currentPassword" name="currentPassword" required>
+              <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
             </div>
             
             <div class="form-group">
               <label for="newPassword">New Password</label>
-              <input type="password" id="newPassword" name="newPassword" required minlength="6">
+              <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" required minlength="6">
             </div>
             
             <div class="form-group">
               <label for="confirmNewPassword">Confirm New Password</label>
-              <input type="password" id="confirmNewPassword" name="confirmNewPassword" required minlength="6">
+              <input type="password" id="confirmNewPassword" name="confirmNewPassword" autocomplete="new-password" required minlength="6">
             </div>
             
             <div class="btn-group">
