@@ -294,6 +294,16 @@ async function handlePersonalInfoUpdate(e) {
   }
 
   try {
+    // Vérifier et rafraîchir le token si nécessaire
+    const isTokenValid = await authManager.verifyToken();
+    if (!isTokenValid) {
+      showMessage(messagesDiv, 'Your session has expired. Please login again.', 'error');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+      return;
+    }
+
     const user = authManager.getCurrentUser();
     const response = await fetch(`http://localhost:3001/api/users/${user.id}`, {
       method: 'PATCH',
@@ -305,6 +315,7 @@ async function handlePersonalInfoUpdate(e) {
     });
 
     const data = await response.json();
+    console.log('Update response:', { status: response.status, data });
 
     if (response.ok) {
       // Update local user data
@@ -354,6 +365,16 @@ async function handlePasswordChange(e) {
   }
 
   try {
+    // Vérifier et rafraîchir le token si nécessaire
+    const isTokenValid = await authManager.verifyToken();
+    if (!isTokenValid) {
+      showMessage(messagesDiv, 'Your session has expired. Please login again.', 'error');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+      return;
+    }
+
     const user = authManager.getCurrentUser();
     const response = await fetch(`http://localhost:3001/api/users/${user.id}`, {
       method: 'PATCH',

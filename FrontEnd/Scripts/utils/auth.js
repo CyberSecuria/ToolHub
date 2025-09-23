@@ -78,7 +78,33 @@ export class AuthManager {
     return this.accessToken ? `Bearer ${this.accessToken}` : null;
   }
 
-  // Verify token with server
+  // Refresh the access token using the refresh token
+  async refreshAccessToken() {
+    if (!this.refreshToken) return false;
+
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/refresh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refreshToken: this.refreshToken })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        this.accessToken = data.accessToken;
+        this.saveToStorage();
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Token refresh error:', error);
+      return false;
+    }
+  }
+
+  // Verify token with server and attempt refresh if needed
   async verifyToken() {
     if (!this.accessToken) return false;
     
@@ -91,7 +117,18 @@ export class AuthManager {
       });
       
       if (response.ok) {
-        return true; // If we get a successful response, token is valid
+        return true;
+      }
+
+      // Si le token est invalide (401), essayer de le rafraîchir
+      if (response.status === 401) {
+        const refreshed = await this.refreshAccessToken();
+        if (refreshed) {
+          return true;
+        }
+        // Si le rafraîchissement échoue, déconnecter l'utilisateur
+        this.logout();
+        window.location.href = 'login.html';
       }
       return false;
     } catch (error) {

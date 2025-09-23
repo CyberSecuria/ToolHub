@@ -77,6 +77,9 @@ export async function updateUser(req, res) {
   const { id } = req.params;
   const body = req.body || {};
   let { username, email, password, currentPassword, roleId } = body;
+  
+  console.log('Update request:', { id, body });
+  console.log('User from token:', req.user);
 
   try {
     // Récupérer l'utilisateur existant avec le mot de passe

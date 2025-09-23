@@ -19,7 +19,7 @@ export function requireAuth(req, res, next) {
 // Middleware to check if user can modify the resource (own profile only)
 export function requireOwnership(req, res, next) {
   const resourceId = parseInt(req.params.id);
-  const userId = req.user.id;
+  const userId = parseInt(req.user.id);
   
   if (resourceId !== userId) {
     return res.status(403).json({ error: 'You can only modify your own profile' });
