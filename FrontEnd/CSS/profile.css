@@ -666,12 +666,10 @@ main {
     }
     
     nav ul {
-        flex-direction: row;
         align-items: center;
-        width: auto;
         margin-top: 0;
-        gap: 10px;
-    }
+        gap: 20px;
+    } 
     nav ul li {
         margin-left: 0;
         margin-bottom: 0;
