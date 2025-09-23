@@ -114,6 +114,35 @@ export function profileInner() {
           </div>
         </div>
       </div>
+
+      <!-- Delete Account Modal -->
+      <div id="deleteAccountModal" class="th-modal" aria-hidden="true" role="dialog" aria-labelledby="delete-account-title">
+        <div class="th-modal-overlay" data-close-modal></div>
+        <div class="th-modal-content delete-modal-content" role="document">
+          <button class="th-modal-close" type="button" aria-label="Close" data-close-modal>&times;</button>
+          <h3 id="delete-account-title" class="delete-title">⚠️ Delete Account</h3>
+          
+          <div class="delete-warning">
+            <p><strong>Are you sure you want to delete your account?</strong></p>
+            <p>This action cannot be undone and will permanently delete:</p>
+            <ul>
+              <li>Your profile information</li>
+              <li>Your bookmarks and saved tools</li>
+              <li>All associated data</li>
+            </ul>
+          </div>
+
+          <div class="delete-confirmation">
+            <label for="deleteConfirmInput">Type <strong>"DELETE"</strong> to confirm:</label>
+            <input type="text" id="deleteConfirmInput" placeholder="Type DELETE here" class="delete-input">
+          </div>
+
+          <div class="th-form-actions delete-actions">
+            <button type="button" class="th-btn-secondary" data-close-modal>Cancel</button>
+            <button type="button" class="th-btn-danger" id="confirmDeleteBtn" disabled>Delete Account</button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="site-footer">
@@ -124,6 +153,9 @@ export function profileInner() {
   `;
 
   document.body.innerHTML = templateProfile;
+  
+  // Load modal styles immediately
+  ensureModalStyles();
   
   // Setup event listeners
   setupProfileEventListeners();
@@ -138,12 +170,12 @@ function setupProfileEventListeners() {
     });
   }
 
-  // User menu button (could show dropdown in future)
+  // User menu button - since we're already on profile page, no need to redirect
   const userMenuBtn = document.getElementById('userMenuBtn');
   if (userMenuBtn) {
     userMenuBtn.addEventListener('click', () => {
-      // For now, just show user info
-      authManager.showUserMenu();
+      // Already on profile page, no action needed or could scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
@@ -174,6 +206,78 @@ function setupProfileEventListeners() {
   const deleteAccountBtn = document.getElementById('deleteAccountBtn');
   if (deleteAccountBtn) {
     deleteAccountBtn.addEventListener('click', handleDeleteAccount);
+  }
+
+  // Setup delete modal event listeners
+  setupDeleteModalEventListeners();
+}
+
+function setupDeleteModalEventListeners() {
+  console.log('Setting up delete modal event listeners...');
+  
+  const modal = document.getElementById('deleteAccountModal');
+  const confirmInput = document.getElementById('deleteConfirmInput');
+  const confirmBtn = document.getElementById('confirmDeleteBtn');
+  
+  console.log('Modal elements found:', { modal, confirmInput, confirmBtn });
+  
+  if (!modal || !confirmInput || !confirmBtn) {
+    console.warn('Some modal elements not found, skipping event listeners setup');
+    return;
+  }
+
+  // Close modal functionality
+  const closeElements = modal.querySelectorAll('[data-close-modal]');
+  closeElements.forEach(el => {
+    el.addEventListener('click', closeDeleteModal);
+  });
+
+  // Close on escape key
+  let escHandler = (e) => {
+    if (e.key === 'Escape') closeDeleteModal();
+  };
+  
+  // Input validation for DELETE confirmation
+  confirmInput.addEventListener('input', (e) => {
+    const value = e.target.value.trim();
+    confirmBtn.disabled = value !== 'DELETE';
+  });
+
+  // Confirm delete button
+  confirmBtn.addEventListener('click', () => {
+    if (confirmInput.value.trim() === 'DELETE') {
+      deleteUserAccount();
+    }
+  });
+
+  // Add escape handler when modal opens
+  modal.addEventListener('focusin', () => {
+    window.addEventListener('keydown', escHandler);
+  });
+
+  // Remove escape handler when modal closes
+  modal.addEventListener('focusout', () => {
+    window.removeEventListener('keydown', escHandler);
+  });
+}
+
+function closeDeleteModal() {
+  const modal = document.getElementById('deleteAccountModal');
+  const confirmInput = document.getElementById('deleteConfirmInput');
+  const confirmBtn = document.getElementById('confirmDeleteBtn');
+  
+  if (modal) {
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+  
+  // Reset form
+  if (confirmInput) {
+    confirmInput.value = '';
+  }
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Delete Account';
   }
 }
 
@@ -278,47 +382,216 @@ async function handlePasswordChange(e) {
 }
 
 function handleDeleteAccount() {
-  const confirmed = confirm(
-    'Are you sure you want to delete your account?\n\n' +
-    'This action cannot be undone and will permanently delete:\n' +
-    '• Your profile information\n' +
-    '• Your bookmarks and saved tools\n' +
-    '• All associated data\n\n' +
-    'Type "DELETE" to confirm:'
-  );
-
-  if (confirmed) {
-    const confirmation = prompt('Please type "DELETE" to confirm account deletion:');
+  console.log('Delete account button clicked');
+  
+  // Ensure styles are loaded first
+  ensureModalStyles();
+  
+  // Open the delete account modal
+  const modal = document.getElementById('deleteAccountModal');
+  console.log('Modal element found:', modal);
+  
+  if (modal) {
+    console.log('Opening modal...');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
     
-    if (confirmation === 'DELETE') {
-      deleteUserAccount();
-    } else {
-      alert('Account deletion cancelled.');
+    // Focus on the input field
+    const input = document.getElementById('deleteConfirmInput');
+    if (input) {
+      setTimeout(() => input.focus(), 100);
     }
+  } else {
+    console.error('Modal not found! Check if the HTML is properly rendered.');
   }
 }
 
+// Function to ensure modal styles are loaded
+function ensureModalStyles() {
+  // Remove any existing modal styles first
+  const existingStyles = document.querySelector('style[data-modal-styles]');
+  if (existingStyles) {
+    existingStyles.remove();
+  }
+  
+  // Add fresh modal styles
+  const style = document.createElement('style');
+  style.setAttribute('data-modal-styles', 'true');
+  style.textContent = `
+      /* Base modal styles */
+      .th-modal {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        z-index: 9999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: opacity 0.3s ease, visibility 0.3s ease !important;
+      }
+      
+      .th-modal[aria-hidden="false"] {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      
+      .th-modal-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: transparent !important;
+        cursor: pointer !important;
+      }
+      
+      .th-modal-content {
+        position: relative !important;
+        background: white !important;
+        border-radius: 8px !important;
+        padding: 2rem !important;
+        max-width: 90vw !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        z-index: 1 !important;
+      }
+      
+      .delete-modal-content {
+        max-width: 500px !important;
+      }
+      
+      .delete-title {
+        color: #dc3545 !important;
+        text-align: center !important;
+        margin-bottom: 1.5rem !important;
+      }
+      
+      .delete-warning {
+        background: #fff3cd !important;
+        border: 1px solid #ffeaa7 !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+        margin-bottom: 1.5rem !important;
+      }
+      
+      .delete-input {
+        width: 100% !important;
+        padding: 0.75rem !important;
+        border: 2px solid #ddd !important;
+        border-radius: 4px !important;
+        font-size: 1rem !important;
+        box-sizing: border-box !important;
+      }
+      
+      .th-btn-danger {
+        background-color: #dc3545 !important;
+        color: white !important;
+        border: none !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 1rem !important;
+      }
+      
+      .th-btn-danger:disabled {
+        background-color: #6c757d !important;
+        cursor: not-allowed !important;
+      }
+      
+      .th-btn-secondary {
+        background-color: #6c757d !important;
+        color: white !important;
+        border: none !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 1rem !important;
+      }
+      
+      .th-form-actions {
+        display: flex !important;
+        gap: 1rem !important;
+        justify-content: flex-end !important;
+        margin-top: 1.5rem !important;
+      }
+      
+      .th-modal-close {
+        position: absolute !important;
+        top: 1rem !important;
+        right: 1rem !important;
+        background: none !important;
+        border: none !important;
+        font-size: 1.5rem !important;
+        cursor: pointer !important;
+        color: #666 !important;
+        width: 30px !important;
+        height: 30px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+
 async function deleteUserAccount() {
   try {
+    // Show loading state
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    if (confirmBtn) {
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = 'Deleting...';
+    }
+
     const user = authManager.getCurrentUser();
     const response = await fetch(`http://localhost:3001/api/users/${user.id}`, {
       method: 'DELETE',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': authManager.getAuthHeader()
       }
     });
 
     if (response.ok) {
-      alert('Your account has been deleted successfully.');
-      authManager.logout();
-      window.location.href = 'index.html';
+      // Close modal
+      closeDeleteModal();
+      
+      // Show success message
+      showNotification('Account deleted successfully. Redirecting to home page...', 'success');
+      
+      // Logout and redirect after a short delay
+      setTimeout(() => {
+        authManager.logout();
+        window.location.href = 'index.html';
+      }, 2000);
     } else {
       const data = await response.json();
-      alert('Failed to delete account: ' + (data.error || 'Unknown error'));
+      showNotification('Failed to delete account: ' + (data.error || 'Unknown error'), 'error');
+      
+      // Reset button
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Delete Account';
+      }
     }
   } catch (error) {
     console.error('Delete account error:', error);
-    alert('Network error. Please try again.');
+    showNotification('Network error. Please try again.', 'error');
+    
+    // Reset button
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    if (confirmBtn) {
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = 'Delete Account';
+    }
   }
 }
 
@@ -348,4 +621,246 @@ function showMessage(container, message, type) {
       container.innerHTML = '';
     }, 3000);
   }
+}
+
+// Global notification system (similar to the one in indexinner.js)
+function showNotification(message, type) {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <span class="notification-icon">${type === 'success' ? '✅' : '❌'}</span>
+      <span class="notification-message">${message}</span>
+      <button class="notification-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+    </div>
+  `;
+
+  // Add inline styles
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
+    border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
+    color: ${type === 'success' ? '#155724' : '#721c24'};
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    max-width: 400px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    animation: slideIn 0.3s ease-out;
+  `;
+
+  // Style content
+  const content = notification.querySelector('.notification-content');
+  content.style.cssText = `
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `;
+
+  // Style close button
+  const closeBtn = notification.querySelector('.notification-close');
+  closeBtn.style.cssText = `
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+    margin-left: auto;
+  `;
+
+  // Add animation CSS if not already present
+  if (!document.querySelector('style[data-notification-styles]')) {
+    const style = document.createElement('style');
+    style.setAttribute('data-notification-styles', 'true');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      /* Base modal styles */
+      .th-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .th-modal[aria-hidden="false"] {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .th-modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        cursor: pointer;
+      }
+      
+      .th-modal-content {
+        position: relative;
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 90vw;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 1;
+      }
+      
+      .th-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+      }
+      
+      .th-modal-close:hover {
+        background-color: #f0f0f0;
+      }
+      
+      .th-form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+      }
+      
+      .th-btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+      }
+      
+      .th-btn-secondary:hover {
+        background-color: #5a6268;
+      }
+      
+      /* Delete modal specific styles */
+      .delete-modal-content {
+        max-width: 500px !important;
+      }
+      
+      .delete-title {
+        color: #dc3545;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      
+      .delete-warning {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .delete-warning ul {
+        margin: 0.5rem 0 0 1rem;
+        padding: 0;
+      }
+      
+      .delete-warning li {
+        margin-bottom: 0.25rem;
+      }
+      
+      .delete-confirmation {
+        margin-bottom: 1.5rem;
+      }
+      
+      .delete-confirmation label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+      
+      .delete-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+      
+      .delete-input:focus {
+        outline: none;
+        border-color: #dc3545;
+      }
+      
+      .th-btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+      }
+      
+      .th-btn-danger:hover:not(:disabled) {
+        background-color: #c82333;
+      }
+      
+      .th-btn-danger:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Add to body
+  document.body.appendChild(notification);
+
+  // Auto-remove after 5 seconds
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.style.animation = 'slideIn 0.3s ease-out reverse';
+      setTimeout(() => notification.remove(), 300);
+    }
+  }, 5000);
 }
