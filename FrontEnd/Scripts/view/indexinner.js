@@ -108,9 +108,9 @@ export function homepageInner(card) {
             </aside>
         </div>
         <!-- Modal for reviews -->
-        <div id="reviews-modal" class="modal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;">
-          <div class="modal-content" style="background:#fff;padding:2rem;border-radius:8px;max-width:400px;position:relative;">
-            <span class="close-modal" style="position:absolute;top:10px;right:20px;font-size:2rem;cursor:pointer;">&times;</span>
+        <div id="reviews-modal" style="display:none;">
+          <div class="modal-content">
+            <span class="close-modal">&times;</span>
             <h2>Reviews</h2>
             <div class="reviews-list">
               <!-- Example comments, replace with dynamic if needed -->
@@ -374,62 +374,7 @@ function showNotification(message, type) {
     </div>
   `;
 
-  // Ajouter les styles CSS inline pour que ça fonctionne immédiatement
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
-    border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
-    color: ${type === 'success' ? '#155724' : '#721c24'};
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 10000;
-    max-width: 400px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    animation: slideIn 0.3s ease-out;
-  `;
-
-  // Styles pour le contenu
-  const content = notification.querySelector('.notification-content');
-  content.style.cssText = `
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  `;
-
-  // Styles pour le bouton de fermeture
-  const closeBtn = notification.querySelector('.notification-close');
-  closeBtn.style.cssText = `
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: inherit;
-    padding: 0;
-    margin-left: auto;
-  `;
-
-  // Ajouter l'animation CSS
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-  `;
-  if (!document.querySelector('style[data-notification-styles]')) {
-    style.setAttribute('data-notification-styles', 'true');
-    document.head.appendChild(style);
-  }
+  // Styles are now handled by CSS classes
 
   // Ajouter la notification au body
   document.body.appendChild(notification);

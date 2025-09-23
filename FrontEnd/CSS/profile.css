@@ -356,6 +356,224 @@ main {
     display: none !important;
 }
 
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    max-width: 400px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification-success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.notification-error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+    margin-left: auto;
+}
+
+.notification-close:hover {
+    opacity: 0.7;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Delete Account Modal */
+.th-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.th-modal[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+.th-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.th-modal-content {
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.th-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.th-modal-close:hover {
+    background-color: #f0f0f0;
+}
+
+.th-form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+.th-btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.th-btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Delete modal specific styles */
+.delete-modal-content {
+    max-width: 500px !important;
+}
+
+.delete-title {
+    color: #dc3545;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.delete-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.delete-warning ul {
+    margin: 0.5rem 0 0 1rem;
+    padding: 0;
+}
+
+.delete-warning li {
+    margin-bottom: 0.25rem;
+}
+
+.delete-confirmation {
+    margin-bottom: 1.5rem;
+}
+
+.delete-confirmation label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.delete-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.delete-input:focus {
+    outline: none;
+    border-color: #dc3545;
+}
+
+.th-btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.th-btn-danger:hover:not(:disabled) {
+    background-color: #c82333;
+}
+
+.th-btn-danger:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
 /* Footer */
 .footer-content {
     text-align: center;

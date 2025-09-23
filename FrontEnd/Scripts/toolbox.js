@@ -4,6 +4,7 @@ import { addHeaderEventListeners } from "./controler/headercontroler.js";
 import { toolsInner } from "./view/toolboxinner.js";
 import { setupToolboxSearch, filterAndRenderTools } from "./controler/filtercontroler.js";
 import { setupBurgerMenu } from "./Tools/burgerMenu.js";
+import { authManager } from "./utils/auth.js";
 
 toolsInner();
 
@@ -16,3 +17,6 @@ setupToolboxSearch();
 filterAndRenderTools();
 
 setupBurgerMenu();
+
+// Initialize authentication UI
+authManager.updateUI();

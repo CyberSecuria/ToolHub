@@ -122,7 +122,6 @@ function updateStarCounts(filteredCards = cardsData) {
           if (!countSpan) {
             countSpan = document.createElement('span');
             countSpan.className = 'star-count';
-            countSpan.style.marginLeft = '6px';
             cb.parentElement.appendChild(countSpan);
           }
           countSpan.textContent = `(${count})`;
