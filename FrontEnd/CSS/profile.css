@@ -584,13 +584,48 @@ main {
     margin-top: 50px;
 }
 
+/* Burger menu styles */
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.burger span {
+    display: block;
+    width: 28px;
+    height: 4px;
+    margin: 4px 0;
+    background: var(--primary-purple);
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
 /* Responsive Design */
+
+/* Tablet styles (768px - 1024px) */
+@media (max-width: 1024px) {
+    .profile-container {
+        max-width: 90%;
+        margin: 20px auto;
+    }
+    
+    .profile-section {
+        padding: 20px;
+    }
+}
+
+/* Mobile Large (481px - 768px) */
 @media (max-width: 768px) {
     nav {
-        flex-direction: row;
-        flex-wrap: wrap;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
     }
     
     .burger {
@@ -620,32 +655,369 @@ main {
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 0 0 100vmax rgba(0,0,0,0.18);
     }
     
+    /* Overlay for the burger menu modal effect */
+    body.menu-open::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(31,38,135,0.18);
+        z-index: 1999;
+        pointer-events: auto;
+    }
+    
+    nav ul {
+        flex-direction: row;
+        align-items: center;
+        width: auto;
+        margin-top: 0;
+        gap: 10px;
+    }
     nav ul li {
-        margin: 10px 0;
         margin-left: 0;
-        margin-right: 0;
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+    .login {
+       margin-top: 0;
+        width: auto; 
+        padding-top: 10px; 
     }
     
     main {
         padding: 0 15px;
+        margin: 15px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 200px);
     }
     
     .profile-container {
         max-width: 100%;
+        width: 100%;
         padding: 25px 20px;
-        margin: 20px auto;
+        margin: 0 auto;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .profile-container h2 {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+    
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 2em;
+        margin-bottom: 12px;
+    }
+    
+    .profile-info h3 {
+        font-size: 1.2em;
     }
     
     .profile-section {
         padding: 20px 15px;
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 500px;
+        text-align: left;
+    }
+    
+    .profile-section h3 {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        padding: 14px 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
     }
     
     .btn-group {
         flex-direction: column;
+        gap: 8px;
     }
     
     .btn {
         width: 100%;
+        margin-bottom: 8px;
+        padding: 14px 20px;
+        font-size: 1em;
+    }
+    
+    /* Modal adjustments for mobile */
+    .th-modal-content {
+        max-width: 95vw !important;
+        margin: 10px;
+        padding: 1.5rem;
+    }
+    
+    .delete-modal-content {
+        max-width: 95vw !important;
+    }
+    
+    .notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        font-size: 13px;
+        padding: 12px 16px;
+    }
+}
+
+/* Mobile Small (320px - 480px) */
+@media (max-width: 480px) {
+    header {
+        padding: 10px 0;
+    }
+    
+    .login {
+        margin-top: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+    
+    .login button {
+        flex: 1;
+        min-width: 110px;
+        max-width: 140px;
+        width: 140px;
+        text-align: center;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        font-size: 0.9em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    main {
+        padding: 0 10px;
+        margin: 10px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 180px);
+    }
+    
+    .profile-container {
+        padding: 20px 15px;
+        margin: 0 auto;
+        gap: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .profile-container h2 {
+        font-size: 1.6em;
+        margin-bottom: 12px;
+    }
+    
+    .profile-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8em;
         margin-bottom: 10px;
+    }
+    
+    .profile-info h3 {
+        font-size: 1.1em;
+    }
+    
+    .profile-info p {
+        font-size: 0.9em;
+    }
+    
+    .profile-section {
+        padding: 15px 12px;
+        margin-bottom: 12px;
+        width: 100%;
+        max-width: 400px;
+        text-align: left;
+    }
+    
+    .profile-section h3 {
+        font-size: 1.1em;
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        font-size: 0.9em;
+        margin-bottom: 6px;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        padding: 12px 14px;
+        font-size: 16px;
+        border-radius: 6px;
+    }
+    
+    .btn {
+        padding: 12px 18px;
+        font-size: 0.95em;
+        border-radius: 6px;
+    }
+    
+    .btn-group {
+        gap: 6px;
+        margin-top: 15px;
+    }
+    
+    /* Modal adjustments for small mobile */
+    .th-modal-content {
+        max-width: 98vw !important;
+        margin: 5px;
+        padding: 1.2rem;
+    }
+    
+    .th-modal-close {
+        top: 0.8rem;
+        right: 0.8rem;
+        font-size: 1.3rem;
+        width: 25px;
+        height: 25px;
+    }
+    
+    .delete-title {
+        font-size: 1.3em;
+        margin-bottom: 1rem;
+    }
+    
+    .delete-warning {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        font-size: 0.9em;
+    }
+    
+    .delete-input {
+        padding: 0.6rem;
+        font-size: 0.95em;
+    }
+    
+    .th-form-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .th-btn-secondary,
+    .th-btn-danger {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        font-size: 0.95em;
+    }
+    
+    .notification {
+        top: 5px;
+        right: 5px;
+        left: 5px;
+        font-size: 12px;
+        padding: 10px 12px;
+        border-radius: 6px;
+    }
+    
+    .notification-close {
+        font-size: 16px;
+    }
+    
+    .footer-content {
+        padding: 20px 10px;
+        font-size: 0.9em;
+    }
+}
+
+/* Very small screens (max 320px) */
+@media (max-width: 320px) {
+    .login {
+        margin-top: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+    }
+    
+    .login button {
+        flex: 1;
+        min-width: 100px;
+        max-width: 120px;
+        width: 120px;
+        text-align: center;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        font-size: 0.85em;
+        padding: 8px 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    main {
+        padding: 0 5px;
+        margin: 5px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 160px);
+    }
+    
+    .profile-container {
+        padding: 15px 10px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .profile-container h2 {
+        font-size: 1.4em;
+    }
+    
+    .profile-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6em;
+    }
+    
+    .profile-section {
+        padding: 12px 8px;
+        width: 100%;
+        max-width: 300px;
+        text-align: left;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        padding: 10px 12px;
+    }
+    
+    .btn {
+        padding: 10px 15px;
+        font-size: 0.9em;
     }
 }
