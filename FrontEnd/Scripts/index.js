@@ -1,5 +1,5 @@
 import { cardsData } from "../Data/carditem.js";
-import { setupFilterSearch } from "./controler/filtercontroler.js";
+import { setupFilterSearch, initFilters } from "./controler/filtercontroler.js";
 import { setupBurgerMenu } from "./Tools/burgerMenu.js";
 import { addHeaderEventListeners } from "./controler/headercontroler.js";
 import { renderStars } from "./Tools/stars.js";
@@ -28,6 +28,7 @@ addHeaderEventListeners();
 renderStars();
 
 setupFilterSearch();
+initFilters();
 
 setupBurgerMenu();
 

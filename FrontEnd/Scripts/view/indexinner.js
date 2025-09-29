@@ -77,31 +77,23 @@ export function homepageInner(card) {
                             <li><label><input type="checkbox"> <span class="stars" data-stars="1" title="See reviews"></span> </label></li>
                           </ul>
                         </div>
-                         <div>
+                        <div>
                           <h2 class="text-sm font-semibold mb-2">Category</h2>
-                          <ul class="space-y-1 text-sm">
-                            <li><label><input type="checkbox">Design</label></li>
-                            <li><label><input type="checkbox"> Developement</label></li>
-                            <li><label><input type="checkbox"> Communication</label></li>
-                            <li><label><input type="checkbox">Data Analysis</label></li>
+                          <ul id="filter-category-list" class="space-y-1 text-sm" aria-live="polite">
+                            <li>Loading categories...</li>
                           </ul>
                         </div>
                         <div>
                           <h2>Plaform</h2>
-                          <ul>
-                            <li><label><input type="checkbox">Web</label></li>
-                            <li><label><input type="checkbox">Desktop</label></li>
-                            <li><label><input type="checkbox">Mobile</label></li>
+                          <ul id="filter-platform-list" aria-live="polite">
+                            <li>Loading platforms...</li>
                           </ul>
                         </div>
                         <div>
                           <h2>OS</h2>
-                          <ul>
-                            <li><label><input type="checkbox">Windows</label></li>
-                            <li><label><input type="checkbox">MacOS</label></li>
-                            <li><label><input type="checkbox">Linux</label></li>
-                            <li><label><input type="checkbox">Android</label></li>
-                            <li><label><input type="checkbox">iOS</label></li>
+                          <ul id="filter-os-list" aria-live="polite">
+                            <li>Loading OS...</li>
+                          </ul>
                         </div>
                       </div>
                 </div>

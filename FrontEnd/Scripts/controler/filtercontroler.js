@@ -19,6 +19,94 @@ export function setupFilterSearch() {
   });
 }
 
+// Initialize dynamic filters from API (categories, platforms, OS)
+export async function initFilters() {
+  // Helper to attach change listener after list render
+  function attachListChange(container) {
+    if (!container) return;
+    container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', filterAndRender);
+    });
+  }
+
+  // Categories
+  const categoryList = document.getElementById('filter-category-list');
+  if (categoryList) {
+    categoryList.innerHTML = '<li>Loading categories...</li>';
+    try {
+      const res = await fetch('http://localhost:3001/api/category');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const categories = Array.isArray(data.categories) ? data.categories : [];
+      if (categories.length === 0) {
+        categoryList.innerHTML = '<li>No categories</li>';
+      } else {
+        categoryList.innerHTML = categories
+          .map(c => `<li><label><input type="checkbox" value="${(c.Name_Category || '').trim()}"> ${(c.Name_Category || '').trim()}</label></li>`)
+          .join('');
+      }
+    } catch (e) {
+      categoryList.innerHTML = '<li>Error loading categories</li>';
+      console.error(e);
+    }
+    attachListChange(categoryList);
+  }
+
+  // Platforms
+  const platformList = document.getElementById('filter-platform-list');
+  if (platformList) {
+    platformList.innerHTML = '<li>Loading platforms...</li>';
+    try {
+      const res = await fetch('http://localhost:3001/api/platforms');
+      let platforms = [];
+      if (res.ok) {
+        const data = await res.json();
+        platforms = Array.isArray(data.platforms) ? data.platforms : [];
+      } else {
+        // Gracefully degrade: treat as empty list if server fails
+        console.warn('Platforms endpoint returned', res.status);
+      }
+      platformList.innerHTML = (platforms.length === 0)
+        ? '<li>No platforms</li>'
+        : platforms
+            .map(p => `<li><label><input type=\"checkbox\" value=\"${(p.Platform_Name || '').trim()}\"> ${(p.Platform_Name || '').trim()}</label></li>`)
+            .join('');
+    } catch (e) {
+      platformList.innerHTML = '<li>Error loading platforms</li>';
+      console.error(e);
+    }
+    attachListChange(platformList);
+  }
+
+  // OS
+  const osList = document.getElementById('filter-os-list');
+  if (osList) {
+    osList.innerHTML = '<li>Loading OS...</li>';
+    try {
+      const res = await fetch('http://localhost:3001/api/os');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const os = Array.isArray(data.os) ? data.os : [];
+      if (os.length === 0) {
+        osList.innerHTML = '<li>No OS</li>';
+      } else {
+        osList.innerHTML = os
+          .map(o => `<li><label><input type=\"checkbox\" value=\"${(o.Name_OS || '').trim()}\"> ${(o.Name_OS || '').trim()}</label></li>`)
+          .join('');
+      }
+    } catch (e) {
+      osList.innerHTML = '<li>Error loading OS</li>';
+      console.error(e);
+    }
+    attachListChange(osList);
+  }
+
+  // Recompute counts after dynamic lists are ready
+  setTimeout(() => {
+    try { filterAndRender(); } catch (_) {}
+  }, 0);
+}
+
 // Filtering and rendering function
 function filterAndRender() {
   // Text search
