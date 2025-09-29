@@ -10,6 +10,9 @@ import toolsRouter from './BackEnd/routes/toolsRoutes.js';
 import usersRouter from './BackEnd/routes/usersRoutes.js';
 import bookmarksRouter from './BackEnd/routes/bookmarksRoutes.js';
 import authRouter from './BackEnd/routes/authRoutes.js';
+import categoryRouter from './BackEnd/routes/categoryroutes.js';
+import platformsRouter from './BackEnd/routes/platformsroutes.js';
+import osRouter from './BackEnd/routes/osroutes.js';
 
 dotenv.config({ path: './BackEnd/Config/.env' });
 
@@ -28,6 +31,9 @@ app.use('/api/tools', toolsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/bookmarks', bookmarksRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/category', categoryRouter)
+app.use('/api/platforms', platformsRouter)
+app.use('/api/os', osRouter)
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, 'FrontEnd')));
