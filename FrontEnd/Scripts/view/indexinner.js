@@ -153,8 +153,8 @@ export function homepageInner(card) {
               <input id="tool-image-index" name="image" type="url" placeholder="https://.../logo.png">
             </div>
             <div class="th-form-row">
-              <label for="tool-os-index">OS (comma separated)</label>
-              <input id="tool-os-index" name="os" type="text" placeholder="Windows, macOS, Linux, Android, IOS">
+              <label>OS</label>
+              <div id="tool-os-group-index" class="th-checkbox-group" aria-live="polite">Loading OS...</div>
             </div>
             <div class="th-form-actions">
               <button type="button" class="th-btn-secondary" data-close-modal>Cancel</button>
@@ -243,6 +243,32 @@ export function setupHomeModal() {
         categorySelect.disabled = false;
       }
     }
+
+    // Load OS list when opening the modal
+    const osGroup = document.getElementById('tool-os-group-index');
+    if (osGroup) {
+      osGroup.textContent = 'Loading OS...';
+      try {
+        const response = await fetch('http://localhost:3001/api/os');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const osList = Array.isArray(data.os) ? data.os : [];
+        if (osList.length === 0) {
+          osGroup.textContent = 'No OS available';
+        } else {
+          osGroup.innerHTML = osList
+            .map(o => {
+              const id = `os-${o.ID_OS}`;
+              const label = (o.Name_OS || '').trim();
+              return `<label class="th-checkbox"><input type="checkbox" name="os" value="${label}"> ${label}</label>`;
+            })
+            .join('');
+        }
+      } catch (err) {
+        console.error('Failed to load OS:', err);
+        osGroup.textContent = 'Error loading OS';
+      }
+    }
   }
 
   function closeModal() {
@@ -271,15 +297,17 @@ export function setupHomeModal() {
       const selectedCategoryName = categorySelect ? (categorySelect.options[categorySelect.selectedIndex] ? categorySelect.options[categorySelect.selectedIndex].text : '') : '';
       const image = String(formData.get('image') || '').trim();
       const link = String(formData.get('link') || '').trim();
-      const os = String(formData.get('os') || '').trim();
+      // Collect selected OS checkboxes
+      const selectedOs = Array.from(document.querySelectorAll('#tool-os-group-index input[name="os"]:checked'))
+        .map((el) => String(el.value || '').trim())
+        .filter(Boolean);
 
       if (!name || !description || !selectedCategoryId || !link) {
         alert('Please fill name, description, category and link.');
         return;
       }
 
-      const platform = os
-        .split(',')
+      const platform = selectedOs
         .map(s => s.trim().toLowerCase())
         .filter(Boolean)
         .map(osName => {
