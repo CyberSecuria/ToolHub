@@ -140,7 +140,9 @@ export function homepageInner(card) {
             </div>
             <div class="th-form-row">
               <label for="tool-category-index">Category</label>
-              <input id="tool-category-index" name="category" type="text" required placeholder="e.g. Productivity">
+              <select id="tool-category-index" name="category" required>
+                <option value="" disabled selected>Loading categories...</option>
+              </select>
             </div>
             <div class="th-form-row">
               <label for="tool-link-index">Link</label>
@@ -210,12 +212,37 @@ export function homepageInner(card) {
 export function setupHomeModal() {
   let escHandler = null;
 
-  function openModal() {
+  async function openModal() {
     const modal = document.getElementById("add-tool-modal-index");
     if (modal) modal.setAttribute("aria-hidden", "false");
     document.body.classList.add('modal-open');
     escHandler = (e) => { if (e.key === 'Escape') closeModal(); };
     window.addEventListener('keydown', escHandler);
+
+    // Load categories when opening the modal
+    const categorySelect = document.getElementById('tool-category-index');
+    if (categorySelect) {
+      // Show loading state
+      categorySelect.innerHTML = '<option value="" disabled selected>Loading categories...</option>';
+      categorySelect.disabled = true;
+      try {
+        const response = await fetch('http://localhost:3001/api/category');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const categories = Array.isArray(data.categories) ? data.categories : [];
+        if (categories.length === 0) {
+          categorySelect.innerHTML = '<option value="" disabled selected>No categories available</option>';
+        } else {
+          categorySelect.innerHTML = '<option value="" disabled selected>Select a category</option>' +
+            categories.map(c => `<option value="${c.ID_Category}">${c.Name_Category}</option>`).join('');
+        }
+      } catch (err) {
+        console.error('Failed to load categories:', err);
+        categorySelect.innerHTML = '<option value="" disabled selected>Error loading categories</option>';
+      } finally {
+        categorySelect.disabled = false;
+      }
+    }
   }
 
   function closeModal() {
@@ -239,12 +266,14 @@ export function setupHomeModal() {
       const formData = new FormData(form);
       const name = String(formData.get('name') || '').trim();
       const description = String(formData.get('description') || '').trim();
-      const category = String(formData.get('category') || '').trim();
+      const categorySelect = document.getElementById('tool-category-index');
+      const selectedCategoryId = categorySelect && categorySelect.value ? Number(categorySelect.value) : null;
+      const selectedCategoryName = categorySelect ? (categorySelect.options[categorySelect.selectedIndex] ? categorySelect.options[categorySelect.selectedIndex].text : '') : '';
       const image = String(formData.get('image') || '').trim();
       const link = String(formData.get('link') || '').trim();
       const os = String(formData.get('os') || '').trim();
 
-      if (!name || !description || !category || !link) {
+      if (!name || !description || !selectedCategoryId || !link) {
         alert('Please fill name, description, category and link.');
         return;
       }
@@ -278,7 +307,7 @@ export function setupHomeModal() {
         Link_Tools: link,
         ImageTools: image || 'Assets/Card Product Icons/figma icon.png',
         Image_Alt: name,
-        ID_Category: 1, // TODO: remplacer par l'ID réel de la catégorie choisie
+        ID_Category: selectedCategoryId,
         Name_OS: osString || null,  // Envoyer les OS au backend (peut ne pas fonctionner)
         Platform_Name: 'Desktop'    // Valeur par défaut, peut être améliorée
       };
@@ -308,7 +337,7 @@ export function setupHomeModal() {
             alt: name,
             name,
             description,
-            category,
+            category: selectedCategoryName,
             platform,
             rating: 4,
             link
