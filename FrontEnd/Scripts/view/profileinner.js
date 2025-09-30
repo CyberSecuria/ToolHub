@@ -199,7 +199,7 @@ function setupProfileEventListeners() {
 
   const cancelPassword = document.getElementById('cancelPassword');
   if (cancelPassword) {
-    cancelPassword.addEventListener('click', resetPasswordForm);
+    cancelPassword.addEventListener('click', () => resetPasswordForm(true));
   }
 
   // Delete account button
@@ -392,7 +392,7 @@ async function handlePasswordChange(e) {
 
     if (response.ok) {
       showMessage(messagesDiv, 'Password changed successfully!', 'success');
-      resetPasswordForm();
+      resetPasswordForm(false);
     } else {
       showMessage(messagesDiv, data.error || 'Failed to change password', 'error');
     }
@@ -623,11 +623,13 @@ function resetPersonalInfoForm() {
   document.getElementById('personalInfoMessages').innerHTML = '';
 }
 
-function resetPasswordForm() {
+function resetPasswordForm(clearMessages = true) {
   document.getElementById('currentPassword').value = '';
   document.getElementById('newPassword').value = '';
   document.getElementById('confirmNewPassword').value = '';
-  document.getElementById('passwordMessages').innerHTML = '';
+  if (clearMessages) {
+    document.getElementById('passwordMessages').innerHTML = '';
+  }
 }
 
 function showMessage(container, message, type) {
