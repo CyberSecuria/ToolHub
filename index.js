@@ -12,6 +12,7 @@ import bookmarksRouter from './BackEnd/routes/bookmarksRoutes.js';
 import authRouter from './BackEnd/routes/authRoutes.js';
 import categoryRouter from './BackEnd/routes/categoryroutes.js';
 import platformsRouter from './BackEnd/routes/platformsroutes.js';
+import resourcesRouter from './BackEnd/routes/resourcesRoutes.js';
 import osRouter from './BackEnd/routes/osroutes.js';
 
 dotenv.config({ path: './BackEnd/Config/.env' });
@@ -34,6 +35,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/category', categoryRouter)
 app.use('/api/platforms', platformsRouter)
 app.use('/api/os', osRouter)
+app.use('/api/resources', resourcesRouter)
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, 'FrontEnd')));
