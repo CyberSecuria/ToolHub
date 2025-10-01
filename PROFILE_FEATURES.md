@@ -40,7 +40,7 @@ La page de profil s'intègre parfaitement au design existant de ToolHub avec :
 #### Accès au Profil
 1. **Se connecter** sur l'application
 2. **Cliquer sur votre nom** dans la navigation
-3. **Choisir "View Profile"** dans le menu
+3. Redirection vers `profile.html` gérée par `AuthManager`
 4. Ou accéder directement à `http://localhost:3001/profile.html`
 
 #### Modifier les Informations
@@ -63,12 +63,11 @@ La page de profil s'intègre parfaitement au design existant de ToolHub avec :
 ### 🔗 Routes API Utilisées
 
 #### Routes Protégées (nécessitent authentification)
-- `PATCH /api/users/:id` - Modification du profil
-- `DELETE /api/users/:id` - Suppression du compte
+- `PATCH /api/users/:id` — Modification du profil (protégé par `requireAuth` + `requireOwnership`)
+- `DELETE /api/users/:id` — Suppression du compte (protégé par `requireAuth` + `requireOwnership`)
 
-#### Middleware de Sécurité
-- `requireAuth` - Vérification du token JWT
-- `requireOwnership` - Vérification que l'utilisateur modifie son propre profil
+#### Routes d'authentification
+- `/api/auth` : `POST /login`, `POST /register`, `POST /refresh`, `POST /logout`, `GET /me`
 
 ### 📱 Interface Responsive
 
@@ -103,7 +102,7 @@ La page de profil s'intègre parfaitement au design existant de ToolHub avec :
 ### 🔄 Intégration avec l'Authentification
 
 #### Navigation Adaptative
-- **Utilisateur connecté** : "Hello, [username]" + menu déroulant
+- **Utilisateur connecté** : "Hello, [username]" + redirection profil
 - **Utilisateur déconnecté** : Boutons "Login" + "Sign Up"
 
 #### Gestion des Sessions
