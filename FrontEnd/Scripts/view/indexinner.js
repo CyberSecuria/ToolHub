@@ -45,7 +45,7 @@ export function homepageInner(card) {
             <div class="items">
                 <div class="item">
                     <img src="Assets/bookmark icons/bookmark-empty.svg" class="bookmark-icon" title="Bookmark" alt="Bookmark">
-                    <img src="{{cardimage}}" alt="card">
+                    <img src="{{cardimage}}" alt="{{cardalt}}">
                     <h3>{{cardname}}</h3>
                     <p><strong>Description :</strong> {{carddescription}}</p>
                     <p><strong>Catégorie :</strong> {{cardcategory}}</p>
@@ -168,6 +168,7 @@ export function homepageInner(card) {
     .replace(/{{cardname}}/g, card.name)
     .replace(/{{carddescription}}/g, card.description)
     .replace(/{{cardcategory}}/g, card.category)
+    .replace(/{{cardalt}}/g, (card.alt && card.alt.trim()) ? card.alt : `${card.name} icon`)
     .replace(/{{cardplatform}}/g, Array.isArray(card.platform) ? card.platform.map(p => `<img src='${p.icon}' alt='${p.name}' class='platformicon'/>`).join(' ') : card.platform)
     .replace(/{{cardrating}}/g, card.rating > 0 ? card.rating : 1)
     .replace(/{{cardlink}}/g, card.link);
@@ -316,20 +317,16 @@ export function setupHomeModal() {
       // Convertir les plateformes en chaîne d'OS pour la base de données
       const osString = platform.map(p => p.name).join(', ');
 
-      // Créer une description cachée avec les OS pour la base de données (non visible à l'utilisateur)
-      const hiddenOSData = osString ? `[HIDDEN_OS:${osString}]` : '';
-      const descriptionWithHiddenOS = `${description}${hiddenOSData}`;
-
       // Adapter les champs au format attendu par le backend (createTool)
       const payload = {
         Name_Tools: name,
-        Description_Tools: descriptionWithHiddenOS,
+        Description_Tools: description,
         Link_Tools: link,
         ImageTools: image || 'Assets/Card Product Icons/figma icon.png',
-        Image_Alt: name,
+        Image_Alt: `${name} icon`,
         ID_Category: selectedCategoryId,
-        Name_OS: osString || null,  // Envoyer les OS au backend (peut ne pas fonctionner)
-        Platform_Name: 'Desktop'    // Valeur par défaut, peut être améliorée
+        Name_OS: osString || null,
+        Platform_Name: 'Desktop'
       };
 
       try {
@@ -350,15 +347,27 @@ export function setupHomeModal() {
           // Message de confirmation dans la page
           showSuccessMessage(`Tool "${name}" has been successfully added!`);
           
+          // Déduire les plateformes (Desktop/Mobile) à partir des OS sélectionnés
+          const osTokens = selectedOs.map(s => s.toLowerCase());
+          const inferredPlatforms = [];
+          if (osTokens.some(x => x.includes('android') || x.includes('ios'))) {
+            inferredPlatforms.push('Mobile');
+          }
+          if (osTokens.some(x => x.includes('windows') || x.includes('mac') || x.includes('macos') || x.includes('linux'))) {
+            inferredPlatforms.push('Desktop');
+          }
+          const inferredPlatformName = inferredPlatforms.join(', ');
+
           // Ajouter le nouvel outil à la liste locale pour l'affichage immédiat
           const newCard = {
             id: result.ID_Tools || result.id || `local-${Date.now()}`,
             image: payload.ImageTools,
-            alt: name,
+            alt: `${name} icon`,
             name,
             description,
             category: selectedCategoryName,
             platform,
+            Platform_Name: inferredPlatformName,
             rating: 4,
             link
           };

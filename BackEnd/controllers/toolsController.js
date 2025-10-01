@@ -2,10 +2,8 @@ import { query } from '../Config/database.js';
 
 export async function getAllTools(req, res) {
   try {
-    // include category name from category table
-    const rows = await query(
-      'SELECT * FROM `v_tools_summary`',
-    );
+    // Read from view to include Name_Category, Name_OS, Platform_Name, Stars
+    const rows = await query('SELECT * FROM `v_tools_summary` ORDER BY ID_Tools ASC');
     res.json({ tools: rows });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -15,8 +13,7 @@ export async function getAllTools(req, res) {
 export async function getToolById(req, res) {
   const { id } = req.params;
   try {
-    const rows = await query(
-  'SELECT * FROM v_tools_summary WHERE ID_Tools = ?', [id] );
+    const rows = await query('SELECT * FROM v_tools_summary WHERE ID_Tools = ?', [id]);
     if (!rows || rows.length === 0) return res.status(404).json({ error: 'Tool not found' });
     res.json(rows[0]);
   } catch (err) {
@@ -36,7 +33,7 @@ export const createTool = async (req, res) => {
     ID_Statut = 1,   // par défaut Active
     ID_Category,
     Name_OS,           // Nouveau champ pour les OS
-    Platform_Name      // Nouveau champ pour les plateformes
+    Platform_Name      // Nouveau champ pour les plateformes (peut être ignoré, on déduira depuis OS)
   } = req.body;
 
   // Validation obligatoire
@@ -56,24 +53,10 @@ export const createTool = async (req, res) => {
       return res.status(400).json({ message: 'Invalid ID_Category' });
     }
 
-    // Préparer les champs et valeurs pour l'insertion
+    // Préparer les champs et valeurs pour l'insertion (uniquement colonnes existantes de tools)
     let fields = ['Name_Tools', 'Description_Tools', 'Link_Tools', 'ImageTools', 'Image_Alt', 'ID_Statut', 'ID_Category', 'Add_Date'];
     let placeholders = ['?', '?', '?', '?', '?', '?', '?', 'NOW()'];
     let values = [Name_Tools, Description_Tools, Link_Tools, ImageTools, Image_Alt, ID_Statut, ID_Category];
-
-    // Ajouter Name_OS si fourni
-    if (Name_OS) {
-      fields.push('Name_OS');
-      placeholders.push('?');
-      values.push(Name_OS);
-    }
-
-    // Ajouter Platform_Name si fourni
-    if (Platform_Name) {
-      fields.push('Platform_Name');
-      placeholders.push('?');
-      values.push(Platform_Name);
-    }
 
     // Insérer le nouvel outil
     const result = await query(
@@ -81,8 +64,76 @@ export const createTool = async (req, res) => {
       values
     );
 
+    const insertedToolId = result.insertId;
+
+    // Link tool to OS via run_on (tool ↔ os)
+    try {
+      if (Name_OS && typeof Name_OS === 'string') {
+        const osList = Name_OS.split(',')
+          .map(o => String(o || '').trim())
+          .filter(o => o.length > 0);
+        for (const osNameRaw of osList) {
+          const found = await query('SELECT ID_OS FROM os WHERE LOWER(Name_OS) = LOWER(?) LIMIT 1', [osNameRaw]);
+          if (found && found.length > 0) {
+            const idOs = found[0].ID_OS;
+            await query(
+              'INSERT IGNORE INTO run_on (ID_Tools, ID_OS) VALUES (?, ?)',
+              [insertedToolId, idOs]
+            );
+          }
+        }
+      }
+    } catch (e) {
+      // ignore OS link errors
+    }
+
+    // Upsert Platform record if Platform_Name provided
+    // Link tool to Platform via need_platform (tool ↔ platforms)
+    // Déduire la/les plateformes à partir des OS sélectionnés
+    try {
+      const inferredPlatforms = new Set();
+      if (Name_OS && typeof Name_OS === 'string') {
+        const osTokens = Name_OS.split(',').map(o => String(o || '').trim().toLowerCase());
+        if (osTokens.some(x => x.includes('android') || x.includes('ios'))) {
+          inferredPlatforms.add('Mobile');
+        }
+        if (osTokens.some(x => x.includes('windows') || x.includes('mac') || x.includes('macos') || x.includes('linux'))) {
+          inferredPlatforms.add('Desktop');
+        }
+      }
+      // Si une plateforme est fournie explicitement, on l'ajoute aussi
+      if (Platform_Name && typeof Platform_Name === 'string' && Platform_Name.trim().length > 0) {
+        inferredPlatforms.add(Platform_Name.trim());
+      }
+
+      for (const platformLabel of inferredPlatforms) {
+        const found = await query('SELECT ID_Platform FROM platforms WHERE LOWER(Platform_Name) = LOWER(?) LIMIT 1', [platformLabel]);
+        if (found && found.length > 0) {
+          const idPlatform = found[0].ID_Platform;
+          await query(
+            'INSERT IGNORE INTO need_platform (ID_Tools, ID_Platform) VALUES (?, ?)',
+            [insertedToolId, idPlatform]
+          );
+        }
+      }
+    } catch (e) {
+      // ignore platform link errors
+    }
+
+    // Insert default rating = 1 without user id
+    try {
+      await query(
+        'INSERT INTO rating (ID_User, ID_Tools, Add_Date, Description, Stars) VALUES (NULL, ?, NOW(), ?, ?)',
+        [insertedToolId, '', 1]
+      );
+    } catch (e) {
+      // Ne pas bloquer la création d'outil si l'insert rating échoue
+      // Optionnel: log
+      // console.warn('rating insert failed:', e?.message);
+    }
+
     const newTool = {
-      ID_Tools: result.insertId,
+      ID_Tools: insertedToolId,
       Name_Tools,
       Description_Tools,
       Link_Tools,
