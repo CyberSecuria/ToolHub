@@ -128,14 +128,36 @@ function setupSignupForm() {
   }
   
   function showError(message) {
-    errorMessage.textContent = message;
-    errorMessage.style.display = 'block';
+    // Show fixed notification so it's visible even when scrolled
+    showNotification(message, 'error');
+    errorMessage.style.display = 'none';
     successMessage.style.display = 'none';
   }
   
   function showSuccess(message) {
-    successMessage.textContent = message;
-    successMessage.style.display = 'block';
+    // Show fixed notification so it's visible even when scrolled
+    showNotification(message, 'success');
     errorMessage.style.display = 'none';
+    successMessage.style.display = 'none';
   }
+}
+
+// Local notification utility matching site style (fixed top-right)
+function showNotification(message, type) {
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <span class="notification-icon">${type === 'success' ? '✅' : '❌'}</span>
+      <span class="notification-message">${message}</span>
+      <button class="notification-close" onclick="this.parentElement.parentElement.remove()" aria-label="Close">&times;</button>
+    </div>
+  `;
+  document.body.appendChild(notification);
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.style.animation = 'slideIn 0.3s ease-out reverse';
+      setTimeout(() => notification.remove(), 300);
+    }
+  }, 5000);
 }

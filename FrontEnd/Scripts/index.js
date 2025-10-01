@@ -38,3 +38,27 @@ setupHomeModal();
 
 // Initialize authentication UI
 authManager.updateUI();
+
+// Show the Add Tool button only when authenticated
+function updateFabVisibility() {
+  const fabContainer = document.querySelector('.fab-container');
+  const addToolModal = document.getElementById('add-tool-modal-index');
+  const isAuth = authManager.isAuthenticated();
+
+  if (fabContainer) {
+    fabContainer.style.display = isAuth ? '' : 'none';
+  }
+  // Ensure modal cannot remain open when user is not authenticated
+  if (!isAuth && addToolModal) {
+    addToolModal.setAttribute('aria-hidden', 'true');
+  }
+}
+
+updateFabVisibility();
+
+// Optional: react to auth UI refreshes triggered elsewhere
+window.addEventListener('storage', (e) => {
+  if (e.key === 'accessToken' || e.key === 'user' || e.key === 'refreshToken') {
+    updateFabVisibility();
+  }
+});
