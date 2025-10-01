@@ -145,7 +145,7 @@ export function homepageInner(card) {
               <input id="tool-image-index" name="image" type="url" placeholder="https://.../logo.png">
             </div>
             <div class="th-form-row">
-              <label>OS</label>
+              <label>Operating System</label>
               <div id="tool-os-group-index" class="th-checkbox-group" aria-live="polite">Loading OS...</div>
             </div>
             <div class="th-form-actions">

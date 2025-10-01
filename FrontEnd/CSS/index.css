@@ -631,7 +631,20 @@ aside h3 { /* Title 'Filters' */
   border-radius: 8px;
   font-size: 0.9em;
 }
+.th-form-row select {
+  padding: 7px 9px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.9em;
+  background-color: #fff;
+  color: var(--text-dark);
+}
 .th-form-row input:focus, .th-form-row textarea:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+.th-form-row select:focus {
   outline: none;
   border-color: var(--primary-purple);
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
@@ -652,6 +665,31 @@ aside h3 { /* Title 'Filters' */
   .th-modal h3 { font-size: 1.1em; }
   .th-form-row input, .th-form-row textarea { font-size: 0.9em; }
   .th-btn-secondary, .th-btn-primary { padding: 7px 10px; }
+}
+
+/* Modal checkbox styling (use site purple) */
+.th-checkbox input[type="checkbox"] {
+  accent-color: var(--primary-purple);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+.th-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 1,5px;
+  margin-right: 1,5px;
+  font-size: clamp(0.72em, 1.6vw, 0.82em);
+  white-space: nowrap;
+}
+
+/* Keep OS options on a single row inside the modal */
+#tool-os-group-index {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .footer-content {

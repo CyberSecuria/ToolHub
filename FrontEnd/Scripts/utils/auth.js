@@ -5,6 +5,7 @@ export class AuthManager {
     this.user = null;
     this.accessToken = null;
     this.refreshToken = null;
+    this.flash = null;
     this.loadFromStorage();
   }
 
@@ -28,6 +29,7 @@ export class AuthManager {
     if (this.accessToken) localStorage.setItem('accessToken', this.accessToken);
     if (this.refreshToken) localStorage.setItem('refreshToken', this.refreshToken);
     if (this.user) localStorage.setItem('user', JSON.stringify(this.user));
+    if (this.flash) localStorage.setItem('flashMessage', JSON.stringify(this.flash));
   }
 
   // Clear authentication data
@@ -38,6 +40,59 @@ export class AuthManager {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+  }
+
+  // Flash message helpers
+  setFlash(message, type = 'info') {
+    this.flash = { message, type };
+    localStorage.setItem('flashMessage', JSON.stringify(this.flash));
+  }
+
+  popFlash() {
+    const str = localStorage.getItem('flashMessage');
+    if (!str) return null;
+    localStorage.removeItem('flashMessage');
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  showFlashIfAny() {
+    const flash = this.popFlash();
+    if (!flash) return;
+    // Defer display slightly to avoid being cleared by initial page rendering
+    setTimeout(() => {
+      // Prefer global notification UIs if available on page
+      if (typeof window.showNotification === 'function') {
+        window.showNotification(flash.message, flash.type);
+        return;
+      }
+      // Use site notification styles as fallback
+      const notification = document.createElement('div');
+      const typeClass = flash.type === 'success' ? 'notification-success' : 'notification-error';
+      notification.className = `notification ${typeClass}`;
+      notification.innerHTML = `
+        <div class="notification-content">
+          <span class="notification-icon">${flash.type === 'success' ? '✅' : '❌'}</span>
+          <span class="notification-message">${flash.message}</span>
+          <button class="notification-close" aria-label="Close">&times;</button>
+        </div>
+      `;
+      const closeBtn = notification.querySelector('.notification-close');
+      if (closeBtn) closeBtn.addEventListener('click', () => {
+        notification.style.animation = 'slideIn 0.3s ease-out reverse';
+        setTimeout(() => notification.remove(), 300);
+      });
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        if (notification.parentElement) {
+          notification.style.animation = 'slideIn 0.3s ease-out reverse';
+          setTimeout(() => notification.remove(), 300);
+        }
+      }, 3000);
+    }, 700);
   }
 
   // Check if user is authenticated
@@ -165,7 +220,9 @@ export class AuthManager {
   handleLogout() {
     this.logout();
     this.updateUI();
-    // Optionally redirect to home page
+    // Store a flash message to show after redirect
+    this.setFlash('Logout successful.', 'success');
+    // Redirect to home page
     window.location.href = 'index.html';
   }
 
@@ -182,4 +239,5 @@ export const authManager = new AuthManager();
 // Initialize auth on page load
 document.addEventListener('DOMContentLoaded', () => {
   authManager.updateUI();
+  authManager.showFlashIfAny();
 });
