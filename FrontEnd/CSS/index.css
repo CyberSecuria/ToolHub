@@ -903,8 +903,6 @@ aside h3 { /* Title 'Filters' */
   height: 32px;
   border: none;
   border-radius: 50%;
-  font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   color: white;
@@ -912,33 +910,38 @@ aside h3 { /* Title 'Filters' */
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  margin-top: 5px;
+  margin-left: 3px;
 }
 
 .edit-tool {
-  background: linear-gradient(135deg, var(--primary-purple), var(--primary-purple-dark));
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: none;
+  border: none;
 }
 
 .edit-tool:hover {
-  background: linear-gradient(135deg, var(--primary-purple-dark), var(--primary-purple));
   transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+
 }
 
 .delete-tool {
-  background: linear-gradient(135deg, #dc2626, #ef4444);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: none;
+  border: none;
 }
 
 .delete-tool:hover {
-  background: linear-gradient(135deg, #b91c1c, #dc2626);
   transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
 }
 
-.edit-tool:active, .delete-tool:active {
-  transform: scale(0.95);
+.edit-tool img, .delete-tool img {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 0 2px rgba(124, 58, 237, 0.6));
+}
+.delete-tool img {
+  width: 54px;
+  height: 54px;
 }
 
 /* Assurer que les items ont une position relative */
@@ -1070,12 +1073,12 @@ body.modal-open {
   box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
 }
 
+
 /* Responsive pour les boutons */
 @media (max-width: 768px) {
   .edit-tool, .delete-tool {
     width: 28px;
     height: 28px;
-    font-size: 12px;
   }
   
   .action-modal-content {
@@ -1083,4 +1086,3 @@ body.modal-open {
     margin: 20px;
   }
 }
-

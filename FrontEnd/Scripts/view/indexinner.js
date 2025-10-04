@@ -213,8 +213,8 @@ export function homepageInner(card) {
   
   const actionButtons = isOwner ? `
     <div class="tool-actions">
-      <button class="edit-tool" data-tool-id="${card.id}" title="Edit tool">✏️</button>
-      <button class="delete-tool" data-tool-id="${card.id}" title="Delete tool">🗑️</button>
+      <button class="edit-tool" data-tool-id="${card.id}" title="Edit tool"><img src="Assets/action button icon/button edit.png" alt="Edit" /></button>
+      <button class="delete-tool" data-tool-id="${card.id}" title="Delete tool"><img src="Assets/action button icon/button delete.png" alt="Delete" /></button>
     </div>
   ` : '';
   
@@ -548,10 +548,10 @@ function showNotification(message, type) {
 
 // Fonction pour configurer les event listeners des boutons d'action sur la page index
 function setupIndexToolActions() {
-  // Event listeners pour les boutons de modification
+// Event listeners pour les boutons de modification
   document.querySelectorAll('.edit-tool').forEach(button => {
     button.addEventListener('click', (e) => {
-      const toolId = e.target.getAttribute('data-tool-id');
+      const toolId = e.currentTarget.getAttribute('data-tool-id');
       editIndexTool(toolId);
     });
   });
@@ -559,7 +559,7 @@ function setupIndexToolActions() {
   // Event listeners pour les boutons de suppression
   document.querySelectorAll('.delete-tool').forEach(button => {
     button.addEventListener('click', (e) => {
-      const toolId = e.target.getAttribute('data-tool-id');
+      const toolId = e.currentTarget.getAttribute('data-tool-id');
       deleteIndexTool(toolId);
     });
   });
