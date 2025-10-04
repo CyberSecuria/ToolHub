@@ -115,15 +115,17 @@ export class AuthManager {
 
   // Logout user
   logout() {
+    const refreshToken = this.refreshToken;
     this.clearAuth();
+    
     // Optionally call logout endpoint
-    if (this.refreshToken) {
-      fetch('/api/users/logout', {
+    if (refreshToken) {
+      fetch('http://localhost:3001/api/auth/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refreshToken: this.refreshToken })
+        body: JSON.stringify({ refreshToken: refreshToken })
       }).catch(err => console.error('Logout error:', err));
     }
   }
@@ -200,18 +202,32 @@ export class AuthManager {
     if (this.isAuthenticated()) {
       // User is logged in
       if (loginButtons.length >= 2) {
-        loginButtons[0].textContent = `Hello, ${this.user.username}`;
-        loginButtons[0].onclick = () => this.showUserMenu();
-        loginButtons[1].textContent = 'Logout';
-        loginButtons[1].onclick = () => this.handleLogout();
+        // Supprimer tous les event listeners existants
+        loginButtons[0].replaceWith(loginButtons[0].cloneNode(true));
+        loginButtons[1].replaceWith(loginButtons[1].cloneNode(true));
+        
+        // Récupérer les nouveaux boutons après remplacement
+        const newLoginButtons = document.querySelectorAll('.login button');
+        
+        newLoginButtons[0].textContent = `Hello, ${this.user.username}`;
+        newLoginButtons[0].onclick = () => this.showUserMenu();
+        newLoginButtons[1].textContent = 'Logout';
+        newLoginButtons[1].onclick = () => this.handleLogout();
       }
     } else {
       // User is not logged in
       if (loginButtons.length >= 2) {
-        loginButtons[0].textContent = 'Login';
-        loginButtons[0].onclick = () => window.location.href = 'login.html';
-        loginButtons[1].textContent = 'Sign Up';
-        loginButtons[1].onclick = () => window.location.href = 'signup.html';
+        // Supprimer tous les event listeners existants
+        loginButtons[0].replaceWith(loginButtons[0].cloneNode(true));
+        loginButtons[1].replaceWith(loginButtons[1].cloneNode(true));
+        
+        // Récupérer les nouveaux boutons après remplacement
+        const newLoginButtons = document.querySelectorAll('.login button');
+        
+        newLoginButtons[0].textContent = 'Login';
+        newLoginButtons[0].onclick = () => window.location.href = 'login.html';
+        newLoginButtons[1].textContent = 'Sign Up';
+        newLoginButtons[1].onclick = () => window.location.href = 'signup.html';
       }
     }
   }
@@ -222,7 +238,10 @@ export class AuthManager {
     this.updateUI();
     // Store a flash message to show after redirect
     this.setFlash('Logout successful.', 'success');
-    // Redirect to home page
+    
+    // Toujours rediriger vers index.html après logout
+    // Cela garantit que l'utilisateur arrive sur la page d'accueil
+    console.log('Logout: redirecting to index.html');
     window.location.href = 'index.html';
   }
 

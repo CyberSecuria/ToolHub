@@ -147,10 +147,55 @@ export async function updateUser(req, res) {
 // Supprime un utilisateur
 export async function deleteUser(req, res) {
   const { id } = req.params;
+  const TRANSFER_USER_ID = 8; // ID de l'utilisateur vers qui transférer les outils
+  
   try {
-    await query('DELETE FROM users WHERE ID_User = ?', [id]);
-    res.status(204).end();
+    // Vérifier que l'utilisateur existe
+    const userExists = await query('SELECT ID_User FROM users WHERE ID_User = ?', [id]);
+    if (!userExists || userExists.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Vérifier que l'utilisateur de transfert existe
+    const transferUserExists = await query('SELECT ID_User FROM users WHERE ID_User = ?', [TRANSFER_USER_ID]);
+    if (!transferUserExists || transferUserExists.length === 0) {
+      return res.status(500).json({ error: 'Transfer user (ID 8) not found' });
+    }
+
+    // Commencer une transaction
+    await query('START TRANSACTION');
+
+    try {
+      // Transférer tous les outils de l'utilisateur vers l'utilisateur ID 8
+      const toolsToTransfer = await query('SELECT ID_Tools FROM tools WHERE ID_User = ?', [id]);
+      
+      if (toolsToTransfer && toolsToTransfer.length > 0) {
+        await query('UPDATE tools SET ID_User = ? WHERE ID_User = ?', [TRANSFER_USER_ID, id]);
+        console.log(`Transferred ${toolsToTransfer.length} tools from user ${id} to user ${TRANSFER_USER_ID}`);
+      }
+
+      // Supprimer les bookmarks de l'utilisateur
+      await query('DELETE FROM bookmarks WHERE ID_User = ?', [id]);
+
+      // Supprimer les ratings de l'utilisateur
+      await query('DELETE FROM rating WHERE ID_User = ?', [id]);
+
+      // Supprimer l'utilisateur
+      await query('DELETE FROM users WHERE ID_User = ?', [id]);
+
+      // Valider la transaction
+      await query('COMMIT');
+      
+      console.log(`User ${id} deleted successfully, tools transferred to user ${TRANSFER_USER_ID}`);
+      res.status(204).end();
+      
+    } catch (transactionError) {
+      // Annuler la transaction en cas d'erreur
+      await query('ROLLBACK');
+      throw transactionError;
+    }
   } catch (err) {
+    console.error('Delete user error:', err);
     res.status(500).json({ error: err.message });
   }
 }

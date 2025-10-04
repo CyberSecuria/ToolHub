@@ -236,8 +236,19 @@ export function filterAndRenderTools() {
     card.category.toLowerCase().includes(searchValue)
   );
   const itemsHTML = filtered.map(card => {
+    // Import authManager for user checking
+    const authManager = window.authManager || { getCurrentUser: () => null };
+    const currentUser = authManager.getCurrentUser();
+    const isOwner = currentUser && currentUser.id === card.userId;
+    
+    let toolActionsHTML = '';
+    if (isOwner) {
+      toolActionsHTML = ``;
+    }
+    
     return `
-      <div class="item">
+      <div class="item" data-tool-id="${card.id}">
+        ${toolActionsHTML}
         <img src="${card.image}" alt="${card.alt || card.name}">
         <h3>${card.name}</h3>
         <p><strong>Description :</strong> ${card.description}</p>
@@ -256,6 +267,15 @@ export function filterAndRenderTools() {
   const itemsContainer = document.querySelector(".items.toolbox-cards") || document.querySelector(".toolbox-cards-list") || document.querySelector(".items");
   if (itemsContainer) {
     itemsContainer.innerHTML = itemsHTML;
-    renderStars();
+    
+    // Délai pour s'assurer que le DOM est mis à jour
+    setTimeout(() => {
+      renderStars();
+      
+      // Setup tool actions after rendering
+      if (typeof window.setupToolActions === 'function') {
+        window.setupToolActions();
+      }
+    }, 50);
   }
 }

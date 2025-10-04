@@ -128,7 +128,7 @@ export function profileInner() {
             <ul>
               <li>Your profile information</li>
               <li>Your bookmarks and saved tools</li>
-              <li>All associated data</li>
+              <li>Your ratings and reviews</li>
             </ul>
           </div>
 

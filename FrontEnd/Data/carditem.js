@@ -11,10 +11,13 @@ export async function loadCardsData() {
     const data = Array.isArray(raw) ? raw : raw?.tools ?? raw?.data ?? [];
 
     // Mapping vers le format attendu par le front
-    const mapped = (Array.isArray(data) ? data : []).map((card) => ({
-      // prefer backend-specific fields first
-      id: card.ID_Tools ?? card.id ?? card.ID ?? null,
-      // Normalize image path: remove leading './' and build a sensible default
+    const mapped = (Array.isArray(data) ? data : []).map((card) => {
+      // Debug: console.log('Raw card from API:', card);
+      return {
+        // prefer backend-specific fields first
+        id: card.ID_Tools ?? card.id ?? card.ID ?? null,
+        userId: card.ID_User ?? card.userId ?? null,  // ID de l'utilisateur qui a créé l'outil
+        // Normalize image path: remove leading './' and build a sensible default
       image: (() => {
         const raw =
           card.image || card.Image || card.image_url || card.imageUrl || card.ImageTools || card.Image_Tools || card.Image_Tool || '';
@@ -94,14 +97,16 @@ export async function loadCardsData() {
         const stars = card.Stars || '0';
         // Convertir en nombre
         const num = parseFloat(stars);
-        return !isNaN(num) ? Math.min(Math.max(num, 0), 5) : 0;
+        return !isNaN(num) ? Math.min(Math.max(num, 0), 5) : 1;
       })(),
       link: card.Link_Tools ?? card.link ?? card.url ?? card.URL ?? '',
       device: card.device ?? card.devices ?? '',
       Platform_Name: card.Platform_Name ?? ''
-    }));
+      };
+    });
 
     cardsData.splice(0, cardsData.length, ...mapped); // garde la référence
+    console.log("Loaded cardsData:", cardsData);
     return cardsData;
   } catch (err) {
     console.error('Failed to load cards:', err);

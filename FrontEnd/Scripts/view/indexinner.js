@@ -1,5 +1,6 @@
 import { cardsData } from "../../Data/carditem.js";
 import { renderStars } from "../Tools/stars.js";
+import { authManager } from "../utils/auth.js";
 
 // inner function to generate the homepage with a card object
 export function homepageInner(card) {
@@ -43,7 +44,8 @@ export function homepageInner(card) {
         </div>
         <div class="content">
             <div class="items">
-                <div class="item">
+                <div class="item" data-tool-id="{{cardid}}">
+                    {{actionbuttons}}
                     <img src="Assets/bookmark icons/bookmark-empty.svg" class="bookmark-icon" title="Bookmark" alt="Bookmark">
                     <img src="{{cardimage}}" alt="{{cardalt}}">
                     <h3>{{cardname}}</h3>
@@ -157,13 +159,68 @@ export function homepageInner(card) {
       </div>
 
     </main>
+    
+    <!-- Modal pour modifier un outil -->
+    <div id="edit-tool-modal" class="action-modal">
+      <div class="action-modal-content">
+        <h3>Edit Tool</h3>
+        <form id="edit-tool-form">
+          <div class="form-group">
+            <label for="edit-tool-name">Tool Name</label>
+            <input type="text" id="edit-tool-name" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-tool-description">Description</label>
+            <textarea id="edit-tool-description" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="edit-tool-link">Website Link</label>
+            <input type="url" id="edit-tool-link" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-tool-image">Image URL</label>
+            <input type="url" id="edit-tool-image" placeholder="https://example.com/logo.png">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Tool</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Modal pour supprimer un outil -->
+    <div id="delete-tool-modal" class="action-modal">
+      <div class="action-modal-content">
+        <h3>Delete Tool</h3>
+        <p>Are you sure you want to delete the tool <strong id="delete-tool-name"></strong>?</p>
+        <p style="color: #dc2626; font-size: 14px;">This action cannot be undone.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+          <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete Tool</button>
+        </div>
+      </div>
+    </div>
+    
     <footer class="site-footer">
         <div class="footer-content">
             <p>&copy; 2025 ToolHub. All rights reserved.</p>
         </div>
     </footer>`;
+  // Vérifier si l'utilisateur est propriétaire de cet outil
+  const currentUser = authManager.getCurrentUser();
+  const isOwner = currentUser && currentUser.id === card.userId;
+  
+  const actionButtons = isOwner ? `
+    <div class="tool-actions">
+      <button class="edit-tool" data-tool-id="${card.id}" title="Edit tool">✏️</button>
+      <button class="delete-tool" data-tool-id="${card.id}" title="Delete tool">🗑️</button>
+    </div>
+  ` : '';
+  
   // Replacing the placeholders in the template with the card data
   template = template
+    .replace(/{{cardid}}/g, card.id || '')
     .replace(/{{cardimage}}/g, card.image)
     .replace(/{{cardname}}/g, card.name)
     .replace(/{{carddescription}}/g, card.description)
@@ -171,7 +228,8 @@ export function homepageInner(card) {
     .replace(/{{cardalt}}/g, (card.alt && card.alt.trim()) ? card.alt : `${card.name} icon`)
     .replace(/{{cardplatform}}/g, Array.isArray(card.platform) ? card.platform.map(p => `<img src='${p.icon}' alt='${p.name}' class='platformicon'/>`).join(' ') : card.platform)
     .replace(/{{cardrating}}/g, card.rating > 0 ? card.rating : 1)
-    .replace(/{{cardlink}}/g, card.link);
+    .replace(/{{cardlink}}/g, card.link)
+    .replace(/{{actionbuttons}}/g, actionButtons);
 
   // Adding the JavaScript to handle the reviews modal
   setTimeout(() => {
@@ -196,6 +254,28 @@ export function homepageInner(card) {
         if(e.target === modal) modal.style.display = 'none';
       });
     }
+    
+    // Setup des boutons d'action pour les outils
+    setupIndexToolActions();
+    
+    // Setup du formulaire d'édition
+    const editForm = document.getElementById('edit-tool-form');
+    if (editForm) {
+      editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitEditTool();
+      });
+    }
+    
+    // Fermer les modales en cliquant à l'extérieur
+    document.querySelectorAll('.action-modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          if (modal.id === 'edit-tool-modal') closeEditModal();
+          if (modal.id === 'delete-tool-modal') closeDeleteModal();
+        }
+      });
+    });
   }, 0);
 
   return template;
@@ -206,6 +286,13 @@ export function setupHomeModal() {
   let escHandler = null;
 
   async function openModal() {
+    // Vérifier si l'utilisateur est connecté
+    if (!authManager.isAuthenticated()) {
+      showErrorMessage('You must be logged in to add a tool. Please login first.');
+      window.location.href = 'login.html';
+      return;
+    }
+
     const modal = document.getElementById("add-tool-modal-index");
     if (modal) modal.setAttribute("aria-hidden", "false");
     document.body.classList.add('modal-open');
@@ -317,6 +404,13 @@ export function setupHomeModal() {
       // Convertir les plateformes en chaîne d'OS pour la base de données
       const osString = platform.map(p => p.name).join(', ');
 
+      // Récupérer l'ID de l'utilisateur connecté
+      const currentUser = authManager.getCurrentUser();
+      if (!currentUser || !currentUser.id) {
+        showErrorMessage('Unable to get user information. Please login again.');
+        return;
+      }
+
       // Adapter les champs au format attendu par le backend (createTool)
       const payload = {
         Name_Tools: name,
@@ -326,7 +420,8 @@ export function setupHomeModal() {
         Image_Alt: `${name} icon`,
         ID_Category: selectedCategoryId,
         Name_OS: osString || null,
-        Platform_Name: 'Desktop'
+        Platform_Name: 'Desktop',
+        ID_User: currentUser.id
       };
 
       try {
@@ -369,7 +464,8 @@ export function setupHomeModal() {
             platform,
             Platform_Name: inferredPlatformName,
             rating: 4,
-            link
+            link,
+            userId: currentUser.id // Ajouter l'ID de l'utilisateur créateur
           };
 
           cardsData.unshift(newCard);
@@ -386,6 +482,10 @@ export function setupHomeModal() {
           const items = document.querySelector(".items");
           if (items) items.innerHTML = itemsHTML;
           renderStars();
+          
+          // Reconfigurer les event listeners pour les boutons d'action
+          setupToolActions();
+          
           closeModal();
           form.reset();
         } else {
@@ -444,4 +544,218 @@ function showNotification(message, type) {
       setTimeout(() => notification.remove(), 300);
     }
   }, 5000);
+}
+
+// Fonction pour configurer les event listeners des boutons d'action sur la page index
+function setupIndexToolActions() {
+  // Event listeners pour les boutons de modification
+  document.querySelectorAll('.edit-tool').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const toolId = e.target.getAttribute('data-tool-id');
+      editIndexTool(toolId);
+    });
+  });
+
+  // Event listeners pour les boutons de suppression
+  document.querySelectorAll('.delete-tool').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const toolId = e.target.getAttribute('data-tool-id');
+      deleteIndexTool(toolId);
+    });
+  });
+}
+
+// Variables globales pour les modales
+let currentEditToolId = null;
+let currentDeleteToolId = null;
+
+// Fonction pour modifier un outil depuis la page index
+async function editIndexTool(toolId) {
+  const currentUser = authManager.getCurrentUser();
+  if (!currentUser) {
+    showErrorMessage('Vous devez être connecté pour modifier un outil.');
+    return;
+  }
+
+  // Trouver l'outil dans les données
+  const { cardsData } = await import('../../Data/carditem.js');
+  const tool = cardsData.find(card => card.id == toolId);
+  if (!tool) {
+    showErrorMessage('Outil non trouvé.');
+    return;
+  }
+
+  // Remplir le formulaire avec les données actuelles
+  document.getElementById('edit-tool-name').value = tool.name;
+  document.getElementById('edit-tool-description').value = tool.description;
+  document.getElementById('edit-tool-link').value = tool.link;
+  document.getElementById('edit-tool-image').value = tool.image || '';
+  
+  currentEditToolId = toolId;
+  
+  // Afficher la modale
+  const modal = document.getElementById('edit-tool-modal');
+  document.body.classList.add('modal-open');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('show'), 10);
+}
+
+// Fonction pour fermer la modale d'édition
+function closeEditModal() {
+  const modal = document.getElementById('edit-tool-modal');
+  modal.classList.remove('show');
+  document.body.classList.remove('modal-open');
+  setTimeout(() => {
+    modal.style.display = 'none';
+    currentEditToolId = null;
+  }, 300);
+}
+window.closeEditModal = closeEditModal;
+
+// Fonction pour soumettre la modification
+async function submitEditTool() {
+  if (!currentEditToolId) return;
+  
+  const currentUser = authManager.getCurrentUser();
+  const newName = document.getElementById('edit-tool-name').value.trim();
+  const newDescription = document.getElementById('edit-tool-description').value.trim();
+  const newLink = document.getElementById('edit-tool-link').value.trim();
+  const newImage = document.getElementById('edit-tool-image').value.trim();
+  
+  if (!newName || !newDescription || !newLink) {
+    showErrorMessage('Please fill in all required fields.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:3001/api/tools/${currentEditToolId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Name_Tools: newName,
+        Description_Tools: newDescription,
+        Link_Tools: newLink,
+        ImageTools: newImage || 'Assets/Card Product Icons/figma icon.png',
+        ID_User: currentUser.id
+      })
+    });
+
+    if (response.ok) {
+      showSuccessMessage(`Tool "${newName}" updated successfully!`);
+      closeEditModal();
+      // Recharger la page après un délai
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } else {
+      const error = await response.json();
+      showErrorMessage(`Error: ${error.message || 'Unable to update tool'}`);
+    }
+  } catch (error) {
+    console.error('Erreur lors de la modification:', error);
+    showErrorMessage('Network error during tool update.');
+  }
+}
+
+// Fonction pour supprimer un outil depuis la page index
+async function deleteIndexTool(toolId) {
+  const currentUser = authManager.getCurrentUser();
+  if (!currentUser) {
+    showErrorMessage('You must be logged in to delete a tool.');
+    return;
+  }
+
+  // Trouver l'outil dans les données
+  const { cardsData } = await import('../../Data/carditem.js');
+  const tool = cardsData.find(card => card.id == toolId);
+  if (!tool) {
+    showErrorMessage('Tool not found.');
+    return;
+  }
+
+  // Afficher la modale de confirmation
+  document.getElementById('delete-tool-name').textContent = tool.name;
+  currentDeleteToolId = toolId;
+  
+  const modal = document.getElementById('delete-tool-modal');
+  document.body.classList.add('modal-open');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.classList.add('show'), 10);
+}
+
+// Fonction pour fermer la modale de suppression
+function closeDeleteModal() {
+  const modal = document.getElementById('delete-tool-modal');
+  modal.classList.remove('show');
+  document.body.classList.remove('modal-open');
+  setTimeout(() => {
+    modal.style.display = 'none';
+    currentDeleteToolId = null;
+  }, 300);
+}
+window.closeDeleteModal = closeDeleteModal;
+
+// Fonction pour confirmer la suppression
+async function confirmDelete() {
+  if (!currentDeleteToolId) return;
+  
+  const currentUser = authManager.getCurrentUser();
+  
+  try {
+    const response = await fetch(`http://localhost:3001/api/tools/${currentDeleteToolId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ID_User: currentUser.id
+      })
+    });
+
+    if (response.ok) {
+      const toolName = document.getElementById('delete-tool-name').textContent;
+      showSuccessMessage(`Tool "${toolName}" deleted successfully!`);
+      closeDeleteModal();
+      // Recharger la page après un délai
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } else {
+      const errorText = await response.text();
+      console.error('Delete error response:', errorText);
+      try {
+        const error = JSON.parse(errorText);
+        showErrorMessage(`Error: ${error.message || error.error || 'Unable to delete tool'}`);
+      } catch {
+        showErrorMessage(`Server error (${response.status}): Unable to delete tool`);
+      }
+    }
+  } catch (error) {
+    console.error('Erreur lors de la suppression:', error);
+    showErrorMessage('Network error during tool deletion.');
+  }
+}
+window.confirmDelete = confirmDelete;
+window.editTool = editIndexTool;
+window.deleteTool = deleteIndexTool;
+
+// Fonction pour configurer les event listeners des boutons d'action
+function setupToolActions() {
+  // Event listeners pour les boutons de modification
+  document.querySelectorAll('.edit-tool').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const toolId = e.target.getAttribute('data-tool-id');
+      editIndexTool(toolId);
+    });
+  });
+
+  // Event listeners pour les boutons de suppression
+  document.querySelectorAll('.delete-tool').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const toolId = e.target.getAttribute('data-tool-id');
+      deleteIndexTool(toolId);
+    });
+  });
 }

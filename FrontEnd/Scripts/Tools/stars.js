@@ -2,7 +2,11 @@
 export function renderStars() {
   document.querySelectorAll('.stars').forEach(function(starSpan) {
     let stars = parseFloat(starSpan.getAttribute('data-stars'));
-    if (!stars || stars < 1) stars = 5;
+    // Si pas de rating ou 0, afficher 0 étoiles
+    if (isNaN(stars)) stars = 1;
+    if (stars <= 0) stars = 1;
+    if (stars > 5) stars = 5; // Limiter à 5 max
+    
     let full = Math.floor(stars);
     let half = (stars % 1) >= 0.5 ? 1 : 0;
     let empty = 5 - full - half;

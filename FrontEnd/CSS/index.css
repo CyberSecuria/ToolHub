@@ -826,7 +826,6 @@ aside h3 { /* Title 'Filters' */
     right: 20px;
     padding: 15px 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     z-index: 10000;
     max-width: 400px;
     font-family: 'Inter', Arial, sans-serif;
@@ -876,6 +875,212 @@ aside h3 { /* Title 'Filters' */
     max-width: 98vw;
     min-width: 0;
     padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+  }
+}
+
+/* Container pour les boutons d'action */
+.tool-actions {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.item:hover .tool-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Styles pour les boutons de modification et suppression */
+.edit-tool, .delete-tool {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.edit-tool {
+  background: linear-gradient(135deg, var(--primary-purple), var(--primary-purple-dark));
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.edit-tool:hover {
+  background: linear-gradient(135deg, var(--primary-purple-dark), var(--primary-purple));
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.delete-tool {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.delete-tool:hover {
+  background: linear-gradient(135deg, #b91c1c, #dc2626);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
+.edit-tool:active, .delete-tool:active {
+  transform: scale(0.95);
+}
+
+/* Assurer que les items ont une position relative */
+.item {
+  position: relative;
+}
+
+/* Modal pour les actions */
+.action-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--modal-bg);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Bloquer le scroll de la page quand la modale est ouverte */
+body.modal-open {
+  overflow: hidden;
+}
+
+.action-modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  margin: 20px;
+}
+
+.action-modal.show .action-modal-content {
+  transform: scale(1);
+}
+
+.action-modal h3 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Titre Edit Tool en violet */
+#edit-tool-modal h3 {
+  color: var(--primary-purple);
+}
+
+/* Titre Delete Tool en rouge */
+#delete-tool-modal h3 {
+  color: #dc2626;
+}
+
+.action-modal .form-group {
+  margin-bottom: 12px;
+}
+
+.action-modal label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 14px;
+}
+
+.action-modal input, .action-modal textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--input-radius);
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.action-modal input:focus, .action-modal textarea:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+}
+
+.action-modal .modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.action-modal .btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--button-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-modal .btn-cancel {
+  background: #f1f5f9;
+  color: var(--text-dark);
+}
+
+.action-modal .btn-cancel:hover {
+  background: #e2e8f0;
+}
+
+.action-modal .btn-primary {
+  background: linear-gradient(135deg, var(--primary-purple), var(--primary-purple-dark));
+  color: white;
+}
+
+.action-modal .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+}
+
+.action-modal .btn-danger {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+}
+
+.action-modal .btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+}
+
+/* Responsive pour les boutons */
+@media (max-width: 768px) {
+  .edit-tool, .delete-tool {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .action-modal-content {
+    padding: 24px;
+    margin: 20px;
   }
 }
 
