@@ -33,13 +33,30 @@ export class AuthManager {
   }
 
   // Clear authentication data
-  clearAuth() {
+  clearAuth(isTokenExpired = false) {
     this.user = null;
     this.accessToken = null;
     this.refreshToken = null;
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+    
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('admin.html') && isTokenExpired) {
+      // Special handling for admin page when token expired
+      document.body.innerHTML = `
+        <div class="error-container">
+          <h2>Session Expired</h2>
+          <p>Your session has expired. Please log in again to continue.</p>
+          <button onclick="window.location.href='login.html'" class="home">
+            Go to Login
+          </button>
+        </div>
+      `;
+    } else if (!currentPath.includes('login.html')) {
+      // Redirect to login page if not already there
+      window.location.href = './login.html';
+    }
   }
 
   // Flash message helpers
@@ -97,12 +114,41 @@ export class AuthManager {
 
   // Check if user is authenticated
   isAuthenticated() {
-    return !!(this.accessToken && this.user);
+    if (!this.accessToken || !this.user) {
+      return false;
+    }
+    try {
+      // Check if the token is expired by decoding the JWT
+      const tokenPayload = JSON.parse(atob(this.accessToken.split('.')[1]));
+      const isExpired = tokenPayload.exp * 1000 < Date.now();
+      
+      if (isExpired) {
+        // If the token is expired, clear auth with the appropriate flag
+        this.clearAuth(true);
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error checking token:', error);
+      this.clearAuth(true);
+      return false;
+    }
   }
 
   // Get current user
   getCurrentUser() {
+    if (!this.isAuthenticated()) {
+      return null;
+    }
     return this.user;
+  }
+
+  // Check if current user is admin
+  isAdmin() {
+    if (!this.isAuthenticated()) {
+      return false;
+    }
+    return this.user && (this.user.roleId === 3 || this.user.ID_Role === 3);
   }
 
   // Set authentication data
@@ -177,13 +223,13 @@ export class AuthManager {
         return true;
       }
 
-      // Si le token est invalide (401), essayer de le rafraîchir
+      // If the token is invalid (401), attempt to refresh it
       if (response.status === 401) {
         const refreshed = await this.refreshAccessToken();
         if (refreshed) {
           return true;
         }
-        // Si le rafraîchissement échoue, déconnecter l'utilisateur
+        // If the refresh fails, log out the user
         this.logout();
         window.location.href = 'login.html';
       }
@@ -199,17 +245,20 @@ export class AuthManager {
     const loginButtons = document.querySelectorAll('.login button');
     const userInfo = document.querySelector('.user-info');
     
+    // Add admin link to navigation if user is admin
+    this.updateNavigation();
+    
     if (this.isAuthenticated()) {
       // User is logged in
       if (loginButtons.length >= 2) {
-        // Supprimer tous les event listeners existants
+        // Remove all existing event listeners
         loginButtons[0].replaceWith(loginButtons[0].cloneNode(true));
         loginButtons[1].replaceWith(loginButtons[1].cloneNode(true));
         
-        // Récupérer les nouveaux boutons après remplacement
+        // Retrieve the new buttons after replacement
         const newLoginButtons = document.querySelectorAll('.login button');
         
-        newLoginButtons[0].textContent = `Hello, ${this.user.username}`;
+        newLoginButtons[0].textContent = `Hello, ${this.user.username || this.user.Name}`;
         newLoginButtons[0].onclick = () => this.showUserMenu();
         newLoginButtons[1].textContent = 'Logout';
         newLoginButtons[1].onclick = () => this.handleLogout();
@@ -217,11 +266,11 @@ export class AuthManager {
     } else {
       // User is not logged in
       if (loginButtons.length >= 2) {
-        // Supprimer tous les event listeners existants
+        // Remove all existing event listeners
         loginButtons[0].replaceWith(loginButtons[0].cloneNode(true));
         loginButtons[1].replaceWith(loginButtons[1].cloneNode(true));
         
-        // Récupérer les nouveaux boutons après remplacement
+        // Fetch the new buttons after replacement
         const newLoginButtons = document.querySelectorAll('.login button');
         
         newLoginButtons[0].textContent = 'Login';
@@ -232,6 +281,28 @@ export class AuthManager {
     }
   }
 
+  // Update navigation to add/remove admin link
+  updateNavigation() {
+    const navUl = document.querySelector('nav ul');
+    if (!navUl) return;
+
+    // Remove existing admin link if present
+    const existingAdminLink = navUl.querySelector('li a[href="admin.html"]');
+    if (existingAdminLink) {
+      existingAdminLink.parentElement.remove();
+    }
+
+    // Add admin link if user is admin
+    if (this.isAuthenticated() && this.isAdmin()) {
+      const adminLi = document.createElement('li');
+      const adminLink = document.createElement('a');
+      adminLink.href = 'admin.html';
+      adminLink.textContent = 'Admin';
+      adminLi.appendChild(adminLink);
+      navUl.appendChild(adminLi);
+    }
+  }
+
   // Handle logout
   handleLogout() {
     this.logout();
@@ -239,8 +310,8 @@ export class AuthManager {
     // Store a flash message to show after redirect
     this.setFlash('Logout successful.', 'success');
     
-    // Toujours rediriger vers index.html après logout
-    // Cela garantit que l'utilisateur arrive sur la page d'accueil
+    // Always redirect to index.html after logout
+    // This ensures that the user lands on the home page
     console.log('Logout: redirecting to index.html');
     window.location.href = 'index.html';
   }

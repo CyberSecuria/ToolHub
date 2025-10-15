@@ -1,8 +1,10 @@
+// Import database query function
 import { query } from '../Config/database.js';
 
-// Récupérer tous les OS uniques
+// Retrieve all unique operating systems from the database
 export async function getAllOS(req, res) {
   try {
+    // Get all OS ordered by name
     const rows = await query('SELECT ID_OS, Name_OS FROM os ORDER BY Name_OS');
     res.json({ os: rows });
   } catch (err) {

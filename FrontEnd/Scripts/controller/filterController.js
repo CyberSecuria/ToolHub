@@ -1,3 +1,4 @@
+// Controller for filtering and searching tools on the homepage and toolbox
 import { cardsData } from "../../Data/carditem.js";
 import { homepageInner } from "../view/indexinner.js";
 import { renderStars } from "../Tools/stars.js";
@@ -29,7 +30,7 @@ export async function initFilters() {
     });
   }
 
-  // Categories
+  // Category
   const categoryList = document.getElementById('filter-category-list');
   if (categoryList) {
     categoryList.innerHTML = '<li>Loading categories...</li>';
@@ -268,7 +269,7 @@ export function filterAndRenderTools() {
   if (itemsContainer) {
     itemsContainer.innerHTML = itemsHTML;
     
-    // Délai pour s'assurer que le DOM est mis à jour
+    // Wait for the DOM to update
     setTimeout(() => {
       renderStars();
       

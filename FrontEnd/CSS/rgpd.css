@@ -1,0 +1,264 @@
+/* Importing the Inter font as a web alternative to Segoe UI */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('./scrollbar.css');
+
+/* CSS Root Variables */
+:root {
+    --primary-purple: #7c3aed;
+    --primary-purple-dark: #6D28D9;
+    --light-purple-bg: #EDE9FE;
+    --dark-section-bg: #1E293B;
+    --text-light: #F8FAFC;
+    --text-dark: #334155;
+    --text-on-purple-bg: #ffffff;
+    --border-color: #D1D5DB;
+    --card-bg: #ffffff;
+    --button-radius: 25px;
+    --card-radius: 10px;
+    --shadow-card: 0 5px 15px rgba(0,0,0,0.07);
+    --shadow-card-hover: 0 8px 25px rgba(124, 58, 237, 0.15);
+    --modal-bg: rgba(30, 41, 59, 0.35);
+    --input-radius: 25px;
+    --error-color: #dc2626;
+    --transition-main: 0.3s ease;
+    --icon-size: 20px;
+    --modal-radius: 24px;
+    --modal-border: 1.5px solid rgba(255, 255, 255, 0.35);
+    --star-color: #FACC15;
+    --footer-bg: #ede9fe;
+    --footer-text: #334155;
+}
+
+/* Error and Success Messages */
+.error-text {
+    color: var(--error-color);
+    font-size: 14px;
+}
+/* Utility class to hide elements */
+.hidden {
+    display: none !important;
+}
+
+/* Basic reset and fonts */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police sans-serif moderne */
+    background-color: var(--light-purple-bg); /* Fond général de la page */
+    color: var(--text-dark);
+    line-height: 1.6;
+
+}
+
+
+/* Disable background scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Header and Navigation */
+header {
+    background-color: #ffffff;
+    padding: 15px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer; 
+}
+
+.logo img {
+    height: 45px;
+    margin-right: 12px;
+}
+
+.logo h1 {
+    font-size: 1.9em;
+    margin: 0;
+    color: var(--primary-purple); 
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--primary-purple);
+}
+
+nav ul li a:visited .visted {
+  color: var(--text-on-purple-bg);
+  text-decoration: none;
+}
+nav ul {
+  display: flex; 
+} 
+
+/* Login and Sign Up Buttons */
+.login button {
+    margin-left: 12px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color var(--transition-main), color var(--transition-main), transform 0.2s ease;
+    font-size: 0.9em;
+}
+
+.login button:first-child { /* Button Login */
+    background-color: var(--primary-purple);
+    color: var(--text-on-purple-bg);
+}
+
+.login button:first-child:hover {
+    background-color: var(--primary-purple-dark);
+    transform: translateY(-2px);
+}
+
+.login button:last-child { /* Button Sign Up */
+    background-color: transparent;
+    color: var(--primary-purple);
+    border: 2px solid var(--primary-purple);
+}
+
+.login button:last-child:hover {
+    background-color: var(--light-purple-bg);
+    transform: translateY(-2px);
+}
+
+/* RGPD Page Styles */
+.rgpd-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.3s ease;
+}
+
+.rgpd-container h1 {
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    font-family: 'Inter', sans-serif;
+}
+
+.rgpd-container section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+}
+
+.rgpd-container section:hover {
+    box-shadow: var(--shadow-card-hover);
+}
+
+.rgpd-container h2 {
+    color: var(--primary-purple);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-family: 'Inter', sans-serif;
+}
+
+.rgpd-container p {
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+}
+
+.rgpd-container ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.rgpd-container ul li {
+    margin-bottom: 10px;
+    color: var(--text-dark);
+    position: relative;
+    padding-left: 25px;
+    font-family: 'Inter', sans-serif;
+}
+
+.rgpd-container ul li:before {
+    content: "•";
+    color: #2196F3;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+/* Footer styles */
+.site-footer {
+    margin-top: auto;
+    background-color: var(--footer-bg);
+}
+
+.footer-content {
+   
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-content a {
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-content a:hover {
+    color: var(--primary-purple);
+}
+
+
+@media (max-width: 768px) {
+    .rgpd-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .rgpd-container h1 {
+        font-size: 2em;
+    }
+
+    .rgpd-container h2 {
+        font-size: 1.5em;
+    }
+    nav ul {
+  display: none; /* default close */
+} 
+}

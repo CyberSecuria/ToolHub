@@ -1,42 +1,52 @@
+// Import card data and loading function
 import { cardsData, loadCardsData } from "../Data/carditem.js";
-import { setupFilterSearch, initFilters } from "./controler/filtercontroler.js";
+// Import filter and search functionality
+import { setupFilterSearch, initFilters } from "./controller/filterController.js";
+// Import burger menu utility
 import { setupBurgerMenu } from "./Tools/burgerMenu.js";
-import { addHeaderEventListeners } from "./controler/headercontroler.js";
+// Import header event listeners
+import { addHeaderEventListeners } from "./controller/headerController.js";
+// Import star rating renderer
 import { renderStars } from "./Tools/stars.js";
+// Import homepage inner logic and modal setup
 import { homepageInner, setupHomeModal } from "./view/indexinner.js";
-import { setupBookmarkPopup } from "./controler/bookmark-controler.js";
+// Import bookmark popup functionality
+import { setupBookmarkPopup } from "./controller/bookmarkController.js";
+// Import authentication manager
 import { authManager } from "./utils/auth.js";
+// Import cookie consent banner
+import { showCookieConsent } from "./utils/cookies.js";
 
-// Fonction pour configurer les event listeners des boutons d'action
+// Setup event listeners for tool action buttons (edit/delete)
 function setupToolActions() {
-  // Event listeners pour les boutons de modification
+  // Event listeners for edit buttons
   document.querySelectorAll('.edit-tool').forEach(button => {
     button.addEventListener('click', (e) => {
       const toolId = e.target.getAttribute('data-tool-id');
-      // Importer et appeler editTool depuis indexinner.js
+      // Call editTool from indexinner.js if available
       window.editTool && window.editTool(toolId);
     });
   });
 
-  // Event listeners pour les boutons de suppression
+  // Event listeners for delete buttons
   document.querySelectorAll('.delete-tool').forEach(button => {
     button.addEventListener('click', (e) => {
       const toolId = e.target.getAttribute('data-tool-id');
-      // Importer et appeler deleteTool depuis indexinner.js
+      // Call deleteTool from indexinner.js if available
       window.deleteTool && window.deleteTool(toolId);
     });
   });
 }
 
-// Fonction d'initialisation asynchrone
+// Asynchronous initialization function for homepage
 async function initIndex() {
-  // Charger les données depuis l'API
+  // Load card data from API
   await loadCardsData();
   
-  // Inject the main template with the first card (for the structure).
+  // Inject the main template with the first card (for the structure)
   document.querySelector("body").innerHTML = homepageInner(cardsData[0] || {});
   
-  // Generate the HTML for all the cards and inject it into .items
+  // Generate the HTML for all cards and inject into .items container
   const itemsHTML = cardsData
     .map((card) => {
      
@@ -62,17 +72,20 @@ async function initIndex() {
   
   setupHomeModal();
   
-  // Configurer les event listeners pour les boutons d'action
+  // Setup event listeners for tool action buttons
   setupToolActions();
   
   // Initialize authentication UI
   authManager.updateUI();
   
-  // Show/hide Add Tool button based on auth status
+  // Show/hide Add Tool button based on authentication status
   updateFabVisibility();
+
+  // Display cookie consent banner if needed
+  showCookieConsent();
 }
 
-// Lancer l'initialisation
+// Launch initialization
 initIndex().catch(console.error);
 
 // Show the Add Tool button only when authenticated
@@ -90,8 +103,9 @@ function updateFabVisibility() {
   }
 }
 
-// Optional: react to auth UI refreshes triggered elsewhere
+// React to authentication changes from other tabs/windows
 window.addEventListener('storage', (e) => {
+  // Update FAB visibility when auth tokens change
   if (e.key === 'accessToken' || e.key === 'user' || e.key === 'refreshToken') {
     updateFabVisibility();
   }

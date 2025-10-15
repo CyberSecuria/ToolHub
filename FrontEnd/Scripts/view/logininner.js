@@ -1,4 +1,7 @@
-// inner function to generate the login page
+// Import of the login controller
+import { setupLoginForm } from '../controller/loginController.js';
+
+// Inner function to generate the login page
 export function loginInner() {
   const templatelogin = ` <header>
     <nav>
@@ -20,10 +23,10 @@ export function loginInner() {
     <main> 
     <section>        
  <form class="login-container" id="loginForm">
-        <h2>Connexion</h2>
-        <div id="errorMessage" class="error-message" style="display: none;"></div>
-        <div id="successMessage" class="success-message" style="display: none;"></div>
-        <label for="username"><span>Username or Email:</span></label>
+        <h2>Login</h2>
+        <div id="errorMessage" class="error-message hidden"></div>
+        <div id="successMessage" class="success-message hidden"></div>
+        <label for="username"><span class="fixuser">Username or Email:</span></label>
         <input type="text" id="username" name="username" placeholder="your username or email" required autocomplete="username">
         <label for="password"><span>Password:</span></label>
         <input type="password" id="password" name="password" placeholder="your password" required autocomplete="current-password">
@@ -37,88 +40,12 @@ export function loginInner() {
 </main>
     <footer class="site-footer">
         <div class="footer-content">
+            <a href="rgpd.html">Privacy Policy & GDPR</a>
             <p>&copy; 2025 ToolHub. All rights reserved.</p>
-        </div>
-    
+        </div>    
     </footer>`;
   document.body.innerHTML = templatelogin;
   
   // Add event listener for login form
   setupLoginForm();
-}
-
-function setupLoginForm() {
-  const loginForm = document.getElementById('loginForm');
-  const errorMessage = document.getElementById('errorMessage');
-  const successMessage = document.getElementById('successMessage');
-  
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
-      
-      if (!username || !password) {
-        showError('Please fill in all fields');
-        return;
-      }
-      
-      try {
-        console.log('🔐 Attempting login with:', { username, password: '***' });
-        
-        const response = await fetch('http://localhost:3001/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password })
-        });
-        
-        console.log('📡 Response status:', response.status);
-        console.log('📡 Response headers:', response.headers);
-        
-        let data;
-        try {
-          data = await response.json();
-          console.log('📦 Response data:', data);
-        } catch (jsonError) {
-          console.error('JSON parsing error:', jsonError);
-          showError('Server response error. Please try again.');
-          return;
-        }
-        
-        if (response.ok && data.success) {
-          // Store tokens in localStorage
-          localStorage.setItem('accessToken', data.accessToken);
-          localStorage.setItem('refreshToken', data.refreshToken);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          
-          showSuccess('Login successful! Redirecting...');
-          
-          // Redirect to home page after 1 second
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1000);
-        } else {
-          showError(data.error || 'Login failed');
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        showError('Network error. Please try again.');
-      }
-    });
-  }
-  
-  function showError(message) {
-    errorMessage.textContent = message;
-    errorMessage.style.display = 'block';
-    successMessage.style.display = 'none';
-  }
-  
-  function showSuccess(message) {
-    successMessage.textContent = message;
-    successMessage.style.display = 'block';
-    errorMessage.style.display = 'none';
-  }
 }

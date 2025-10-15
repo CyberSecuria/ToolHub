@@ -86,6 +86,100 @@ body {
   background-color: var(--primary-purple-dark);
 }
 
+.toolbox-empty {
+    color: #888;
+    font-size: 1.1em;
+    margin-top: 32px;
+}
+
+.toolbox-main {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 40px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 80vh;
+  padding: 40px 0 60px 0;
+}
+
+/* Place the main on the left */
+.toolbox-main {
+  flex-direction: row;
+}
+
+.toolbox-left {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 30px;
+}
+.toolbox-container h1 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 2.1em;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+.toolbox-icon {
+  width: 10vw;
+  min-width: 60px;
+  max-width: 120px;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+  margin-right: 0;
+}
+button {
+    background-color: var(--primary-purple);
+    color: var(--text-on-purple-bg);
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.toolbox-selection-title button {
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(124,58,237,0.08);
+}
+.toolbox-selection-title button:hover {
+  background: var(--primary-purple-dark, #4b2fd6);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(124,58,237,0.18);
+}
+
+/* Horizontal centering of the card grid */
+.toolbox-left .content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* 2-column grid for the cards */
+.toolbox-cards-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  justify-items: center;
+}
+
+.toolbox-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  align-items: flex-start;
+}
 /* Toolbox Card */
 .tool-card {
     min-width: 220px;
@@ -135,62 +229,7 @@ body {
 .tool-card button.remove {
     background: #e11d48;
 }
-.toolbox-empty {
-    color: #888;
-    font-size: 1.1em;
-    margin-top: 32px;
-}
 
-.toolbox-main {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 40px;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  min-height: 80vh;
-  padding: 40px 0 60px 0;
-}
-
-/* Place the main on the left */
-.toolbox-main {
-  flex-direction: row;
-}
-
-.toolbox-left {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-left: 30px;
-}
-
-/* Horizontal centering of the card grid */
-.toolbox-left .content {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-/* 2-column grid for the cards */
-.toolbox-cards-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-  justify-items: center;
-}
-
-
-.toolbox-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-  align-items: flex-start;
-}
 
 .tool-card:hover {
   box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
@@ -314,45 +353,7 @@ body {
   transform: translateY(-1px);
 }
 
-.toolbox-container h1 {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 2.1em;
-  font-weight: 700;
-  margin: 0 0 12px 0;
-}
-.toolbox-icon {
-  width: 10vw;
-  min-width: 60px;
-  max-width: 120px;
-  margin-top: 0;
-  margin-bottom: 0;
-  vertical-align: middle;
-  margin-right: 0;
-}
-button {
-    background-color: var(--primary-purple);
-    color: var(--text-on-purple-bg);
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
 
-.toolbox-selection-title button {
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  box-shadow: 0 2px 8px rgba(124,58,237,0.08);
-}
-.toolbox-selection-title button:hover {
-  background: var(--primary-purple-dark, #4b2fd6);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(124,58,237,0.18);
-}
 
 /* Community Toolboxes Aside */
 .community-toolboxes {
@@ -465,6 +466,7 @@ button {
   .tool-card {
     flex-direction: column;
     align-items: center;
+    align-content: center;
     gap: 12px;
     padding: 14px 10px;
     max-width: 360px;

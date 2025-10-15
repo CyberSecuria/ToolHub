@@ -6,6 +6,9 @@ node_modules/
 *.env
 BackEnd/Config/.env
 
+# Credential files
+User-Credentials.md
+
 # Logs
 logs/
 BackEnd/logs/

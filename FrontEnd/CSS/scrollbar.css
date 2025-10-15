@@ -1,30 +1,35 @@
-/* Custom Scrollbar */
+/* Custom scrollbar styling for webkit browsers (Chrome, Safari, Edge) */
+
+/* Scrollbar width */
 ::-webkit-scrollbar {
-width: 8px !important;
+    width: 8px !important;
 }
 
+/* Scrollbar track (background) */
 ::-webkit-scrollbar-track {
-background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
     border-radius: 10px;
 }
 
+/* Scrollbar thumb (draggable part) with purple gradient */
 ::-webkit-scrollbar-thumb {
-background: linear-gradient(135deg, var(--primary-purple), var(--primary-purple-dark)) !important;
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-purple-dark)) !important;
     border-radius: 10px;
-border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
+/* Scrollbar thumb hover state */
 ::-webkit-scrollbar-thumb:hover {
-background: linear-gradient(135deg, var(--primary-purple-dark), #5B21B6) !important;
+    background: linear-gradient(135deg, var(--primary-purple-dark), #5B21B6) !important;
 }
 
-/* Firefox scrollbar - thick by default */
+/* Firefox scrollbar styling - thick by default */
 * {
-scrollbar-width: thick !important;
-scrollbar-color: var(--primary-purple) rgba(255, 255, 255, 0.1) !important;
+    scrollbar-width: thick !important;
+    scrollbar-color: var(--primary-purple) rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Webkit browsers (Chrome/Safari) - override to thin */
+/* Override scrollbar width to thin for webkit browsers */
 @supports (-webkit-appearance: none) {
     * {
         scrollbar-width: thin;

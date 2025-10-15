@@ -1,23 +1,30 @@
+// Import database query function
 import { query } from '../Config/database.js';
+// Import bcrypt for password hashing
 import bcrypt from 'bcrypt';
+// Import jsonwebtoken for JWT token generation
 import jwt from 'jsonwebtoken';
 
-const ACCESS_EXP = '15m';
-const REFRESH_EXP = '7d';
-const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret';
+// Token expiration constants
+const ACCESS_EXP = '1h'; // Access token expires in 1 hours
+const REFRESH_EXP = '7d'; // Refresh token expires in 7 days
+const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret'; // JWT secret key
 
+// Generate access token for authenticated user
 function signAccess(user) {
   return jwt.sign({ id: user.id, username: user.username, email: user.email }, JWT_SECRET, { expiresIn: ACCESS_EXP });
 }
 
+// Generate refresh token for token renewal
 function signRefresh(user) {
   return jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: REFRESH_EXP });
 }
 
 
-// --- GET ALL USERS ---
+// Retrieve all users from the database
 export async function getAllUsers(req, res) {
   try {
+    // Get all users with their basic information
     const rows = await query(
       'SELECT ID_User AS id, Name AS username, Email AS email, Register_date AS registeredAt, ID_Role AS roleId FROM users'
     );
@@ -27,10 +34,11 @@ export async function getAllUsers(req, res) {
   }
 }
 
-// --- GET USER BY ID ---
+// Get a specific user by ID
 export async function getUserById(req, res) {
   const { id } = req.params;
   try {
+    // Find user by ID
     const rows = await query(
       'SELECT ID_User AS id, Name AS username, Email AS email, Register_date AS registeredAt, ID_Role AS roleId FROM users WHERE ID_User = ?',
       [id]
@@ -41,19 +49,19 @@ export async function getUserById(req, res) {
     res.status(500).json({ error: err.message });
   }
 }
-// Crée un utilisateur
-// Crée un utilisateur
 
+// Create a new user
 export async function createUser(req, res) {
   const body = req.body || {};
   const username = body.username;
   const email = body.email;
   const password = body.password;
+  const roleId = body.roleId || 2; // Use provided role or default to 2 (Member)
+
+  console.log('Create user request:', { username, email, roleId });
 
   if (!username || !email || !password) 
     return res.status(400).json({ error: 'username, email and password are required' });
-
-  const roleId = 1; // forcer rôle existant
 
   try {
     const hash = await bcrypt.hash(password, 10);
@@ -73,27 +81,25 @@ export async function createUser(req, res) {
   }
 }
 
+// Update an existing user
 export async function updateUser(req, res) {
   const { id } = req.params;
   const body = req.body || {};
   let { username, email, password, currentPassword, roleId } = body;
   
-  console.log('Update request:', { id, body });
-  console.log('User from token:', req.user);
-
   try {
-    // Récupérer l'utilisateur existant avec le mot de passe
+    // Fetch the existing user including the password
     const existing = await query('SELECT Name, Email, Password, ID_Role FROM users WHERE ID_User = ?', [id]);
     if (!existing?.length) return res.status(404).json({ error: 'User not found' });
 
     const existingUser = existing[0];
 
-    // Si un champ n'est pas fourni ou vide, garder l'existant
+    // If a field is not provided or empty, keep the existing value
     username = username?.trim() ? username : existingUser.Name;
     email = email?.trim() ? email : existingUser.Email;
     roleId = Number.isInteger(roleId) ? roleId : existingUser.ID_Role;
 
-    // Vérifier l'unicité du nom d'utilisateur et email (sauf pour l'utilisateur actuel)
+    // Check the uniqueness of the username and email (except for the current user)
     if (username !== existingUser.Name || email !== existingUser.Email) {
       const duplicateCheck = await query(
         'SELECT ID_User FROM users WHERE (Name = ? OR Email = ?) AND ID_User != ?',
@@ -105,33 +111,41 @@ export async function updateUser(req, res) {
       }
     }
 
-    // Si on veut changer le mot de passe, vérifier le mot de passe actuel
+    // If changing the password
     if (password?.trim()) {
-      if (!currentPassword) {
-        return res.status(400).json({ error: 'Current password is required to change password' });
-      }
+      // Check if the user making the modification is an admin
+      const requestingUserRows = await query('SELECT ID_Role FROM users WHERE ID_User = ?', [req.user.id]);
+      const isAdmin = requestingUserRows && requestingUserRows[0] && requestingUserRows[0].ID_Role === 3;
+      
+      // If the user is not an admin AND is modifying their own profile, ask for the current password
+      if (!isAdmin && parseInt(req.user.id) === parseInt(id)) {
+        if (!currentPassword) {
+          return res.status(400).json({ error: 'Current password is required to change password' });
+        }
 
-      // Vérifier le mot de passe actuel
-      const match = await bcrypt.compare(currentPassword, existingUser.Password);
-      if (!match) {
-        return res.status(401).json({ error: 'Current password is incorrect' });
+        // Verify the current password
+        const match = await bcrypt.compare(currentPassword, existingUser.Password);
+        if (!match) {
+          return res.status(401).json({ error: 'Current password is incorrect' });
+        }
       }
+      // If it's an admin, they can change the password without knowing the old one
 
-      // Hasher le nouveau mot de passe
+      // Hash the new password
       const hash = await bcrypt.hash(password, 10);
       await query(
         'UPDATE users SET Name = ?, Email = ?, Password = ?, ID_Role = ? WHERE ID_User = ?',
         [username, email, hash, roleId, id]
       );
     } else {
-      // Mise à jour sans changer le mot de passe
+      // Update without changing the password
       await query(
         'UPDATE users SET Name = ?, Email = ?, ID_Role = ? WHERE ID_User = ?',
         [username, email, roleId, id]
       );
     }
 
-    // Récupérer les données mises à jour
+    // Retrieve the updated data
     const rows = await query(
       'SELECT ID_User AS id, Name AS username, Email AS email, Register_date AS registeredAt, ID_Role AS roleId FROM users WHERE ID_User = ?',
       [id]
@@ -144,29 +158,29 @@ export async function updateUser(req, res) {
   }
 }
 
-// Supprime un utilisateur
+// Delete a user
 export async function deleteUser(req, res) {
   const { id } = req.params;
-  const TRANSFER_USER_ID = 8; // ID de l'utilisateur vers qui transférer les outils
+  const TRANSFER_USER_ID = 8; // ID of the user to transfer the tools to
   
   try {
-    // Vérifier que l'utilisateur existe
+    // Check if the user exists
     const userExists = await query('SELECT ID_User FROM users WHERE ID_User = ?', [id]);
     if (!userExists || userExists.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Vérifier que l'utilisateur de transfert existe
+    // Check if the transfer user exists
     const transferUserExists = await query('SELECT ID_User FROM users WHERE ID_User = ?', [TRANSFER_USER_ID]);
     if (!transferUserExists || transferUserExists.length === 0) {
       return res.status(500).json({ error: 'Transfer user (ID 8) not found' });
     }
 
-    // Commencer une transaction
+    // Start a transaction
     await query('START TRANSACTION');
 
     try {
-      // Transférer tous les outils de l'utilisateur vers l'utilisateur ID 8
+      // Transfer all tools from the user to user ID 8
       const toolsToTransfer = await query('SELECT ID_Tools FROM tools WHERE ID_User = ?', [id]);
       
       if (toolsToTransfer && toolsToTransfer.length > 0) {
@@ -174,23 +188,22 @@ export async function deleteUser(req, res) {
         console.log(`Transferred ${toolsToTransfer.length} tools from user ${id} to user ${TRANSFER_USER_ID}`);
       }
 
-      // Supprimer les bookmarks de l'utilisateur
+      // Delete the user's bookmarks
       await query('DELETE FROM bookmarks WHERE ID_User = ?', [id]);
 
-      // Supprimer les ratings de l'utilisateur
+      // Delete the user's ratings
       await query('DELETE FROM rating WHERE ID_User = ?', [id]);
 
-      // Supprimer l'utilisateur
+      // Delete the user
       await query('DELETE FROM users WHERE ID_User = ?', [id]);
 
-      // Valider la transaction
+      // Commit the transaction
       await query('COMMIT');
       
-      console.log(`User ${id} deleted successfully, tools transferred to user ${TRANSFER_USER_ID}`);
       res.status(204).end();
       
     } catch (transactionError) {
-      // Annuler la transaction en cas d'erreur
+      // Roll back the transaction in case of error
       await query('ROLLBACK');
       throw transactionError;
     }
@@ -200,7 +213,7 @@ export async function deleteUser(req, res) {
   }
 }
 
-// --- AUTHENTICATION FUNCTIONS ---
+// AUTHENTICATION FUNCTIONS
 
 // Login function
 export async function loginUser(req, res) {
@@ -228,8 +241,7 @@ export async function loginUser(req, res) {
     const accessToken = signAccess(user);
     const refreshToken = signRefresh(user);
     
-    // Store refresh token in a simple way (you might want to create a refresh_tokens table)
-    // For now, we'll just return the tokens
+    // Return user info without the password
     
     res.json({
       success: true,
@@ -247,7 +259,7 @@ export async function loginUser(req, res) {
   }
 }
 
-// Signup function (using existing createUser logic)
+// Signup function
 export async function signupUser(req, res) {
   const body = req.body || {};
   const username = body.username;
@@ -275,18 +287,18 @@ export async function signupUser(req, res) {
     if (existingUser && existingUser.length > 0) {
       return res.status(409).json({ error: 'Username or email already exists' });
     }
-
+    // Hash the password with bcrypt (10 salt rounds)
     const hash = await bcrypt.hash(password, 10);
     const result = await query(
       'INSERT INTO users (Name, Email, Password, Register_date, ID_Role) VALUES (?, ?, ?, NOW(), ?)',
       [username, email, hash, roleId]
     );
-
+    // Retrieve the newly created user
     const rows = await query(
       'SELECT ID_User AS id, Name AS username, Email AS email, Register_date AS registeredAt, ID_Role AS roleId FROM users WHERE ID_User = ?',
       [result.insertId]
     );
-
+    
     const newUser = rows[0];
     const accessToken = signAccess(newUser);
     const refreshToken = signRefresh(newUser);

@@ -1,7 +1,7 @@
 // This file contains the data for the toolbox cards, including their images, names, descriptions, categories, platforms, ratings, links, and devices.
 export let cardsData = [];
 
-// Récupère la liste depuis l'API, adapte les données et remplit le tableau `cardsData`
+// Fetch tools list from API, adapt data and populate cardsData array
 export async function loadCardsData() {
   try {
     const res = await fetch('http://localhost:3001/api/tools');
@@ -10,13 +10,13 @@ export async function loadCardsData() {
     // Accept either an array or an object { tools: [...] }
     const data = Array.isArray(raw) ? raw : raw?.tools ?? raw?.data ?? [];
 
-    // Mapping vers le format attendu par le front
+    // Map to frontend expected format
     const mapped = (Array.isArray(data) ? data : []).map((card) => {
       // Debug: console.log('Raw card from API:', card);
       return {
-        // prefer backend-specific fields first
+        // Prefer backend-specific fields first
         id: card.ID_Tools ?? card.id ?? card.ID ?? null,
-        userId: card.ID_User ?? card.userId ?? null,  // ID de l'utilisateur qui a créé l'outil
+        userId: card.ID_User ?? card.userId ?? null,  // ID of the user who created the tool
         // Normalize image path: remove leading './' and build a sensible default
       image: (() => {
         const raw =
@@ -35,27 +35,27 @@ export async function loadCardsData() {
       name: card.Name_Tools ?? card.name ?? card.nom ?? card.titre ?? '',
       description: (() => {
         const rawDesc = card.Description_Tools ?? card.description ?? card.desc ?? '';
-        // Nettoyer la description en supprimant les données cachées d'OS
+        // Clean description by removing hidden OS data
         return rawDesc
-          .replace(/\[HIDDEN_OS:[^\]]*\]/g, '') // Supprimer [HIDDEN_OS:...]
-          .replace(/\s*-\s*OS:\s*[^-\n]*$/g, '') // Supprimer aussi l'ancien format "- OS: ..."
+          .replace(/\[HIDDEN_OS:[^\]]*\]/g, '') // Remove [HIDDEN_OS:...]
+          .replace(/\s*-\s*OS:\s*[^-\n]*$/g, '') // Also remove old format "- OS: ..."
           .trim();
       })(),
-      // category can come from the joined Name_Category alias or other variants
+      // Category can come from the joined Name_Category alias or other variants
       category: card.Name_Category ?? card.name_category ?? card.categorie ?? card.category ?? card.Category ?? 'Divers',
       platform: (() => {
-        // Récupérer les OS depuis Name_OS
+        // Get OS from Name_OS field
         const osString = card.Name_OS || '';
         
-        // Si pas d'OS dans la base, essayer de récupérer depuis la description
+        // If no OS in database, try to get from description
         let osToProcess = osString;
         if (!osString && card.Description_Tools) {
-          // Chercher d'abord le nouveau format caché [HIDDEN_OS:...]
+          // First look for new hidden format [HIDDEN_OS:...]
           const hiddenOSMatch = card.Description_Tools.match(/\[HIDDEN_OS:([^\]]+)\]/);
           if (hiddenOSMatch) {
             osToProcess = hiddenOSMatch[1].trim();
           } else if (card.Description_Tools.includes('OS:')) {
-            // Fallback vers l'ancien format "- OS: ..."
+            // Fallback to old format "- OS: ..."
             const osMatch = card.Description_Tools.match(/OS:\s*([^-\n]+)/);
             if (osMatch) {
               osToProcess = osMatch[1].trim();
@@ -63,17 +63,17 @@ export async function loadCardsData() {
           }
         }
         
-        // Si toujours pas d'OS, retourner un tableau vide
+        // If still no OS, return empty array
         if (!osToProcess) {
           return [];
         }
         
-        // Séparer par virgules et nettoyer
+        // Split by commas and clean
         return osToProcess.split(',').map(os => {
           const osName = os.trim().toLowerCase();
           let icon = '';
           
-          // Associer chaque OS avec son icône
+          // Associate each OS with its icon
           if (osName.includes('windows')) {
             icon = 'Assets/Platform Icon/icons8-windows-os.svg';
           } else if (osName.includes('macos') || osName.includes('mac')) {
@@ -90,12 +90,12 @@ export async function loadCardsData() {
             name: os.trim(),
             icon: icon
           };
-        }).filter(os => os.name && os.icon);  // Ne garder que les OS avec des icônes valides
+        }).filter(os => os.name && os.icon);  // Keep only OS with valid icons
       })(),
       rating: (() => {
-        // Récupérer le rating depuis Stars
+        // Get rating from Stars field
         const stars = card.Stars || '0';
-        // Convertir en nombre
+        // Convert to number
         const num = parseFloat(stars);
         return !isNaN(num) ? Math.min(Math.max(num, 0), 5) : 1;
       })(),
@@ -105,7 +105,7 @@ export async function loadCardsData() {
       };
     });
 
-    cardsData.splice(0, cardsData.length, ...mapped); // garde la référence
+    cardsData.splice(0, cardsData.length, ...mapped); // Keep the reference
     console.log("Loaded cardsData:", cardsData);
     return cardsData;
   } catch (err) {
@@ -114,7 +114,7 @@ export async function loadCardsData() {
   }
 }
 
-// Chargement automatique au premier import
+// Automatic loading on first import
 try {
   await loadCardsData();
   console.log('Initial cardsData load:', cardsData);

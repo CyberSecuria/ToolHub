@@ -17,6 +17,41 @@
     --card-radius: 10px;
     --footer-bg: #ede9fe;
     --footer-text: #334155;
+    --error-color: #dc2626;
+    --success-color: #16a34a;
+}
+
+.error-message, .success-message {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #fecaca;
+    font-size: 0.9em;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.success-message {
+    background-color: #dcfce7;
+    color: #16a34a;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #bbf7d0;
+    font-size: 0.9em;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Basic reset and fonts */
@@ -28,8 +63,6 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
 }
-
-
 
 /* Header and Navigation */
 header {
@@ -55,6 +88,7 @@ header {
     border: none;
     padding: 0;
 }
+
 .burger span {
     display: block;
     width: 28px;
@@ -151,7 +185,6 @@ nav ul li a:visited .visted {
     transform: translateY(-2px);
 }
 
-
 /* Main Content Area */
 main {
     max-width: 1200px;
@@ -165,13 +198,10 @@ a  {
     
 }
 
-
-
 .item-bottom button:hover {
     background-color: var(--primary-purple-dark);
     transform: translateY(-1px);
 }
-
 
 /* login Form Styles*/
 .login-container {
@@ -193,18 +223,21 @@ a  {
             margin: 32px auto;
             align-items: center;
      }
-        .login-container h2 {
+
+.login-container h2 {
             margin-bottom: 10px;
             text-align: center;
             font-weight: 700;
             font-size: 2em;
         }
-        .login-container label {
+
+.login-container label {
             font-weight: 500;
             margin-bottom: 6px;
         }
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
             width: 100%;
             padding: 10px 12px;
             border-radius: 6px;
@@ -212,11 +245,13 @@ a  {
             margin-bottom: 12px;
             font-size: 1em;
         }
-        .login-container span {
+
+.login-container span {
            font-weight: bold;
            margin-left: -11em;
         }
-        .login-container button {
+
+.login-container button {
             width: 100%;
             padding: 12px 0;
             background: var(--primary-purple, #7b2ff2);
@@ -228,40 +263,20 @@ a  {
             cursor: pointer;
             transition: background 0.2s;
         }
-        .login-container button:hover {
+
+.login-container button:hover {
             background: var(--primary-purple-dark, #5f1bbf);
         }
-        .login-container .register-link {
+
+.login-container .register-link {
             text-align: center;
             margin-top: 10px;
             font-size: 0.95em;
         }
-        .login-container .register-link a {
+
+.login-container .register-link a {
             color: var(--primary-purple);
             text-decoration: underline;
-        }
-
-        /* Error and Success Messages */
-        .error-message {
-            background-color: #fee2e2;
-            color: #dc2626;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: 1px solid #fecaca;
-            font-size: 0.9em;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .success-message {
-            background-color: #dcfce7;
-            color: #16a34a;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: 1px solid #bbf7d0;
-            font-size: 0.9em;
-            text-align: center;
-            margin-bottom: 12px;
         }
 
 /* Footer part */     
@@ -273,62 +288,41 @@ a  {
     font-size: 1em;
 }
 
+.site-footer {
+    margin-top: auto;
+    background-color: var(--footer-bg);
+}
+
+.footer-content {
+   
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-content a {
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-content a:hover {
+    color: var(--primary-purple);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     nav {
-        flex-direction: row;
         flex-wrap: wrap;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
     }
     nav .logo {
         margin-bottom: 0;
         margin-right: 15px;
     }
     nav ul {
-        flex-direction: row;
-        align-items: center;
-        width: auto;
-        margin-top: 0;
         gap: 10px;
-    }
-    nav ul li {
-        margin-left: 0;
-        margin-bottom: 0;
-        margin-right: 10px;
-    }
-    .login {
-        margin-top: 0;
-        width: auto;
-    }
-    .hero {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .items {
-        justify-content: center;
-    }
-    aside {
-        display: none !important;
-    }
-}
-
-@media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .burger {
-        display: flex;
-        position: absolute;
-        right: 30px;
-        top: 22px;
-    }
-    nav ul {
         flex-direction: column;
         align-items: center;
         width: 100vw;
@@ -346,15 +340,6 @@ a  {
         display: flex;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 0 0 100vmax rgba(0,0,0,0.18);
     }
-    /* Overlay for the burger menu modal effect */
-    body.menu-open::before {
-        content: '';
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(31,38,135,0.18);
-        z-index: 1999;
-        pointer-events: auto;
-    }
     nav ul li {
         margin: 10px 0;
         margin-left: 0;
@@ -364,7 +349,29 @@ a  {
         margin-top: 0;
         width: auto;
     }
-     main {
+    .burger {
+        display: flex;
+        position: absolute;
+        right: 30px;
+        top: 22px;
+    }
+    /* Overlay for the burger menu modal effect */
+    body.menu-open::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(31,38,135,0.18);
+        z-index: 1999;
+        pointer-events: auto;
+    }
+    .hero {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    } 
+    main {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -383,4 +390,14 @@ a  {
         font-weight: bold;
         margin-left: -8em;
     }
+    .fixuser {
+        padding-left: 1.3em;
+    }
+    .items {
+        justify-content: center;
+    }
+    aside {
+        display: none !important;
+    }
 }
+

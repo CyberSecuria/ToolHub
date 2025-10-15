@@ -25,6 +25,7 @@ export function ressourceInner() {
     </main>
      <footer class="site-footer">
         <div class="footer-content">
+            <a href="rgpd.html">Privacy Policy & GDPR</a>
             <p>&copy; 2025 ToolHub. All rights reserved.</p>
         </div>
     </footer>`;

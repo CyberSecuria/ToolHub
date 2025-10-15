@@ -17,6 +17,44 @@
     --card-radius: 10px;
     --footer-bg: #ede9fe;
     --footer-text: #334155;
+    --error-color: #dc2626;
+    --success-color: #16a34a;
+}
+
+/* Error and Success Messages */
+.error-message, .success-message {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.error-message {
+    color: var(--error-color);
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #fecaca;
+    font-size: 0.9em;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.success-message {
+    color: var(--success-color);
+    background-color: #dcfce7;
+    color: #16a34a;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #bbf7d0;
+    font-size: 0.9em;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.hidden {
+    display: none;
 }
 
 /*  Basic reset and fonts */
@@ -28,8 +66,6 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
 }
-
-
 
 /* Header and Navigation */
 header {
@@ -190,19 +226,22 @@ a  {
         margin: 32px auto;
         align-items: center;
         }
-        .signup-container h2 {
+
+.signup-container h2 {
             margin-bottom: 10px;
             text-align: center;
             font-weight: 700;
             font-size: 2em;
         }
-        .signup-container label {
+
+.signup-container label {
             font-weight: 500;
             margin-bottom: 6px;
         }
-        .signup-container input[type="text"],
-        .signup-container input[type="password"],
-        .signup-container input[type="email"] {
+
+.signup-container input[type="text"],
+.signup-container input[type="password"],
+.signup-container input[type="email"] {
             width: 100%;
             padding: 10px 12px;
             border-radius: 6px;
@@ -211,11 +250,12 @@ a  {
             font-size: 1em;
         }
 
-        .signup-container span {
+.signup-container span {
            font-weight: bold;
            margin-left: -11em;
         }
-        .signup-container button {
+
+.signup-container button {
             width: 100%;
             padding: 12px 0;
             background: var(--primary-purple, #7b2ff2);
@@ -227,46 +267,26 @@ a  {
             cursor: pointer;
             transition: background 0.2s;
         }
-        .signup-container button:hover {
+
+.signup-container button:hover {
             background: var(--primary-purple-dark, #5f1bbf);
         }
-        .signup-container .register-link {
+
+.signup-container .register-link {
             text-align: center;
             margin-top: 10px;
             font-size: 0.95em;
         }
-        .signup-container  a {
+
+.signup-container  a {
             color: var(--primary-purple);
             text-decoration: underline;
         }
 
-         .signup-container span {
+.signup-container span {
            font-weight: bold;
            margin-left: -11em;
          }
-
-        /* Error and Success Messages */
-        .error-message {
-            background-color: #fee2e2;
-            color: #dc2626;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: 1px solid #fecaca;
-            font-size: 0.9em;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .success-message {
-            background-color: #dcfce7;
-            color: #16a34a;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: 1px solid #bbf7d0;
-            font-size: 0.9em;
-            text-align: center;
-            margin-bottom: 12px;
-        }
 
 /* Footer part */         
 .footer-content {
@@ -280,59 +300,17 @@ a  {
 /* Responsive Design */
 @media (max-width: 768px) {
     nav {
-        flex-direction: row;
         flex-wrap: wrap;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
     }
     nav .logo {
         margin-bottom: 0;
         margin-right: 15px;
     }
     nav ul {
-        flex-direction: row;
-        align-items: center;
-        width: auto;
-        margin-top: 0;
         gap: 10px;
-    }
-    nav ul li {
-        margin-left: 0;
-        margin-bottom: 0;
-        margin-right: 10px;
-    }
-    .login {
-        margin-top: 0;
-        width: auto;
-    }
-    .hero {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .items {
-        justify-content: center;
-    }
-    aside {
-        display: none !important;
-    }
-}
-
-@media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .burger {
-        display: flex;
-        position: absolute;
-        right: 30px;
-        top: 22px;
-    }
-    nav ul {
         flex-direction: column;
         align-items: center;
         width: 100vw;
@@ -350,15 +328,6 @@ a  {
         display: flex;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 0 0 100vmax rgba(0,0,0,0.18);
     }
-    /* Overlay for the burger menu modal effect */
-    body.menu-open::before {
-        content: '';
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(31,38,135,0.18);
-        z-index: 1999;
-        pointer-events: auto;
-    }
     nav ul li {
         margin: 10px 0;
         margin-left: 0;
@@ -368,7 +337,28 @@ a  {
         margin-top: 0;
         width: auto;
     }
-
+    .burger {
+        display: flex;
+        position: absolute;
+        right: 30px;
+        top: 22px;
+    }
+    /* Overlay for the burger menu modal effect */
+    body.menu-open::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(31,38,135,0.18);
+        z-index: 1999;
+        pointer-events: auto;
+    }
+    .hero {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
     /* Centering the main content after the header/navigation */
     main {
         display: flex;
@@ -378,6 +368,9 @@ a  {
         width: 80vw;
         padding: 0 0 50px 0;
         margin: 0 auto;
+    }
+    .items {
+        justify-content: center;
     }
     .signup-container {
         align-items: center;
@@ -389,6 +382,13 @@ a  {
         font-weight: bold;
         margin-left: -8em;
     }
+    .fixconfirm {
+        padding-left: 2.5em;
+    }
+    aside {
+        display: none !important;
+    }
 }
+
 
 
