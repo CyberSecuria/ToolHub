@@ -6,7 +6,9 @@
 
 
 
-ToolHub est une application web complète pour découvrir, filtrer, sauvegarder et gérer des outils (SaaS, logiciels, ressources). Le projet inclut un frontend moderne (HTML/CSS/JS) et un backend [...]
+ToolHub est une application web complète pour découvrir, filtrer, sauvegarder et gérer des outils (SaaS, logiciels, ressources). Le projet inclut un frontend moderne (HTML/CSS/JS) et un backend Express exposant des APIs REST sécurisées.
+
+
 
 ---
 
@@ -14,12 +16,19 @@ ToolHub est une application web complète pour découvrir, filtrer, sauvegarder 
 
 ---
 
+
+
 ## Fonctionnalités Principales
 
+
+
 ### Découverte et Gestion d'Outils
+
 ---
 
 <img width="586" height="350" alt="brave_wdlkG8wPzP" src="https://github.com/user-attachments/assets/d4874927-0f1a-4ba3-af31-4ee5702a64e7" />
+
+
 
 
 - Page d'accueil dynamique avec cartes d'outils
@@ -48,6 +57,8 @@ ToolHub est une application web complète pour découvrir, filtrer, sauvegarder 
 ---
 
 <img width="322" height="397" alt="brave_TsBvfuB1pH" src="https://github.com/user-attachments/assets/69971e82-b9fe-4b5c-bada-c0d32575a7e3" />
+
+
 
 
 - Design moderne avec glassmorphism
