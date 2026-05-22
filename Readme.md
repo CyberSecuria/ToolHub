@@ -1,8 +1,12 @@
-# ToolHub <img width="54" height="54" alt="ChatGPT Image 24 mai 2025, 09_34_34" src="https://github.com/user-attachments/assets/a66786b6-3341-427b-9d4d-b29920b29ddd" />
+<div align="center">
+  <img width="54" height="54" alt="ChatGPT Image 24 mai 2025, 09_34_34" src="https://github.com/user-attachments/assets/a66786b6-3341-427b-9d4d-b29920b29ddd" />
+  
+  # ToolHub
+</div>
 
 
 
-ToolHub est une application web complète pour découvrir, filtrer, sauvegarder et gérer des outils (SaaS, logiciels, ressources). Le projet inclut un frontend moderne (HTML/CSS/JS) et un backend Express exposant des APIs REST sécurisées.
+ToolHub est une application web complète pour découvrir, filtrer, sauvegarder et gérer des outils (SaaS, logiciels, ressources). Le projet inclut un frontend moderne (HTML/CSS/JS) et un backend [...]
 ---
 
 <img width="926" height="385" alt="brave_r0AN2lvFJL" src="https://github.com/user-attachments/assets/cc11b061-453a-4f80-95fd-2cb3f983454c" />
@@ -312,5 +316,4 @@ npm run dev        # Démarrer avec nodemon (auto-reload)
 
 - **User-Credentials.md** - Identifiants des utilisateurs de test
 - **BackEnd/README.md** - Documentation backend détaillée
-
 
