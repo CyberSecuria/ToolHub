@@ -1,4 +1,4 @@
-# ToolHub <img width="1024" height="1024" alt="logo ToolHub" src="https://github.com/user-attachments/assets/f051a5b5-cafa-4841-962b-2c2219d50d5a" />
+# ToolHub <img width="54" height="54" alt="logo ToolHub" src="https://github.com/user-attachments/assets/f051a5b5-cafa-4841-962b-2c2219d50d5a" />
 
 
 ToolHub est une application web complète pour découvrir, filtrer, sauvegarder et gérer des outils (SaaS, logiciels, ressources). Le projet inclut un frontend moderne (HTML/CSS/JS) et un backend Express exposant des APIs REST sécurisées.
